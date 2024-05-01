@@ -4,14 +4,10 @@ const { DataTypes } = require('sequelize')
 const db = require('../db/conn')
 
 // Importando as outras tabelas
-const calcado = require("../models/calcado");
 const deficiencia = require("../models/deficiencia")
-const estado_civil = require("../models/estado_civil")
 const funcao = require("../models/funcao")
 const meio_locom = require("../models/meio_locomocao")
 const modalidade = require("../models/modalidade")
-const sexo = require("../models/sexo")
-const tamanho = require("../models/tamanho")
 
 const PessoaFisica = db.define("PESSOA_FISICA", {
     CD_PESSOA_FISICA: {
@@ -20,16 +16,24 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         autoIncrement: true,
         primaryKey: true
     },
-    USUARIO:{
+    NM_PESSOA:{
         type: DataTypes.TEXT,
         allowNull: false
     },
-    NM_PESSOA:{
+    NR_CELULAR: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    SEXO: {
         type: DataTypes.TEXT,
         allowNull: false
     },
     DT_NASCIMENTO: {
         type: DataTypes.DATE,
+        allowNull: false
+    },
+    ESTADO_CIVIL: {
+        type: DataTypes.TEXT,
         allowNull: false
     },
     NATURALIDADE: {
@@ -148,6 +152,22 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         type: DataTypes.TEXT,
         allowNull: false
     },
+    TAMANHO_CAMISA: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    TAMANHO_AGASALHO: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    TAMANHO_BERM_CAL: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    NR_CALCADO: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
     FOTO_ATLETA: {
         type: DataTypes.TEXT,
         allowNull: false
@@ -164,15 +184,11 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
 
 // Criando as ligações entres a tabela de pessoa fisica com as outras tabelas
 
-PessoaFisica.belongsTo(calcado); // Um PessoaFisica pertence a um Calcado
 PessoaFisica.belongsToMany(deficiencia, { through: 'PessoaFisicaModalidade' }); // Muitos para muitos
 deficiencia.belongsToMany(PessoaFisica, { through: 'PessoaFisicaModalidade' }); // Muitos para muitos
-PessoaFisica.belongsTo(estado_civil); // Um PessoaFisica pertence a um Calcado
 PessoaFisica.belongsTo(funcao); // Um PessoaFisica pertence a um Calcado
 PessoaFisica.belongsTo(meio_locom); // Um PessoaFisica pertence a um Calcado
 PessoaFisica.belongsTo(modalidade); // Um PessoaFisica pertence a um Calcado
-PessoaFisica.belongsTo(sexo); // Um PessoaFisica pertence a um Calcado
-PessoaFisica.belongsTo(tamanho); // Um PessoaFisica pertence a um Calcado
 
 
 module.exports = PessoaFisica
