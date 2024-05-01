@@ -8,15 +8,12 @@ const app = express()
 const conn = require("./db/conn");
 
 // models
-const calcado = require("./models/calcado")
 const deficiencia = require("./models/deficiencia")
-const estado_civil = require("./models/estado_civil")
 const funcao = require("./models/funcao")
 const meio_locom = require("./models/meio_locomocao")
 const modalidade = require("./models/modalidade")
 const PessoaFisica = require("./models/pessoa_fisica")
-const sexo = require("./models/sexo")
-const tamanho = require("./models/tamanho")
+
 
 // Configurando resposta JSON 
 app.use(express.json())
@@ -29,8 +26,10 @@ app.use(express.static('public'))
 
 // Routes
 const RotaDeficiencia = require('./routes/DeficienciaRoutes')
+const RotaUsuario = require('./routes/UsuarioRoutes')
 
 app.use('/home/cadastros/deficiencia', RotaDeficiencia)
+app.use('/home/cadastros/usuario', RotaUsuario)
 
 
 // Definindo a porta que o back vai rodar
