@@ -14,7 +14,6 @@ const meio_locom = require("./models/meio_locomocao")
 const modalidade = require("./models/modalidade")
 const PessoaFisica = require("./models/pessoa_fisica")
 
-
 // Configurando resposta JSON 
 app.use(express.json())
 
@@ -27,10 +26,11 @@ app.use(express.static('public'))
 // Routes
 const RotaDeficiencia = require('./routes/DeficienciaRoutes')
 const RotaUsuario = require('./routes/UsuarioRoutes')
+const RotaPessoaFisica = require('./routes/PessoaFisicaRoutes')
 
 app.use('/home/cadastros/deficiencia', RotaDeficiencia)
 app.use('/home/cadastros/usuario', RotaUsuario)
-
+app.use('/home/cadastros/associado/', RotaPessoaFisica)
 
 // Definindo a porta que o back vai rodar
 conn

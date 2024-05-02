@@ -6,7 +6,7 @@ const db = require('../db/conn')
 // Importando as outras tabelas
 const deficiencia = require("../models/deficiencia")
 const funcao = require("../models/funcao")
-const meio_locom = require("../models/meio_locomocao")
+const equipa_locom = require("../models/meio_locomocao")
 const modalidade = require("../models/modalidade")
 
 const PessoaFisica = db.define("PESSOA_FISICA", {
@@ -16,13 +16,16 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         autoIncrement: true,
         primaryKey: true
     },
-    NM_PESSOA:{
+    NM_PESSOA: {
         type: DataTypes.TEXT,
         allowNull: false
     },
     NR_CELULAR: {
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    NR_TELEFONE: {
+        type: DataTypes.TEXT
     },
     SEXO: {
         type: DataTypes.TEXT,
@@ -44,6 +47,10 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         type: DataTypes.TEXT,
         allowNull: false
     },
+    MEIO_LOCOMOCAO: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
     ASSISTENCIA: {
         type: DataTypes.BOOLEAN,
         allowNull: false
@@ -53,35 +60,31 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         allowNull: false
     },
     CELULAR_PAI: {
-        type: DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT
     },
     NM_MAE: {
         type: DataTypes.TEXT,
         allowNull: false
     },
     CELULAR_MAE: {
-        type: DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT
     },
     EMAIL_RESPONS: {
-        type: DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT
     },
     NATURALIDADE_RESPONS: {
-        type: DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT
     },
     PESO: {
-        type: DataTypes.DECIMAL(3,3),
+        type: DataTypes.DECIMAL(3, 3),
         allowNull: false
     },
     ALTURA: {
-        type: DataTypes.DECIMAL(3,3),
+        type: DataTypes.DECIMAL(3, 3),
         allowNull: false
     },
     RENDA: {
-        type: DataTypes.DECIMAL(12.2),
+        type: DataTypes.TEXT,
         allowNull: false
     },
     INSTITUICAO: {
@@ -89,7 +92,7 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         allowNull: false
     },
     MATRICULA: {
-        type: DataTypes.TEXT,
+        type: DataTypes.TEXT
     },
     TELEFONE_ESCOLA: {
         type: DataTypes.TEXT
@@ -141,8 +144,7 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         allowNull: false
     },
     DS_ENDERECO: {
-        type: DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT
     },
     CLASSIF_FUNC: {
         type: DataTypes.TEXT,
@@ -177,18 +179,34 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         allowNull: false
     },
     FOTO_RG_RESPONS: {
-        type: DataTypes.TEXT,
-        allowNull: false
+        type: DataTypes.TEXT
     }
 })
 
 // Criando as ligações entres a tabela de pessoa fisica com as outras tabelas
 
-PessoaFisica.belongsToMany(deficiencia, { through: 'PessoaFisicaModalidade' }); // Muitos para muitos
-deficiencia.belongsToMany(PessoaFisica, { through: 'PessoaFisicaModalidade' }); // Muitos para muitos
-PessoaFisica.belongsTo(funcao); // Um PessoaFisica pertence a um Calcado
-PessoaFisica.belongsTo(meio_locom); // Um PessoaFisica pertence a um Calcado
-PessoaFisica.belongsTo(modalidade); // Um PessoaFisica pertence a um Calcado
+PessoaFisica.belongsToMany(deficiencia, {
+    through: 'DEFICIENCIA_PESSOA',
+    foreignKey: 'CD_PESSOA_FISICA', // Nome da coluna na tabela de associação referente a PessoaFisica
+    otherKey: 'CD_DEFICIENCIA' // Nome da coluna na tabela de associação referente a Deficiencia
+});
+deficiencia.belongsToMany(PessoaFisica, {
+    through: 'DEFICIENCIA_PESSOA',
+    foreignKey: 'CD_DEFICIENCIA', // Nome da coluna na tabela de associação referente a Deficiencia
+    otherKey: 'CD_PESSOA_FISICA' // Nome da coluna na tabela de associação referente a PessoaFisica
+});
+PessoaFisica.belongsToMany(modalidade, {
+    through: 'MODALIDADE_PESSOA',
+    foreignKey: 'CD_PESSOA_FISICA', // Nome da coluna na tabela de associação referente a PessoaFisica
+    otherKey: 'CD_MODALIDADE' // Nome da coluna na tabela de associação referente a Modalidade
+});
+modalidade.belongsToMany(PessoaFisica, {
+    through: 'MODALIDADE_PESSOA',
+    foreignKey: 'CD_MODALIDADE', // Nome da coluna na tabela de associação referente a Modalidade
+    otherKey: 'CD_PESSOA_FISICA' // Nome da coluna na tabela de associação referente a PessoaFisica
+});
+PessoaFisica.belongsTo(funcao, { foreignKey: 'CD_FUNCAO' }); // Um PessoaFisica pertence a um Calcado
+PessoaFisica.belongsTo(equipa_locom, { foreignKey: 'CD_EQUIPA_LOCOMOCAO' }); // Um PessoaFisica pertence a um Calcado
 
 
 module.exports = PessoaFisica
