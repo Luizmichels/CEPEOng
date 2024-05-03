@@ -1,0 +1,60 @@
+body {
+    margin: 0 auto;
+    color: white;
+}
+
+.tela{
+    display: flex;
+    flex-direction: row;
+}
+
+.menu {
+    position: relative;
+    width: 35vh;
+    height: 100vh;
+    background-color: #D9D9D9;
+}
+
+.menu img {
+    display: block;
+    margin: 0 auto;
+
+}
+
+.menu
+
+.novoitem{
+    position: relative;
+    font-size: 4vh;
+    text-align: center;
+    text-align: middle;
+    display: block;
+    top: 18vh;
+    margin: 0 auto;
+    font-family: "Inter", sans-serif;
+    width: 28vh;
+    height: 18vh;
+    border-radius: 8px;
+    background-color: #ED5600;
+    
+}
+.listagem{
+    position: relative;
+    font-size: 4vh;
+    text-align: center;
+    text-align: middle;
+    display: block;
+    top: 18vh;
+    margin: 0 auto;
+    font-family: "Inter", sans-serif;
+    width: 28vh;
+    height: 18vh;
+    border-radius: 8px;
+    background-color: #ED5600;
+    
+}
+
+.indicadores{
+    display: flex;
+    flex-direction: column;
+}

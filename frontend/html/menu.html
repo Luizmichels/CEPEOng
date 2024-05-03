@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<link rel="stylesheet" type="text/css" href="../css/inputs.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="../css/menu.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="../img" media="screen" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+<script language="javascript" type="text/javascript" src="https://code.highcharts.com/highcharts.js"></script>
+<script language="javascript" type="text/javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
+
+<body>
+
+    <html>
+
+    <div class="tela">
+        <div class="menu">
+            <div>
+                <img src="../img/cepe_joinville_laranja 2.png" alt="logo">
+            </div>
+            <div class="opcoes">
+                <div class="novoitem"><br>Cadastrar Novo Item</div>
+                <br>
+                <div class="listagem"><br>Listagem de Atletas</div>
+            </div>
+
+
+        </div>
+
+        <div class="indicadores">
+        <div id="container" style="width:140vh; height:45vh; border: 1px solid black; margin-left: 10%; border-radius: 15px;"></div>
+        <div id="container2" style="width:140vh; height:45vh; border: 1px solid black; margin-left: 10%; border-radius: 15px;"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const chart = Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Quantidade de Atletas Por Esporte'
+                },
+                xAxis: {
+                    categories: ['Futebol de 7', 'Basquete', 'Natação', 'Bocha']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Fruit eaten'
+                    }
+                },
+                dataLabels: {
+                    enabled: true
+                    
+                },
+                series: [{
+                    name: 'Modalidade',
+                    color: '#ED5600',
+                    data: [10,8,7,4]
+                },]
+            });
+        });
+
+        let chart; // globally available
+        document.addEventListener('DOMContentLoaded', function () {
+            chart = Highcharts.stockChart('container', {
+                rangeSelector: {
+                    selected: 1
+                },
+                series: [{
+                    name: 'USD to EUR',
+                    data: usdtoeur // predefined JavaScript array
+                }]
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const chart = Highcharts.chart('container2', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Taxa de adesão aos esportes'
+                },
+                xAxis: {
+                    categories: ['Futebol de 7', 'Basquete', 'Natação', 'Bocha']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Fruit eaten'
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    formatter: function() {
+                        return this.y + '%';
+                    }
+                    
+                },
+                series: [{
+                    name: 'Modalidade',
+                    color: '#ED5600',
+                    data: [34.4,27.58,24.13,13.79]
+                },]
+            });
+        });
+
+        let chart2; // globally available
+        document.addEventListener('DOMContentLoaded', function () {
+            chart = Highcharts.stockChart('container2', {
+                rangeSelector: {
+                    selected: 1
+                },
+                series: [{
+                    name: 'USD to EUR',
+                    data: usdtoeur // predefined JavaScript array
+                }]
+            });
+        });
+    </script>
+
+
+
+    </html>
+
+</body>
+
+</html>
