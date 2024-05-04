@@ -1,13 +1,15 @@
-const { DataTypes } = require('sequelize')
+const { DataTypes, Model } = require('sequelize')
 
 // Importando a conexão com o banco
 const db = require('../db/conn')
 
 // Importando as outras tabelas
-const deficiencia = require("../models/deficiencia")
-const funcao = require("../models/funcao")
-const equipa_locom = require("../models/meio_locomocao")
-const modalidade = require("../models/modalidade")
+const deficiencia = require("./deficiencia")
+const funcao = require("./funcao")
+const equipa_locom = require("./meio_locomocao")
+const modalidade = require("./modalidade")
+const DeficienciaPessoa = require("./DeficienciaPessoa")
+const ModalidadePessoa = require("./ModalidadePessoa")
 
 const PessoaFisica = db.define("PESSOA_FISICA", {
     CD_PESSOA_FISICA: {
@@ -186,27 +188,39 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
 // Criando as ligações entres a tabela de pessoa fisica com as outras tabelas
 
 PessoaFisica.belongsToMany(deficiencia, {
-    through: 'DEFICIENCIA_PESSOA',
-    foreignKey: 'CD_PESSOA_FISICA', // Nome da coluna na tabela de associação referente a PessoaFisica
-    otherKey: 'CD_DEFICIENCIA' // Nome da coluna na tabela de associação referente a Deficiencia
-});
+    through: {
+        model: DeficienciaPessoa
+    },
+    foreignKey: 'CD_PESSOA_FISICA',
+    constraint: true
+})
+
 deficiencia.belongsToMany(PessoaFisica, {
-    through: 'DEFICIENCIA_PESSOA',
-    foreignKey: 'CD_DEFICIENCIA', // Nome da coluna na tabela de associação referente a Deficiencia
-    otherKey: 'CD_PESSOA_FISICA' // Nome da coluna na tabela de associação referente a PessoaFisica
-});
+    through: {
+        model: DeficienciaPessoa
+    },
+    foreignKey: 'CD_DEFICIENCIA',
+    constraint: true
+})
+
 PessoaFisica.belongsToMany(modalidade, {
-    through: 'MODALIDADE_PESSOA',
-    foreignKey: 'CD_PESSOA_FISICA', // Nome da coluna na tabela de associação referente a PessoaFisica
-    otherKey: 'CD_MODALIDADE' // Nome da coluna na tabela de associação referente a Modalidade
-});
+    through: {
+        model: ModalidadePessoa
+    },
+    foreignKey: 'CD_PESSOA_FISICA',
+    constraint: true
+})
+
 modalidade.belongsToMany(PessoaFisica, {
-    through: 'MODALIDADE_PESSOA',
-    foreignKey: 'CD_MODALIDADE', // Nome da coluna na tabela de associação referente a Modalidade
-    otherKey: 'CD_PESSOA_FISICA' // Nome da coluna na tabela de associação referente a PessoaFisica
-});
-PessoaFisica.belongsTo(funcao, { foreignKey: 'CD_FUNCAO' }); // Um PessoaFisica pertence a um Calcado
-PessoaFisica.belongsTo(equipa_locom, { foreignKey: 'CD_EQUIPA_LOCOMOCAO' }); // Um PessoaFisica pertence a um Calcado
+    through: {
+        model: ModalidadePessoa
+    },
+    foreignKey: 'CD_MODALIDADE',
+    constraint: true
+})
+
+funcao.hasMany(PessoaFisica, { foreignKey: 'CD_FUNCAO' }); // Um PessoaFisica pertence a um Calcado
+equipa_locom.belongsTo(PessoaFisica, { foreignKey: 'CD_EQUIPA_LOCOMOCAO' }); // Um PessoaFisica pertence a um Calcado
 
 
 module.exports = PessoaFisica
