@@ -34,7 +34,7 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         allowNull: false
     },
     DT_NASCIMENTO: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     ESTADO_CIVIL: {
@@ -54,7 +54,7 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         allowNull: false
     },
     ASSISTENCIA: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.TEXT,
         allowNull: false
     },
     NM_PAI: {
@@ -112,7 +112,7 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         allowNull: false
     },
     DT_EMISSAO_RG: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false
     },
     NR_PASSAPORTE: {
@@ -128,7 +128,7 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         type: DataTypes.TEXT
     },
     DT_EMISSAO_RG_RESPONS: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
     },
     NR_PASSAPORTE_RESPONS: {
         type: DataTypes.TEXT
