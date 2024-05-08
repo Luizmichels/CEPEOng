@@ -35,7 +35,7 @@ img{
     width: 30vh;
     height: 20vh;
     background-color: #ED5600;
-    border: 1px solid black;
+    border: 5px solid black;
     display: flex;
     justify-content: center; /* Alinha horizontalmente */
     align-items: center; /* Alinha verticalmente */
