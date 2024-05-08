@@ -25,10 +25,10 @@ body {
 }
 
 img{
-    padding: 25px;
+    padding: 20px;
     display: block;
-    margin: 0 auto;
-    margin-top: -40px;
+    margin: 8px auto;
+    /*margin-top: -40px;*/
 }
 
 .quadrado{
@@ -41,7 +41,7 @@ img{
     align-items: center; /* Alinha verticalmente */
     margin-right: 8%;
     margin-top: 60px;
-    font-size: 3.8vh;
+    font-size: 3.2vh;
     text-align: center;
     font-family: "Inter", sans-serif;
 }
