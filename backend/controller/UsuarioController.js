@@ -87,12 +87,12 @@ module.exports = class UsuarioController {
             return
         }
     
-        // Verificação se o usuário já existe
-const usuario = await Usuario.findOne({ where: { NM_USUARIO: NM_USUARIO } });
-if (!usuario) {
-    res.status(422).json({ message: 'Não há usuário cadastrado com este Nome!' });
-    return;
-}
+        // Verificação se o usuario já existe
+        const usuario = await Usuario.findOne({ NM_USUARIO: NM_USUARIO })
+        if (!usuario) {
+            res.status(422).json({ message: 'Não há usuário cadastrado com este Nome!'})
+            return
+        }
     
         // Verificando se a senha enviada está batendo com a senha do banco de dados
         const checarSenha = await bcrypt.compare(SENHA, usuario.SENHA);

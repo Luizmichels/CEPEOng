@@ -28,16 +28,19 @@ app.use(express.static('public'))
 const RotaDeficiencia = require('./routes/DeficienciaRoutes')
 const RotaUsuario = require('./routes/UsuarioRoutes')
 const RotaPessoaFisica = require('./routes/PessoaFisicaRoutes')
+const RotaMeioLocomocao = require('./routes/MeioLocomocaoRoutes')
 
 app.use('/home/cadastros/deficiencia', RotaDeficiencia)
 app.use('/home/cadastros/usuario', RotaUsuario)
 app.use('/home/login/usuario', RotaUsuario)
 app.use('/home/cadastros/associado/', RotaPessoaFisica)
+app.use('/home/cadastros/meio_locomocao', RotaMeioLocomocao)
+app.use('/home/editar/meio_locomocao', RotaMeioLocomocao)
 
 // Definindo a porta que o back vai rodar
 conn
   .sync()
-  //.sync({force: true}) // Apaga todas as tabelas e faz novamente
+    //.sync({force: true}) // Apaga todas as tabelas e faz novamente
   .then(() => {
     app.listen(5000);
   })
