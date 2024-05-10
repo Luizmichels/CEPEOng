@@ -13,6 +13,7 @@ routes.post(
     { name: "FOTO_ATLETA", maxCount: 1 },
   ]),
   PessoaFisicaController.CadastPessoaFisica
-);
+)
+routes.get('/cadastratos', PessoaFisicaController.TodosCadastratos)
 
 module.exports = routes;

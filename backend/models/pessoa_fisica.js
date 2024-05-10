@@ -192,7 +192,7 @@ PessoaFisica.belongsToMany(deficiencia, {
         model: DeficienciaPessoa
     },
     foreignKey: 'CD_PESSOA_FISICA',
-    constraint: true
+    constraints: true
 })
 
 deficiencia.belongsToMany(PessoaFisica, {
@@ -200,7 +200,7 @@ deficiencia.belongsToMany(PessoaFisica, {
         model: DeficienciaPessoa
     },
     foreignKey: 'CD_DEFICIENCIA',
-    constraint: true
+    constraints: true
 })
 
 PessoaFisica.belongsToMany(modalidade, {
