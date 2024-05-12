@@ -1,7 +1,7 @@
 const Modalidade = require('../models/modalidade');
 
 module.exports = class ModalidadeController {
-    // Função para cadastrar uma nova modalidade
+    // Função para cadastrar uma nova modalidadegit
     static async cadastrarModalidade(req, res) {
         try {
             const { NM_MODALIDADE, NOMENCLATURA } = req.body;
