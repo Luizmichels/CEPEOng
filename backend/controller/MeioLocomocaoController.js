@@ -51,10 +51,7 @@ module.exports = class MeioLocomocaoController {
             return;
         }
     
-        try {
-            // Log para verificar o valor de id
-            console.log('ID do meio de locomoção:', id);
-    
+        try {    
             // Encontra o meio de locomoção a ser atualizado
             const meio = await MeioLocomocao.findByPk(id);
             if (!meio) {
