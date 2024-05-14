@@ -35,7 +35,7 @@ app.use('/home/cadastros/usuario', RotaUsuario)
 app.use('/home/login/usuario', RotaUsuario)
 app.use('/home/cadastros/associado/', RotaPessoaFisica)
 app.use('/home/cadastros/meio_locomocao', RotaMeioLocomocao)
-app.use('/home/editar/meio_locomocao', RotaMeioLocomocao)
+app.use('/home/editar/meio_locomocao', RotaMeioLocomocao);
 
 // Definindo a porta que o back vai rodar
 conn
