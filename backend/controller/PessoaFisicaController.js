@@ -2,7 +2,6 @@ const PessoaFisica = require('../models/pessoa_fisica')
 const Deficiencia = require('../models/deficiencia');
 const DeficienciaPessoa = require('../models/DeficienciaPessoa')
 const Modalidade = require('../models/modalidade')
-const ModalidadePessoa = require('../models/ModalidadePessoa')
 const db = require('../db/conn');
 
 // helpers
@@ -14,18 +13,16 @@ module.exports = class PessoaFisicaController {
     static async CadastPessoaFisica(req, res) {
 
         const { NM_PESSOA, NR_CELULAR, NR_TELEFONE, SEXO, DT_NASCIMENTO, ESTADO_CIVIL, NATURALIDADE,
-            EMAIL, /*CD_EQUIPA_LOCOMOCAO,*/ CD_DEFICIENCIA, MEIO_LOCOMOCAO, /*CD_FUNCAO,*/ ASSISTENCIA,
+            EMAIL, CD_EQUIPA_LOCOMOCAO, CD_DEFICIENCIA, MEIO_LOCOMOCAO, CD_FUNCAO, ASSISTENCIA,
             NM_PAI, CELULAR_PAI, NM_MAE, CELULAR_MAE, EMAIL_RESPONS, NATURALIDADE_RESPONS,
             PESO, ALTURA, RENDA, INSTITUICAO, MATRICULA, TELEFONE_ESCOLA, CPF, RG, UF_RG, DT_EMISSAO_RG,
             NR_PASSAPORTE, CPF_RESPONS, RG_RESPONS, UF_RG_RESPONS, DT_EMISSAO_RG_RESPONS,
-            NR_PASSAPORTE_RESPONS, CEP, ENDERECO, NR_ENDERECO, DS_ENDERECO, /*CD_MODALIDEDADE,*/ CLASSIF_FUNC,
+            NR_PASSAPORTE_RESPONS, CEP, ENDERECO, NR_ENDERECO, DS_ENDERECO, CD_MODALIDEDADE, CLASSIF_FUNC,
             PROVA, TAMANHO_CAMISA, TAMANHO_AGASALHO, TAMANHO_BERM_CAL, NR_CALCADO } = req.body
 
         const { FOTO_ATLETA, FOTO_RG, FOTO_RG_RESPONS } = req.files
 
         await Deficiencia.findAll({ where: { CD_DEFICIENCIA: CD_DEFICIENCIA } });
-
-        // await Modalidade.findAll({ where: { CD_MODALIDEDADE: CD_MODALIDEDADE } });
 
         // Validações
 
@@ -334,8 +331,8 @@ module.exports = class PessoaFisicaController {
                 NM_PESSOA,
                 NR_CELULAR: NR_CELULAR ? NR_CELULAR.toString().match(/\d/g).join("") : null,
                 NR_TELEFONE, SEXO, DT_NASCIMENTO,
-                ESTADO_CIVIL, NATURALIDADE, EMAIL, /*CD_EQUIPA_LOCOMOCAO,*/
-                MEIO_LOCOMOCAO, /*CD_FUNCAO,*/ ASSISTENCIA, NM_PAI,
+                ESTADO_CIVIL, NATURALIDADE, EMAIL, CD_EQUIPA_LOCOMOCAO,
+                MEIO_LOCOMOCAO, CD_FUNCAO, ASSISTENCIA, NM_PAI,
                 CELULAR_PAI: CELULAR_PAI ? CELULAR_PAI.toString().match(/\d/g).join("") : null,
                 NM_MAE,
                 CELULAR_MAE: CELULAR_MAE ? CELULAR_MAE.toString().match(/\d/g).join("") : null,
@@ -352,7 +349,7 @@ module.exports = class PessoaFisicaController {
                 NR_PASSAPORTE_RESPONS: NR_PASSAPORTE_RESPONS ? NR_PASSAPORTE_RESPONS.toString().match(/\d/g).join("") : null,
                 CEP: CEP ? CEP.toString().match(/\d/g).join("") : null,
                 ENDERECO, NR_ENDERECO,
-                DS_ENDERECO, CLASSIF_FUNC, PROVA, TAMANHO_CAMISA,
+                DS_ENDERECO, CD_MODALIDEDADE, CLASSIF_FUNC, PROVA, TAMANHO_CAMISA,
                 TAMANHO_AGASALHO, TAMANHO_BERM_CAL, NR_CALCADO,
                 FOTO_ATLETA: FOTO_ATLETA[0].filename,
                 FOTO_RG: FOTO_RG[0].filename,
@@ -367,14 +364,6 @@ module.exports = class PessoaFisicaController {
                 });
             }
 
-            // for (const CD_MODALIDEDADE of req.body.CD_MODALIDEDADE) {
-            //     // Associar modalidade ao usuário
-            //     await ModalidadePessoa.create({
-            //         CD_PESSOA_FISICA: pessoaFisica.CD_PESSOA_FISICA,
-            //         CD_MODALIDEDADE: CD_MODALIDEDADE
-            //     });
-            // }
-
             return res.status(201).json({ mensagem: 'Pessoa física cadastrada com sucesso' });
         } catch (error) {
             return res.status(500).json({ mensagem: 'Erro ao cadastrar pessoa física', erro: error.message });
@@ -387,70 +376,44 @@ module.exports = class PessoaFisicaController {
             // Fazendo um join entre as tabelas PessoaFisica e a tabela de deficiência
             const pessoas = await db.query(
                 `
-                    SELECT pf.*,
-                           d.TP_DEFICIENCIA   -- Ou os campos específicos que você deseja da tabela Deficiencia
-                    FROM pessoa_fisicas pf
-                    LEFT JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
-                    LEFT JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
-                `, 
+                    SELECT pf.FOTO_ATLETA,
+                           pf.NM_PESSOA,
+                           pf.CPF,
+                           GROUP_CONCAT(d.TP_DEFICIENCIA ORDER BY d.TP_DEFICIENCIA SEPARATOR ',') AS deficiencia,
+                           'futebol de 7' as modalidade,
+                           'atleta' as funcao
+                           FROM pessoa_fisicas pf
+                    JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
+                    JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
+                    GROUP BY pf.CD_PESSOA_FISICA
+                `,
                 { type: db.QueryTypes.SELECT });
 
 
             const dadosFormatados = pessoas.map(pessoa => ({
-                NM_PESSOA: pessoa.NM_PESSOA,
-                NR_CELULAR: formatarTelefone(pessoa.NR_CELULAR),
-                NR_TELEFONE: formatarTelefone(pessoa.NR_TELEFONE),
-                SEXO: pessoa.SEXO,
-                DT_NASCIMENTO: formatarData(pessoa.DT_NASCIMENTO),
-                ESTADO_CIVIL: pessoa.ESTADO_CIVIL,
-                NATURALIDADE: pessoa.NATURALIDADE,
-                EMAIL: pessoa.EMAIL,
-                /*CD_EQUIPA_LOCOMOCAO,*/
-                TP_DEFICIENCIA: pessoa.TP_DEFICIENCIA,
-                MEIO_LOCOMOCAO: pessoa.MEIO_LOCOMOCAO,
-                /*CD_FUNCAO,*/
-                ASSISTENCIA: pessoa.ASSISTENCIA,
-                NM_PAI: pessoa.NM_PAI,
-                CELULAR_PAI: formatarTelefone(pessoa.CELULAR_PAI),
-                NM_MAE: pessoa.NM_MAE,
-                CELULAR_MAE: formatarTelefone(pessoa.CELULAR_MAE),
-                EMAIL_RESPONS: pessoa.EMAIL,
-                NATURALIDADE_RESPONS: pessoa.NATURALIDADE_RESPONS,
-                PESO: pessoa.PESO,
-                ALTURA: pessoa.ALTURA,
-                RENDA: pessoa.RENDA,
-                INSTITUICAO: pessoa.INSTITUICAO,
-                MATRICULA: pessoa.MATRICULA,
-                TELEFONE_ESCOLA: formatarTelefone(pessoa.TELEFONE_ESCOLA),
-                CPF: formatarCPF(pessoa.CPF),
-                RG: formatarRG(pessoa.RG),
-                UF_RG: pessoa.UF_RG,
-                DT_EMISSAO_RG: formatarData(pessoa.DT_EMISSAO_RG),
-                NR_PASSAPORTE: pessoa.NR_PASSAPORTE,
-                CPF_RESPONS: formatarCPF.CPF_RESPONS,
-                RG_RESPONS: formatarRG(pessoa.RG_RESPONS),
-                UF_RG_RESPONS: pessoa.UF_RG_RESPONS,
-                DT_EMISSAO_RG_RESPONS: formatarData(pessoa.DT_EMISSAO_RG_RESPONS),
-                NR_PASSAPORTE_RESPONS: pessoa.NR_PASSAPORTE_RESPONS,
-                CEP: formatarCEP(pessoa.CEP),
-                ENDERECO: pessoa.ENDERECO,
-                NR_ENDERECO: pessoa.NR_ENDERECO,
-                DS_ENDERECO: pessoa.DS_ENDERECO,
-                /*CD_MODALIDEDADE,*/
-                CLASSIF_FUNC: pessoa.CLASSIF_FUNC,
-                PROVA: pessoa.PROVA,
-                TAMANHO_CAMISA: pessoa.TAMANHO_CAMISA,
-                TAMANHO_AGASALHO: pessoa.TAMANHO_AGASALHO,
-                TAMANHO_BERM_CAL: pessoa.TAMANHO_BERM_CAL,
-                NR_CALCADO: pessoa.NR_CALCADO,
                 FOTO_ATLETA: pessoa.FOTO_ATLETA,
-                FOTO_RG: pessoa.FOTO_RG,
-                FOTO_RG_RESPONS: pessoa.FOTO_RG_RESPONS
+                CPF: formatarCPF(pessoa.CPF),
+                NM_PESSOA: pessoa.NM_PESSOA,
+                TP_DEFICIENCIA: pessoa.TP_DEFICIENCIA
             }));
 
             res.status(200).json({ pessoas: dadosFormatados });
         } catch (error) {
             res.status(500).json({ mensagem: 'Erro ao buscar os associados.', erro: error.message });
         }
+    }
+
+    static async EditarCasdastrato(req, res) {
+        const id = req.params.CD_PESSOA_FISICA
+
+        const { NM_PESSOA, NR_CELULAR, NR_TELEFONE, SEXO, DT_NASCIMENTO, ESTADO_CIVIL, NATURALIDADE,
+                EMAIL, /*CD_EQUIPA_LOCOMOCAO,*/ CD_DEFICIENCIA, MEIO_LOCOMOCAO, /*CD_FUNCAO,*/ ASSISTENCIA,
+                NM_PAI, CELULAR_PAI, NM_MAE, CELULAR_MAE, EMAIL_RESPONS, NATURALIDADE_RESPONS,
+                PESO, ALTURA, RENDA, INSTITUICAO, MATRICULA, TELEFONE_ESCOLA, CPF, RG, UF_RG, DT_EMISSAO_RG,
+                NR_PASSAPORTE, CPF_RESPONS, RG_RESPONS, UF_RG_RESPONS, DT_EMISSAO_RG_RESPONS,
+                NR_PASSAPORTE_RESPONS, CEP, ENDERECO, NR_ENDERECO, DS_ENDERECO, /*CD_MODALIDEDADE,*/ CLASSIF_FUNC,
+                PROVA, TAMANHO_CAMISA, TAMANHO_AGASALHO, TAMANHO_BERM_CAL, NR_CALCADO 
+            } = req.body
+
     }
 }

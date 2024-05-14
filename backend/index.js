@@ -40,7 +40,7 @@ app.use('/home/editar/meio_locomocao', RotaMeioLocomocao)
 // Definindo a porta que o back vai rodar
 conn
   .sync()
-    //.sync({force: true}) // Apaga todas as tabelas e faz novamente
+  //.sync({force: true}) // Apaga todas as tabelas e faz novamente
   .then(() => {
     app.listen(5000);
   })

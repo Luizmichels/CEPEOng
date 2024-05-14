@@ -15,5 +15,6 @@ routes.post(
   PessoaFisicaController.CadastPessoaFisica
 )
 routes.get('/cadastratos', PessoaFisicaController.TodosCadastratos)
+routes.get('/cadastrato/:id', PessoaFisicaController.EditarCasdastrato)
 
 module.exports = routes;

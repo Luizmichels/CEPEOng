@@ -9,7 +9,6 @@ const funcao = require("./funcao")
 const equipa_locom = require("./meio_locomocao")
 const modalidade = require("./modalidade")
 const DeficienciaPessoa = require("./DeficienciaPessoa")
-const ModalidadePessoa = require("./ModalidadePessoa")
 
 const PessoaFisica = db.define("PESSOA_FISICA", {
     CD_PESSOA_FISICA: {
@@ -186,7 +185,6 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
 })
 
 // Criando as ligações entres a tabela de pessoa fisica com as outras tabelas
-
 PessoaFisica.belongsToMany(deficiencia, {
     through: {
         model: DeficienciaPessoa
@@ -203,24 +201,9 @@ deficiencia.belongsToMany(PessoaFisica, {
     constraints: true
 })
 
-PessoaFisica.belongsToMany(modalidade, {
-    through: {
-        model: ModalidadePessoa
-    },
-    foreignKey: 'CD_PESSOA_FISICA',
-    constraint: true
-})
-
-modalidade.belongsToMany(PessoaFisica, {
-    through: {
-        model: ModalidadePessoa
-    },
-    foreignKey: 'CD_MODALIDADE',
-    constraint: true
-})
-
-funcao.hasMany(PessoaFisica, { foreignKey: 'CD_FUNCAO' }); // Um PessoaFisica pertence a um Calcado
-equipa_locom.belongsTo(PessoaFisica, { foreignKey: 'CD_EQUIPA_LOCOMOCAO' }); // Um PessoaFisica pertence a um Calcado
+modalidade.hasMany(PessoaFisica, {foreignKey: 'CD_MODALIDADE'}) // Um PessoaFisica pertence a um modalidade
+funcao.hasMany(PessoaFisica, { foreignKey: 'CD_FUNCAO' }); // Um PessoaFisica pertence a um função
+equipa_locom.belongsTo(PessoaFisica, { foreignKey: 'CD_EQUIPA_LOCOMOCAO' }); // Um PessoaFisica pertence a um equipamento de locomoção
 
 
 module.exports = PessoaFisica

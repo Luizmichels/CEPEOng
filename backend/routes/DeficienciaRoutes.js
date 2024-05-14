@@ -7,6 +7,7 @@ const DeficienciaController = require('../controller/deficienciaController')
 
 
 routes.post('/cadastro', DeficienciaController.CadastDeficiencia)
+routes.get('/cadastratos', DeficienciaController.TodasDeficiencias)
 
 
 module.exports = routes

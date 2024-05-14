@@ -25,4 +25,24 @@ module.exports = class DeficienciaController {
             res.status(500).json({ mensagem: 'Erro ao cadastrar a deficiência', erro: error.message });
         }
     }
+
+    static async TodasDeficiencias(req, res) {
+        try {
+            const deficiencias = await Deficiencia.findAll();
+
+            if (deficiencias.length === 0) {
+                return res.status(404).json({ mensagem: 'Não há nenhuma deficiência cadastrada' });
+            }
+
+            const deficienciaFormatada = deficiencias.map(deficiencia => ({
+                CD_DEFICIENCIA: deficiencia.CD_DEFICIENCIA,
+                TP_DEFICIENCIA: deficiencia.TP_DEFICIENCIA
+            }));
+
+            res.status(200).json({ deficiencias: deficienciaFormatada });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ mensagem: 'Erro ao buscar deficiências' });
+        }
+    }
 }
