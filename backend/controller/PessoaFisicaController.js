@@ -1,12 +1,11 @@
 const PessoaFisica = require('../models/pessoa_fisica')
 const Deficiencia = require('../models/deficiencia');
 const DeficienciaPessoa = require('../models/DeficienciaPessoa')
-const Modalidade = require('../models/modalidade')
 const db = require('../db/conn');
 
 // helpers
 const { formatarData, formatarTelefone, formatarCPF, formatarRG, formatarCEP } = require('../helpers/FormatarDadosPessoa')
-
+const { EmailValido, cpfValido, diferencaAnos } = require('../helpers/Validacoes')
 module.exports = class PessoaFisicaController {
 
     // Criando o Cadastro da pessoa fisica no banco
@@ -25,26 +24,6 @@ module.exports = class PessoaFisicaController {
         await Deficiencia.findAll({ where: { CD_DEFICIENCIA: CD_DEFICIENCIA } });
 
         // Validações
-
-        // Função para calcular a diferença em anos entre duas datas
-        function diferencaAnos(dataNascimento) {
-            // Convertendo a data de nascimento para um objeto Date
-            const dtNascimento = new Date(dataNascimento);
-            const dtAtual = new Date();
-
-            // Calculando a diferença em milissegundos
-            const diffMs = dtAtual - dtNascimento;
-
-            // Convertendo a diferença de milissegundos para anos
-            const diffYears = Math.abs(dtAtual.getFullYear() - dtNascimento.getFullYear());
-
-            // Verificando se a segunda data ainda não ocorreu no ano atual
-            if (dtAtual.getMonth() < dtNascimento.getMonth() || (dtAtual.getMonth() === dtNascimento.getMonth() && dtAtual.getDate() < dtNascimento.getDate())) {
-                return diffYears - 1;
-            }
-
-            return diffYears;
-        }
 
         // Calculando a idade
         const idade = diferencaAnos(req.body.DT_NASCIMENTO);
@@ -269,44 +248,17 @@ module.exports = class PessoaFisicaController {
             return
         }
 
-        //Validação se o CPF valido
-        function isValidCPF(cpf) {
-            // Validar se é String
-            if (typeof cpf !== 'string') return false
-
-            // Tirar formatação
-            cpf = cpf.replace(/[^\d]+/g, '')
-
-            // Validar se tem tamanho 11 ou se é uma sequência de digitos repetidos
-            if (cpf.length !== 11 || !!cpf.match(/(\d)\1{10}/)) return false
-
-            // String para Array
-            cpf = cpf.split('')
-
-            const validator = cpf
-                // Pegar os últimos 2 digitos de validação
-                .filter((digit, index, array) => index >= array.length - 2 && digit)
-                // Transformar digitos em números
-                .map(el => +el)
-
-            const toValidate = pop => cpf
-                // Pegar Array de items para validar
-                .filter((digit, index, array) => index < array.length - pop && digit)
-                // Transformar digitos em números
-                .map(el => +el)
-
-            const rest = (count, pop) => (toValidate(pop)
-                // Calcular Soma dos digitos e multiplicar por 10
-                .reduce((soma, el, i) => soma + el * (count - i), 0) * 10)
-                // Pegar o resto por 11
-                % 11
-                // transformar de 10 para 0
-                % 10
-
-            return !(rest(10, 2) !== validator[0] || rest(11, 1) !== validator[1])
+        if (!EmailValido(EMAIL)) {
+            res.status(422).json({ mensagem: 'Esta e-mail não é válido' })
+            return
         }
 
-        if (!isValidCPF(CPF)) {
+        if (!EmailValido(EMAIL_RESPONS)) {
+            res.status(422).json({ mensagem: 'Esta e-mail não é válido' })
+            return
+        }
+
+        if (!cpfValido(CPF)) {
             res.status(422).json({ mensagem: 'Este CPF não é válido' });
             return;
         }
@@ -373,7 +325,6 @@ module.exports = class PessoaFisicaController {
     static async TodosCadastratos(req, res) {
 
         try {
-            // Fazendo um join entre as tabelas PessoaFisica e a tabela de deficiência
             const pessoas = await db.query(
                 `
                     SELECT pf.FOTO_ATLETA,
@@ -389,12 +340,11 @@ module.exports = class PessoaFisicaController {
                 `,
                 { type: db.QueryTypes.SELECT });
 
-
             const dadosFormatados = pessoas.map(pessoa => ({
                 FOTO_ATLETA: pessoa.FOTO_ATLETA,
                 CPF: formatarCPF(pessoa.CPF),
                 NM_PESSOA: pessoa.NM_PESSOA,
-                TP_DEFICIENCIA: pessoa.TP_DEFICIENCIA
+                deficiencia: pessoa.deficiencia
             }));
 
             res.status(200).json({ pessoas: dadosFormatados });
@@ -404,16 +354,15 @@ module.exports = class PessoaFisicaController {
     }
 
     static async EditarCasdastrato(req, res) {
-        const id = req.params.CD_PESSOA_FISICA
+        const CD_PESSOA_FISICA = req.params.CD_PESSOA_FISICA
 
         const { NM_PESSOA, NR_CELULAR, NR_TELEFONE, SEXO, DT_NASCIMENTO, ESTADO_CIVIL, NATURALIDADE,
-                EMAIL, /*CD_EQUIPA_LOCOMOCAO,*/ CD_DEFICIENCIA, MEIO_LOCOMOCAO, /*CD_FUNCAO,*/ ASSISTENCIA,
-                NM_PAI, CELULAR_PAI, NM_MAE, CELULAR_MAE, EMAIL_RESPONS, NATURALIDADE_RESPONS,
-                PESO, ALTURA, RENDA, INSTITUICAO, MATRICULA, TELEFONE_ESCOLA, CPF, RG, UF_RG, DT_EMISSAO_RG,
-                NR_PASSAPORTE, CPF_RESPONS, RG_RESPONS, UF_RG_RESPONS, DT_EMISSAO_RG_RESPONS,
-                NR_PASSAPORTE_RESPONS, CEP, ENDERECO, NR_ENDERECO, DS_ENDERECO, /*CD_MODALIDEDADE,*/ CLASSIF_FUNC,
-                PROVA, TAMANHO_CAMISA, TAMANHO_AGASALHO, TAMANHO_BERM_CAL, NR_CALCADO 
-            } = req.body
-
+            EMAIL, CD_EQUIPA_LOCOMOCAO, CD_DEFICIENCIA, MEIO_LOCOMOCAO, CD_FUNCAO, ASSISTENCIA,
+            NM_PAI, CELULAR_PAI, NM_MAE, CELULAR_MAE, EMAIL_RESPONS, NATURALIDADE_RESPONS,
+            PESO, ALTURA, RENDA, INSTITUICAO, MATRICULA, TELEFONE_ESCOLA, CPF, RG, UF_RG, DT_EMISSAO_RG,
+            NR_PASSAPORTE, CPF_RESPONS, RG_RESPONS, UF_RG_RESPONS, DT_EMISSAO_RG_RESPONS,
+            NR_PASSAPORTE_RESPONS, CEP, ENDERECO, NR_ENDERECO, DS_ENDERECO, CD_MODALIDEDADE, CLASSIF_FUNC,
+            PROVA, TAMANHO_CAMISA, TAMANHO_AGASALHO, TAMANHO_BERM_CAL, NR_CALCADO
+        } = req.body
     }
 }
