@@ -1,4 +1,4 @@
-const MeioLocomocao = require('../models/meio_locomocao')
+const MeioLocomocao = require('../models/meio_locomocao');
 
 // 500 -> servidor
 // 201 -> deu bom
@@ -6,66 +6,52 @@ const MeioLocomocao = require('../models/meio_locomocao')
 
 module.exports = class MeioLocomocaoController {
 
-    // Criando o Meio de Locomoção
+    // Função para cadastrar o Meio de locomoção
     static async CadastroMeioLocomocao(req, res) {
-
-        const { NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO } = req.body
+        const { NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO } = req.body;
 
         // Validações
         if (!NM_MEIO_LOCOMOCAO) {
-            res.status(422).json({ message: 'O nome é obrigatório!' });
-            return;
+            return res.status(422).json({ message: 'O nome é obrigatório' });
         }
 
         try {
-            // Vterificação se o meio de locomoção já exise
+            // Verificação se o nome de meio já existe
             const meioExiste = await MeioLocomocao.findOne({ where: { NM_MEIO_LOCOMOCAO: NM_MEIO_LOCOMOCAO } });
             if (meioExiste) {
-                return res.status(422).json({ message: 'O Nome do Meio de Locomoção já está em uso!' });
+                return res.status(422).json({ message: 'Nome já cadastrado!' });
             }
 
-            // Criando instância do meio de locomoção
-            const meio = new MeioLocomocao({
+            // Criando meio de locomoção
+            const meioLocomocao = new MeioLocomocao({
                 NM_MEIO_LOCOMOCAO,
                 DS_MEIO_LOCOMOCAO
             });
 
-            // Salvando o meio de locomoção no banco de dados
-            const novoMeioLocomocao = await meio.save();
-
-            // Retornando a resposta
-            res.status(201).json({ message: 'Meio de Locomoção cadastrado com sucesso!', novoMeioLocomocao });
+            const novoMeioLocomocao = await meioLocomocao.save();
+            return res.status(201).json({ message: 'Meio de Locomoção cadastrado com sucesso', meioLocomocao: novoMeioLocomocao });
         } catch (error) {
-            res.status(500).json({ message: 'Erro ao cadastrar o Meio de Locomoção', error: error.message });
+            return res.status(500).json({ message: 'Erro ao cadastrar o Meio de Locomoção', error: error.message });
         }
-
     }
 
-    static async EditarMeioLocomocao(req, res) {
-        const id = req.params.CD_MEIO_LOCOMOCAO;
-        const { NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO } = req.body;
+    // Função para deletar o Meio de locomoção
+    static async DeletarMeioLocomocao(req, res) {
+        const { CD_MEIO_LOCOMOCAO } = req.params;
     
-        // Validações
-        if (!NM_MEIO_LOCOMOCAO) {
-            res.status(422).json({ message: 'O nome é obrigatório' });
-            return;
-        }
-    
-        try {    
-            // Encontra o meio de locomoção a ser atualizado
-            const meio = await MeioLocomocao.findOne({ where: { }} );
-            if (!meio) {
-                res.status(404).json({ message: 'Meio de locomoção não encontrado' });
-                return;
+        try {
+            // Verificação se o meio de locomoção existe
+            const meioLocomocao = await MeioLocomocao.findOne({ where: { CD_MEIO_LOCOMOCAO: CD_MEIO_LOCOMOCAO } });
+            if (!meioLocomocao) {
+                return res.status(404).json({ message: 'Meio de Locomoção não encontrado' });
             }
     
-            // Atualiza os dados do meio de locomoção
-            await meio.update({ NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO });
+            // Deletando meio de locomoção
+            await MeioLocomocao.destroy({ where: { CD_MEIO_LOCOMOCAO: CD_MEIO_LOCOMOCAO } });
     
-            res.status(200).json({ message: 'Meio de locomoção atualizado com sucesso!' });
-        } catch (err) {
-            res.status(500).json({ message: 'Erro ao atualizar o meio de locomoção', error: err.message });
+            return res.status(200).json({ message: 'Meio de Locomoção deletado com sucesso' });
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao deletar o Meio de Locomoção', error: error.message });
         }
-    }
-
-}
+    }    
+};

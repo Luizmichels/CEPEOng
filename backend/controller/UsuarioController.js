@@ -93,4 +93,24 @@ module.exports = class UsuarioController {
             return res.status(500).json({ message: 'Erro no servidor. Tente novamente mais tarde.' });
         }
     }
+
+        // Função para deletar o Usuario
+        static async DeletarUsuario(req, res) {
+            const { CD_USUARIO } = req.params;
+        
+            try {
+                // Verificação se o meio de locomoção existe
+                const usuarioExiste = await Usuario.findOne({ where: { CD_USUARIO: CD_USUARIO } });
+                if (!usuarioExiste) {
+                    return res.status(404).json({ message: 'Usuário não encontrado' });
+                }
+        
+                // Deletando meio de locomoção
+                await Usuario.destroy({ where: { CD_USUARIO: CD_USUARIO } });
+        
+                return res.status(200).json({ message: 'Usuário deletado com sucesso' });
+            } catch (error) {
+                return res.status(500).json({ message: 'Erro ao deletar o Usuário', error: error.message });
+            }
+        } 
 }
