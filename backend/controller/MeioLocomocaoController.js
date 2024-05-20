@@ -53,7 +53,7 @@ module.exports = class MeioLocomocaoController {
     
         try {    
             // Encontra o meio de locomoção a ser atualizado
-            const meio = await MeioLocomocao.findByPk(id);
+            const meio = await MeioLocomocao.findOne({ where: { }} );
             if (!meio) {
                 res.status(404).json({ message: 'Meio de locomoção não encontrado' });
                 return;

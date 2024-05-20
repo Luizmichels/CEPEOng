@@ -67,10 +67,7 @@ module.exports = class UsuarioController {
         } catch (error) {
             res.status(500).json({ message: 'Erro ao cadastrar o Usuário', error: error.message });
         }
-
     }
-
-
 
     static async login(req, res) {
         
