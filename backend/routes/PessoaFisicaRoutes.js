@@ -3,10 +3,11 @@ const PessoaFisicaController = require("../controller/PessoaFisicaController");
 
 // helpers
 const { imageUpload } = require("../helpers/imagem-upload");
+const ChecarToken = require('../helpers/VerificarToken')
 
 // Rotas
 routes.post(
-  "/cadastro",
+  "/cadastro", ChecarToken,
   imageUpload.fields([
     { name: "FOTO_RG", maxCount: 1 },
     { name: "FOTO_RG_RESPONS", maxCount: 1 },
