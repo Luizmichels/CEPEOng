@@ -10,6 +10,7 @@ const equipa_locom = require("./meio_locomocao")
 const modalidade = require("./modalidade")
 const DeficienciaPessoa = require("./DeficienciaPessoa")
 
+
 const PessoaFisica = db.define("PESSOA_FISICA", {
     CD_PESSOA_FISICA: {
         type: DataTypes.INTEGER,
@@ -207,3 +208,7 @@ equipa_locom.belongsTo(PessoaFisica, { foreignKey: 'CD_EQUIPA_LOCOMOCAO' }); // 
 
 
 module.exports = PessoaFisica
+
+
+// Integração com o front 
+
