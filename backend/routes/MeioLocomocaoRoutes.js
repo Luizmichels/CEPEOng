@@ -8,8 +8,8 @@ const MeioLocomocaoController = require('../controller/MeioLocomocaoController.j
 // delete -> deletar os dados do banco
 
 routes.post('/cadastro', MeioLocomocaoController.CadastroMeioLocomocao)
-routes.delete('/deletar/:CD_MEIO_LOCOMOCAO', MeioLocomocaoController.DeletarMeioLocomocao);
-// routes.patch('/:id', MeioLocomocaoController.EditarMeioLocomocao)
+routes.delete('/deletar/:CD_MEIO_LOCOMOCAO', MeioLocomocaoController.DeletarMeioLocomocao)
+routes.patch('/editar/:CD_MEIO_LOCOMOCAO', MeioLocomocaoController.EditarMeioLocomocao)
 
 
 module.exports = routes

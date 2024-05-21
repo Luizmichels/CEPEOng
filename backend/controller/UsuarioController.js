@@ -94,23 +94,76 @@ module.exports = class UsuarioController {
         }
     }
 
-        // Função para deletar o Usuario
-        static async DeletarUsuario(req, res) {
-            const { CD_USUARIO } = req.params;
-        
-            try {
-                // Verificação se o meio de locomoção existe
-                const usuarioExiste = await Usuario.findOne({ where: { CD_USUARIO: CD_USUARIO } });
-                if (!usuarioExiste) {
-                    return res.status(404).json({ message: 'Usuário não encontrado' });
-                }
-        
-                // Deletando meio de locomoção
-                await Usuario.destroy({ where: { CD_USUARIO: CD_USUARIO } });
-        
-                return res.status(200).json({ message: 'Usuário deletado com sucesso' });
-            } catch (error) {
-                return res.status(500).json({ message: 'Erro ao deletar o Usuário', error: error.message });
+    // Função para deletar o Usuario
+    static async DeletarUsuario(req, res) {
+        const { CD_USUARIO } = req.params;
+
+        try {
+            // Verificação se o meio de locomoção existe
+            const usuarioExiste = await Usuario.findOne({ where: { CD_USUARIO: CD_USUARIO } });
+            if (!usuarioExiste) {
+                return res.status(404).json({ message: 'Usuário não encontrado' });
             }
-        } 
+
+            // Deletando meio de locomoção
+            await Usuario.destroy({ where: { CD_USUARIO: CD_USUARIO } });
+
+            return res.status(200).json({ message: 'Usuário deletado com sucesso' });
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao deletar o Usuário', error: error.message });
+        }
+    }
+
+
+    static async EditarUsuario(req, res) {
+        const { CD_USUARIO } = req.params;
+        const { SENHA, CONFIRMASENHA } = req.body;
+        const updateData = {};
+
+        try {
+            // Pegando o token do usuário logado
+            const token = ObterToken(req);
+
+            /*// Verificando se o usuário logado é o mesmo que está sendo editado
+            if (usuario.CD_USUARIO !== CD_USUARIO) {
+                return res.status(403).json({ message: 'Você não tem permissão para editar este usuário' });
+            }*/
+
+            // Validações
+            if (!CONFIRMASENHA) {
+                return res.status(422).json({ message: 'Confirmar a senha é obrigatório' });
+            }
+
+            // Verificação se a senha e a confirmação de senha são iguais
+            if (SENHA !== CONFIRMASENHA) {
+                return res.status(422).json({ message: 'A senha e a confirmação de senha precisam ser iguais!' });
+            }
+
+            if (!SENHA) {
+                return res.status(422).json({ message: 'A Senha é obrigatória!' });
+            } else {
+                const salt = await bcrypt.genSalt(12);
+                const senhaHash = await bcrypt.hash(SENHA, salt);
+                updateData.SENHA = senhaHash;
+            }
+
+            // Atualizando o usuário com a nova senha
+            const usu = await Usuario.findOne({ where: { CD_USUARIO: CD_USUARIO } });
+
+            if (!usu) {
+                return res.status(404).json({ message: 'Usuário não encontrado!' });
+            }
+
+            await usu.update(updateData);
+
+            return res.status(200).json({ usu: usu, message: 'Usuário atualizado com sucesso!' });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ error: 'Erro ao editar Usuário' });
+        }
+    }
+
+
+
+
 }

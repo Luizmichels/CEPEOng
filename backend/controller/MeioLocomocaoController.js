@@ -54,4 +54,24 @@ module.exports = class MeioLocomocaoController {
             return res.status(500).json({ message: 'Erro ao deletar o Meio de Locomoção', error: error.message });
         }
     }    
+
+    static async EditarMeioLocomocao(req, res) {
+        try {
+            const { CD_MEIO_LOCOMOCAO } = req.params;
+            const { NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO } = req.body;
+    
+            const meioLocomocao = await MeioLocomocao.findOne({ where: { CD_MEIO_LOCOMOCAO: CD_MEIO_LOCOMOCAO } });
+    
+            if (!meioLocomocao) {
+                return res.status(404).send({ error: 'Meio de locomoção não encontrado' });
+            }
+    
+            await meioLocomocao.update({ NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO });
+    
+            res.send(meioLocomocao);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send({ error: 'Erro ao editar meio de locomoção' });
+        }
+    }
 };
