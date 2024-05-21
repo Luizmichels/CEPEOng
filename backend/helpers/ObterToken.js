@@ -1,7 +1,7 @@
 const ObterToken = (req) => {
     // Verifica se o cabeçalho de autorização está presente
     if (!req.headers.authorization) {
-        throw new Error('Cabeçalho de autorização ausente');
+        throw new Error('Token Ausente ou Inválido');
     }
 
     // Divide o cabeçalho de autorização para extrair o token
