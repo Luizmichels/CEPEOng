@@ -4,6 +4,10 @@ body {
     overflow: hidden;
 }
 
+a{
+    text-decoration: none;
+    color: #fff;
+}
 
 .linha1{
     position: relative;
@@ -35,7 +39,7 @@ img{
     width: 30vh;
     height: 20vh;
     background-color: #ED5600;
-    border-radius: 5px;
+    border-radius: 6px;
     display: flex;
     justify-content: center; /* Alinha horizontalmente */
     align-items: center; /* Alinha verticalmente */
@@ -44,6 +48,11 @@ img{
     font-size: 3.2vh;
     text-align: center;
     font-family: "Inter", sans-serif;
+    transition: 0.5s ease;
+}
+
+.quadrado:hover {
+    background-color: #c74901;
 }
 /* 
 .linha1:not(:last-child) {

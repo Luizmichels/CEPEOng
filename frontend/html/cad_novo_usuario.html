@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/cadastro_modalidade.css">
-    <title>Solicitação Novo Associado</title>
+    <title>Cadastro Novo Usuário</title>
 </head>
 
 <body>
@@ -16,35 +16,28 @@
                 <img src="../img/cepe_joinville_laranja 2.png" alt="logo">
             </div>
             <div class="titulo">
-                <h1>Novo Associado</h1>
+                <h1>Cadastro Novo Usuário</h1>
             </div>
         </nav>
     </header>
 
     <main>
         <form action="#" method="post">
-            <h2>Dados Pessoais</h2>
-            <div class="form-group">
-                <label for="nome">Nome Completo:</label>
-                <input type="text" id="nome" name="nome">
-            </div>
-            <br>
+
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="celular">Telefone Celular:</label>
-                    <input type="tel" id="celular" name="celular" placeholder="(00) 00000-0000" maxlength="15"
-                        pattern="\(\d{2}\) \d{5}-\d{4}">
+                    <label for="NOVO_USUARIO">Usuário:</label>
+                    <input type="text" id="NOVO_USUARIO" name="NOVO_USUARIO">
                 </div>
 
                 <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email">
+                    <label for="SENHA">Senha:</label>
+                    <input type="password" id="SENHA" name="SENHA">
                 </div>
             </div>
 
-
             <div class="botao">
-                <input type="submit" value="Enviar Solicitação">
+                <input type="submit" value="Cadastrar Novo Usuário">
             </div>
 
         </form>

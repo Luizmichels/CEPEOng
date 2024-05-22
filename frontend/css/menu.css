@@ -33,8 +33,13 @@ body {
     height: 18vh;
     border-radius: 8px;
     background-color: #ED5600;
-    
+    transition: 0.5s ease;
 }
+
+.novoitem:hover {
+    background-color: #c74901;
+}
+
 .listagem{
     position: relative;
     font-size: 4vh;
@@ -48,10 +53,19 @@ body {
     height: 18vh;
     border-radius: 8px;
     background-color: #ED5600;
-    
+    transition: 0.5s ease;
+}
+
+.listagem:hover {
+    background-color: #c74901;
 }
 
 .indicadores{
     display: flex;
     flex-direction: column;
+}
+
+a {
+    text-decoration: none;
+    color: #fff;
 }

@@ -51,8 +51,8 @@ label {
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
 
@@ -75,7 +75,7 @@ label {
 .form-group input[type="number"],
 .form-group input[type="tel"],
 .form-group select {
-    width: 90%;
+    width: 100%;
     padding: 10px;
     border: 1px solid #ED5600;
     border-radius: 4px;
