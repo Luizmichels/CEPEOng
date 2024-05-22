@@ -1,0 +1,57 @@
+body {
+    margin: 0 auto;
+    color: white;
+    overflow: hidden;
+}
+
+
+img {
+    padding: 40px;
+    margin-top: -40px;
+    margin-left: -40px;
+    margin-right: 50px;
+
+}
+
+.titulo{
+    width: 154vh;
+    height: 20vh;
+    font-size: 3.8vh;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    background-color: #ED5600;
+    line-height: 20vh;
+    justify-content: center; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+}
+
+.cabecalho{
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+}
+
+.nova_moda{
+    position: relative;
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 5vh;
+    padding: 15px;
+    left:5%;
+}
+
+.nome_moda{
+    position: relative;
+    color: black;
+    font-family: "Inter", sans-serif;
+    font-size: 5vh;
+    padding: 15px;
+    left:5%;
+    margin-left: 13vh;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: row;
+}

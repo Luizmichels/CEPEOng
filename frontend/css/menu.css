@@ -53,17 +53,7 @@ body {
 }
 
 .indicadores{
-    position: relative;
-    left: 3%;
     display: flex;
     flex-direction: column;
-    align-self: center;
-    justify-content: center; /* Adicionando esta linha */
-
 }
-
-
-a{
-    color: white;
-    text-decoration: none;
-}
+.container

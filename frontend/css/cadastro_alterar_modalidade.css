@@ -1,0 +1,53 @@
+body {
+    margin: 0 auto;
+    color: white;
+    overflow: hidden;
+}
+
+
+.linha1{
+    position: relative;
+    left: 3%;
+    display: flex;
+    flex-direction: row;
+    margin-top: -40px; /* margem direita para criar espaço */
+    align-self: center;
+    justify-content: center; /* Adicionando esta linha */   
+}
+
+.linha2{
+    position: relative;
+    left: 3%;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: center; /* Adicionando esta linha */   
+}
+
+img{
+    padding: 25px;
+    display: block;
+    margin: 0 auto;
+    margin-top: -40px;
+}
+
+    .quadrado{
+        width: 30vh;
+        height: 20vh;
+        background-color: #ED5600;
+        border: 1px solid black;
+        display: flex;
+        justify-content: center; /* Alinha horizontalmente */
+        align-items: center; /* Alinha verticalmente */
+        margin-right: 8%;
+        margin-top: 60px;
+        font-size: 5vh;
+        text-align: center;
+        font-family: "Inter", sans-serif;
+        padding: 3%;
+    }
+
+.linha1 > .quadrado:not(:last-child),
+.linha2 > .quadrado:not(:last-child) {
+    margin-right: 8%; 
+}
