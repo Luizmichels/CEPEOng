@@ -18,7 +18,6 @@ body {
 .menu img {
     display: block;
     margin: 25px auto;
-
 }
 
 .novoitem{
@@ -56,4 +55,3 @@ body {
     display: flex;
     flex-direction: column;
 }
-.container
