@@ -1,0 +1,32 @@
+body {
+    margin: 0 auto;
+}
+
+img {
+    padding: 40px;
+    margin-top: -40px;
+    margin-left: -40px;
+    margin-right: 50px;
+
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+}
+
+.titulo {
+    width: 154vh;
+    height: 20vh;
+    font-size: 3.8vh;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    background-color: #ED5600;
+    line-height: 20vh;
+    justify-content: center; /* Alinha horizontalmente */
+    align-items: center; /* Alinha verticalmente */
+}
+
+

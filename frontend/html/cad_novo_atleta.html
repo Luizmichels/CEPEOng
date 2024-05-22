@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/novo_associado.css">
+    <link rel="stylesheet" href="../css/novo_atleta.css">
     <link rel="stylesheet" type="text/css" href="../img" media="screen"/> 
     <link rel="stylesheet" href="../../backend/models/pessoa_fisica.js">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,7 @@
             <div>
                 <img src="../img/cepe_joinville_laranja 2.png" alt="logo">
             </div>
-            <div>
+            <div class="titulo">
                 <h1>Cadastro Novo Atleta</h1>
             </div>
           </nav>
@@ -32,7 +32,10 @@
             <input type="text" id="NM_PESSOA" name="NM_PESSOA">
 
             <label for="NR_CELULAR">Telefone Celular:</label>
-            <input type="tel" id="NR_CELULAR" name="NR_CELULAR" placeholder="(00) 00000-0000" maxlength="15"  pattern="\(\d{2}\) \d{5}-\d{4}"> <br>
+            <input type="tel" id="NR_CELULAR" name="NR_CELULAR" placeholder="(00) 00000-0000" maxlength="15"  pattern="\(\d{2}\) \d{5}-\d{4}"> 
+            
+            <label for="NATURALIDADE">Naturalidade</label>
+            <input type="text" id="NATURALIDADE" name="NATURALIDADE"><br>
 
             <label for="SEXO">Sexo:</label>
             <select name="SEXO" id="SEXO">
