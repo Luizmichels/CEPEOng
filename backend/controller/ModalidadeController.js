@@ -1,61 +1,103 @@
-const Modalidade = require('../models/Modalidade');
+const Modalidade = require('../models/modalidade');
 
 module.exports = class ModalidadeController {
-    // Função para cadastrar uma nova modalidade
+    // criar uma nova modalidade
     static async cadastrarModalidade(req, res) {
         try {
             const { NM_MODALIDADE, NOMENCLATURA } = req.body;
 
-            // Validações
+            // validações
             if (!NM_MODALIDADE) {
-                res.status(422).json({ message: 'O nome da modalidade é obrigatório!' });
-                return;
+                return res.status(422).json({ message: 'O nome da modalidade é obrigatório!' });
             }
 
-            // Verificação se a modalidade já existe
+            // verificação se a modalidade já existe
             const modalidadeExistente = await Modalidade.findOne({ where: { NM_MODALIDADE } });
             if (modalidadeExistente) {
-                res.status(422).json({ message: 'A modalidade já está cadastrada!' });
-                return;
+                return res.status(422).json({ message: 'A modalidade já está cadastrada!' });
             }
 
-            // Criando a nova modalidade
+            // criando a nova modalidade
             const novaModalidade = await Modalidade.create({ NM_MODALIDADE, NOMENCLATURA });
 
-            res.status(201).json({ message: 'Modalidade cadastrada com sucesso!', novaModalidade });
+            return res.status(201).json({ message: 'Modalidade cadastrada com sucesso!', novaModalidade });
         } catch (error) {
-            res.status(500).json({ message: 'Erro ao cadastrar a modalidade', error: error.message });
+            return res.status(500).json({ message: 'Erro ao cadastrar a modalidade', error: error.message });
         }
     }
 
-    // Função para editar uma modalidade existente
+    // editar uma modalidade existente
     static async editarModalidade(req, res) {
         try {
             const { CD_MODALIDADE } = req.params;
             const { NM_MODALIDADE, NOMENCLATURA } = req.body;
 
-            // Validações
+            // validações
             if (!NM_MODALIDADE) {
-                res.status(422).json({ message: 'O nome da modalidade é obrigatório!' });
-                return;
+                return res.status(422).json({ message: 'O nome da modalidade é obrigatório!' });
             }
 
-            // Encontrando a modalidade existente
+            // encontrando a modalidade existente
             const modalidade = await Modalidade.findByPk(CD_MODALIDADE);
             if (!modalidade) {
-                res.status(404).json({ message: 'Modalidade não encontrada' });
-                return;
+                return res.status(404).json({ message: 'Modalidade não encontrada' });
             }
 
-            // Atualizando a modalidade
+            // atualizando a modalidade
             modalidade.NM_MODALIDADE = NM_MODALIDADE;
             modalidade.NOMENCLATURA = NOMENCLATURA;
 
             await modalidade.save();
 
-            res.status(200).json({ message: 'Modalidade atualizada com sucesso!', modalidade });
+            return res.status(200).json({ message: 'Modalidade atualizada com sucesso!', modalidade });
         } catch (error) {
-            res.status(500).json({ message: 'Erro ao atualizar a modalidade', error: error.message });
+            return res.status(500).json({ message: 'Erro ao atualizar a modalidade', error: error.message });
+        }
+    }
+
+    // listar todas as modalidades
+    static async listarModalidades(req, res) {
+        try {
+            const modalidades = await Modalidade.findAll();
+            return res.status(200).json(modalidades);
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao obter as modalidades', error: error.message });
+        }
+    }
+
+    // obter uma modalidade específica
+    static async obterModalidade(req, res) {
+        try {
+            const { CD_MODALIDADE } = req.params;
+            const modalidade = await Modalidade.findByPk(CD_MODALIDADE);
+
+            if (!modalidade) {
+                return res.status(404).json({ message: 'Modalidade não encontrada' });
+            }
+
+            return res.status(200).json(modalidade);
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao obter a modalidade', error: error.message });
+        }
+    }
+
+    // deletar uma modalidade
+    static async deletarModalidade(req, res) {
+        try {
+            const { CD_MODALIDADE } = req.params;
+
+            // encontrando a modalidade existente
+            const modalidade = await Modalidade.findByPk(CD_MODALIDADE);
+            if (!modalidade) {
+                return res.status(404).json({ message: 'Modalidade não encontrada' });
+            }
+
+            // deletando a modalidade
+            await modalidade.destroy();
+
+            return res.status(200).json({ message: 'Modalidade deletada com sucesso!' });
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro ao deletar a modalidade', error: error.message });
         }
     }
 };

@@ -11,7 +11,7 @@ const conn = require("./db/conn");
 const Deficiencia = require("./models/deficiencia");
 const Funcao = require("./models/funcao");
 const MeioLocomocao = require("./models/meio_locomocao");
-const Modalidade = require(". /models/modalidade");
+const Modalidade = require('./models/modalidade');
 const PessoaFisica = require("./models/pessoa_fisica");
 const Usuario = require("./models/usuario");
 
@@ -30,12 +30,14 @@ const RotaUsuario = require('./routes/UsuarioRoutes');
 const RotaPessoaFisica = require('./routes/PessoaFisicaRoutes');
 const RotaMeioLocomocao = require('./routes/MeioLocomocaoRoutes');
 const RotaModalidade = require('./routes/ModalidadeRoutes'); // Adicionando a nova rota
+const RotaFuncao = require ('./routes/FuncaoRoutes');
 
 app.use('/home/cadastros/deficiencia', RotaDeficiencia);
 app.use('/home/cadastros/usuario', RotaUsuario);
 app.use('/home/cadastros/associado/', RotaPessoaFisica);
 app.use('/home/cadastros/meio_locomocao', RotaMeioLocomocao);
-app.use('/home/cadastros/modalidade', RotaModalidade); // Usando a nova rota
+app.use('/home/cadastros/modalidade', RotaModalidade); 
+app.use('/home/cadastros/funcao', RotaFuncao); 
 
 // Definindo a porta que o backend vai rodar
 conn
