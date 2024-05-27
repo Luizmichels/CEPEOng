@@ -9,6 +9,7 @@ const funcao = require("./funcao")
 const equipa_locom = require("./meio_locomocao")
 const modalidade = require("./modalidade")
 const DeficienciaPessoa = require("./DeficienciaPessoa")
+const Usuario = require("./usuario")
 
 
 const PessoaFisica = db.define("PESSOA_FISICA", {
@@ -85,7 +86,15 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
         type: DataTypes.DECIMAL(3, 3),
         allowNull: false
     },
+    GP_SANGUE: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
     RENDA: {
+        type: DataTypes.TEXT,
+        allowNull: false
+    },
+    ESCOLARIDADE: {
         type: DataTypes.TEXT,
         allowNull: false
     },
@@ -202,13 +211,10 @@ deficiencia.belongsToMany(PessoaFisica, {
     constraints: true
 })
 
-modalidade.hasMany(PessoaFisica, {foreignKey: 'CD_MODALIDADE'}) // Um PessoaFisica pertence a um modalidade
-funcao.hasMany(PessoaFisica, { foreignKey: 'CD_FUNCAO' }); // Um PessoaFisica pertence a um função
-equipa_locom.belongsTo(PessoaFisica, { foreignKey: 'CD_EQUIPA_LOCOMOCAO' }); // Um PessoaFisica pertence a um equipamento de locomoção
+modalidade.hasMany(PessoaFisica, {foreignKey: 'CD_MODALIDADE'})
+funcao.hasMany(PessoaFisica, { foreignKey: 'CD_FUNCAO' });
+equipa_locom.hasMany(PessoaFisica, { foreignKey: 'CD_EQUIPA_LOCOMOCAO' });
+Usuario.hasMany(PessoaFisica, { foreignKey: 'CD_USUARIO' });
 
 
 module.exports = PessoaFisica
-
-
-// Integração com o front 
-

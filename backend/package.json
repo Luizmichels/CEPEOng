@@ -8,7 +8,7 @@
     "start": "nodemon ./index.js localhost 5000"
   },
   "keywords": [],
-  "author": "André Luiz Michels da Silva",
+  "author": "André Luiz Michels da Silva, Gustavo Antonio da Costa Pereira",
   "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",

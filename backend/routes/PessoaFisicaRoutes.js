@@ -16,6 +16,12 @@ routes.post(
   PessoaFisicaController.CadastPessoaFisica
 )
 routes.get('/cadastratos', PessoaFisicaController.TodosCadastratos)
-routes.get('/cadastrato/:id', PessoaFisicaController.EditarCasdastrato)
+routes.patch('/cadastro/editar/:CD_PESSOA_FISICA', ChecarToken,
+  imageUpload.fields([
+    { name: "FOTO_RG", maxCount: 1 },
+    { name: "FOTO_RG_RESPONS", maxCount: 1 },
+    { name: "FOTO_ATLETA", maxCount: 1 },
+  ]), PessoaFisicaController.editarPessoaFisica)
+routes.delete('/deletar/:CD_PESSOA_FISICA', PessoaFisicaController.excluirPessoaId)
 
 module.exports = routes;
