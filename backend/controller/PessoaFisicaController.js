@@ -7,17 +7,16 @@ const db = require('../db/conn')
 // helpers
 const { formatarData, formatarTelefone, formatarCPF, formatarRG, formatarCEP } = require('../helpers/FormatarDadosPessoa')
 const { EmailValido, cpfValido, diferencaAnos } = require('../helpers/Validacoes')
-const getToken = require('../helpers/ObterToken')
-const getUserByToken = require('../helpers/ObterUsuarioToken')
+const ObterToken = require('../helpers/ObterToken')
+const ObterUsuarioToken = require('../helpers/ObterUsuarioToken')
 module.exports = class PessoaFisicaController {
 
     // Criando o Cadastro da pessoa fisica no banco
     static async CadastPessoaFisica(req, res) {
         try {
-            const token = getToken(req)
-            const user = await getUserByToken(token) // Informações do usuário extraídas do token
-
-            console.log(user)
+            const token = ObterToken(req);
+            const user = await ObterUsuarioToken(token);
+            console.log('Usuário na função de cadastro:', user)
 
             const { NM_PESSOA, NR_CELULAR, NR_TELEFONE, SEXO, DT_NASCIMENTO, ESTADO_CIVIL, NATURALIDADE,
                 EMAIL, CD_EQUIPA_LOCOMOCAO, CD_DEFICIENCIA, MEIO_LOCOMOCAO, CD_FUNCAO, ASSISTENCIA,
@@ -378,8 +377,8 @@ module.exports = class PessoaFisicaController {
 
         try {
             // Verificando se o usuário existe
-            const token = getToken(req)
-            const user = await getUserByToken(token)
+            const token = ObterToken(req)
+            const user = await ObterUsuarioToken(token)
 
             const pessoaFisica = await PessoaFisica.findByPk(CD_PESSOA_FISICA)
 
