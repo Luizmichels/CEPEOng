@@ -74,4 +74,50 @@ module.exports = class MeioLocomocaoController {
             res.status(500).send({ error: 'Erro ao editar meio de locomoção' });
         }
     }
+
+    static async BuscarPorID(req, res) {
+        const { CD_MEIO_LOCOMOCAO } = req.params;
+    
+        try {
+            const meioLocomocao = await MeioLocomocao.findOne({ where: { CD_MEIO_LOCOMOCAO: CD_MEIO_LOCOMOCAO } });
+    
+            if (!meioLocomocao) {
+                return res.status(404).json({ mensagem: 'Meio de Locomoção não encontrado!' });
+            }
+    
+            const meioLocomocaoFormatada = {
+                CD_MEIO_LOCOMOCAO: meioLocomocao.CD_MEIO_LOCOMOCAO,
+                NM_MEIO_LOCOMOCAO: meioLocomocao.NM_MEIO_LOCOMOCAO,
+                DS_MEIO_LOCOMOCAO: meioLocomocao.DS_MEIO_LOCOMOCAO
+            };
+    
+            res.status(200).json({ meioLocomocao: meioLocomocaoFormatada });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ mensagem: 'Erro ao buscar Meio de Locomoção' });
+        }
+    }
+
+    static async TodosMeios(req, res) {
+        try {
+            const meioLocomocaos = await MeioLocomocao.findAll();
+    
+            if (meioLocomocaos.length === 0) {
+                return res.status(404).json({ mensagem: 'Não há nenhum Meio de Locomoção cadastrado' });
+            }
+    
+            const meioLocomocaosFormatada = meioLocomocaos.map(meio => ({
+                CD_MEIO_LOCOMOCAO: meio.CD_MEIO_LOCOMOCAO,
+                NM_MEIO_LOCOMOCAO: meio.NM_MEIO_LOCOMOCAO,
+                DS_MEIO_LOCOMOCAO: meio.DS_MEIO_LOCOMOCAO
+            }));
+    
+            res.status(200).json({ meioLocomocaos: meioLocomocaosFormatada });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ mensagem: 'Erro ao buscar Meio de Locomoção' });
+        }
+    }
+    
+
 };
