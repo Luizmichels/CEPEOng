@@ -163,7 +163,45 @@ module.exports = class UsuarioController {
         }
     }
 
+    static async BuscarPorID(req, res) {
+        const { CD_USUARIO } = req.params;
+    
+        try {
+            const usuario = await Usuario.findOne({ where: { CD_USUARIO: CD_USUARIO } });
+    
+            if (!usuario) {
+                return res.status(404).json({ mensagem: 'Usuário não encontrado' });
+            }
+    
+            const usuarioFormatado = {
+                CD_USUARIO: usuario.CD_USUARIO,
+                NM_USUARIO: usuario.NM_USUARIO
+            };
+    
+            res.status(200).json({ usuario: usuarioFormatado });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ mensagem: 'Erro ao buscar Usuário' });
+        }
+    }
 
+    static async TodosUsuario(req, res) {
+        try {
+            const usuario = await Usuario.findAll();
 
+            if (usuario.length === 0) {
+                return res.status(404).json({ mensagem: 'Não há nenhuma usuario cadastrada' });
+            }
 
+            const usuarioFormatados = usuario.map(usuario => ({
+                CD_USUARIO: usuario.CD_USUARIO,
+                NM_USUARIO: usuario.NM_USUARIO
+            }));
+
+            res.status(200).json({ usuario: usuarioFormatados });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ mensagem: 'Erro ao buscar usuario' });
+        }
+    }
 }

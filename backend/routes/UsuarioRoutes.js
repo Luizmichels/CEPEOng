@@ -11,8 +11,8 @@ const ChecarToken = require('../helpers/VerificarToken.js')
 routes.post('/cadastro', UsuarioController.CadastroUsuario)
 routes.get('/login', UsuarioController.login)
 routes.delete('/deletar/:CD_USUARIO', UsuarioController.DeletarUsuario)
-//routes.get('/ChecarUsuario', UsuarioController.ChecarUsuario)
-//routes.get('/:CdUsuario', UsuarioController.CdUsuario)
+routes.get('/buscar/:CD_USUARIO', UsuarioController.BuscarPorID)
+routes.get('/buscar', UsuarioController.TodosUsuario)
 routes.patch('/editar/:CD_USUARIO', ChecarToken, UsuarioController.EditarUsuario)
 
 
