@@ -10,7 +10,7 @@ const ObterUsuarioToken = async (token) => {
 
     const usuarioId = decoded.id;
 
-    const usuario = await Usuario.findOne({ _id: usuarioId });
+    const usuario = await Usuario.findOne({ where: { CD_USUARIO: usuarioId } });
 
     if (!usuario) {
         throw new Error('Usuário não encontrado!');

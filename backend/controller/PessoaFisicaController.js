@@ -14,9 +14,8 @@ module.exports = class PessoaFisicaController {
     // Criando o Cadastro da pessoa fisica no banco
     static async CadastPessoaFisica(req, res) {
         try {
-            const token = ObterToken(req);
-            const user = await ObterUsuarioToken(token);
-            console.log('Usuário na função de cadastro:', user)
+            const token = ObterToken(req)
+            const user = await ObterUsuarioToken(token)
 
             const { NM_PESSOA, NR_CELULAR, NR_TELEFONE, SEXO, DT_NASCIMENTO, ESTADO_CIVIL, NATURALIDADE,
                 EMAIL, CD_EQUIPA_LOCOMOCAO, CD_DEFICIENCIA, MEIO_LOCOMOCAO, CD_FUNCAO, ASSISTENCIA,
