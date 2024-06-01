@@ -1,19 +1,15 @@
 const routes = require('express').Router()
-
 const UsuarioController = require('../controller/UsuarioController.js')
-const ChecarToken = require('../helpers/VerificarToken.js')
+const { ChecarToken, verificarNivelAcesso } = require('../helpers/VerificarToken')
 
-// get -> puxar info no banco - seleciona parametros do banco
-// post -> insere info no banco
-// patch -> altera os dados do banco
-// delete -> deletar os dados do banco
-
+// routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), UsuarioController.CadastroUsuario)
 routes.post('/cadastro', UsuarioController.CadastroUsuario)
 routes.get('/login', UsuarioController.login)
-routes.delete('/deletar/:CD_USUARIO', UsuarioController.DeletarUsuario)
-routes.get('/buscar/:CD_USUARIO', UsuarioController.BuscarPorID)
-routes.get('/buscar', UsuarioController.TodosUsuario)
-routes.patch('/editar/:CD_USUARIO', ChecarToken, UsuarioController.EditarUsuario)
-
+routes.delete('/deletar/:CD_USUARIO', ChecarToken, verificarNivelAcesso(3), UsuarioController.DeletarUsuario)
+routes.get('/buscar/:CD_USUARIO', ChecarToken, verificarNivelAcesso(3), UsuarioController.BuscarPorID)
+routes.get('/buscar', ChecarToken, verificarNivelAcesso(3), UsuarioController.TodosUsuario)
+routes.patch('/buscar/editar/:CD_USUARIO', ChecarToken, verificarNivelAcesso(1), UsuarioController.EditarUsuario)
+routes.get('/buscar/editar/nivel_acesso', ChecarToken, verificarNivelAcesso(3), UsuarioController.TodosUsuario)
+routes.patch('/buscar/editar/nivel_acesso/:CD_USUARIO', ChecarToken, verificarNivelAcesso(3), UsuarioController.EditarNivelAcesso)
 
 module.exports = routes

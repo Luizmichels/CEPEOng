@@ -1,20 +1,15 @@
 const ObterToken = (req) => {
-    // Verifica se o cabeçalho de autorização está presente
-    if (!req.headers.authorization) {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
         throw new Error('Token Ausente ou Inválido');
     }
 
-    // Divide o cabeçalho de autorização para extrair o token
-    const authHeader = req.headers.authorization;
     const parts = authHeader.split(' ');
-
-    // Verifica se o token está presente e no formato esperado
-    if (parts.length !== 2 || parts[0] !== 'Bearer' || !parts[1]) {
+    if (parts.length !== 2 || parts[0] !== 'Bearer') {
         throw new Error('Formato de token inválido');
     }
 
-    // Retorna o token
     return parts[1];
-}
+};
 
-module.exports = ObterToken;
+module.exports = ObterToken

@@ -1,21 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const FuncaoController = require('../controller/funcaoController');
-const ChecarToken = require('../helpers/VerificarToken')
+const routes = require('express').Router()
 
-//  criar uma nova função
-router.post('/cadastro', ChecarToken, FuncaoController.cadastrarFuncao);
+const FuncaoController = require('../controller/FuncaoController')
+const { ChecarToken, verificarNivelAcesso } = require('../helpers/VerificarToken')
 
-//  listar todas as funções
-router.get('/listar', ChecarToken, FuncaoController.listarFuncoes);
+routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), FuncaoController.cadastrarFuncao)
+routes.get('/listar', ChecarToken, verificarNivelAcesso(3), FuncaoController.listarFuncoes)
+routes.get('/obter/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), FuncaoController.obterFuncao)
+routes.put('/atualizar/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), FuncaoController.atualizarFuncao)
+routes.delete('/deletar/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), FuncaoController.deletarFuncao)
 
-//  obter uma função específica por ID
-router.get('/obter/:id', ChecarToken, FuncaoController.obterFuncao);
-
-//  atualizar uma função por ID
-router.put('/atualizar/:id', ChecarToken, FuncaoController.atualizarFuncao);
-
-//  deletar uma função por ID
-router.delete('/deletar/:id', ChecarToken, FuncaoController.deletarFuncao);
-
-module.exports = router;
+module.exports = routes
