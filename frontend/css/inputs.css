@@ -1,7 +1,23 @@
+body{
+    margin: 0 auto;
+}
+
 input[type="text"] {
     background-color: #ED5600;
     width: 80vh;
     height: 45px;
+    color: white;    
+    font-family: "Inter", sans-serif;
+    border-radius: 5px;
+    margin-top: 10px;
+    outline: none;
+}
+
+input[type="password"] {
+    background-color: #ED5600;
+    width: 80vh;
+    height: 45px;
+    font-family: "Inter", sans-serif;
     color: white;    
     border-radius: 5px;
     margin-top: 10px;
