@@ -4,44 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/cadastro_modalidade.css">
+    <link rel="stylesheet" href="../css/cad_nova_modalidade.css">
+    <link rel="stylesheet" href="../css/inputs.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <title>Cadastro Nova Modalidade</title>
 </head>
 
 <body>
-
-    <header>
-        <nav>
-            <div>
-                <img src="../img/cepe_joinville_laranja 2.png" alt="logo">
+    <div class="tela">
+        <div class="cima">
+            <img src="../img/cepe_joinville_laranja 2.png" class="logo">
+            <div class="titulo">Nova Modalidade</div>
+        </div>
+        <div class="inputs">
+            <div class="div1">
+                <br>
+                <br>
+            Nome da Modalidade:
+            <input type="text" placeholder="Nome:">
             </div>
-            <div class="titulo">
-                <h1>Cadastro Nova Modalidade</h1>
+            <div class="div2">
+                <br>
+                <br>
+            Descrição da função:
+            <input type="text" placeholder="Descrição:">
             </div>
-        </nav>
-    </header>
-
-    <main>
-        <form action="#" method="post">
-
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="NM_MODALIDADE">Nome da Modalidade:</label>
-                    <input type="text" id="NM_MODALIDADE" name="NM_MODALIDADE">
-                </div>
-
-                <div class="form-group">
-                    <label for="NOMENCLATURA">Nomenclatura:</label>
-                    <input type="text" id="NOMENCLATURA" name="NOMENCLATURA"> <br>
-                </div>
-            </div>
-
-            <div class="botao">
-                <input type="submit" value="Cadastrar Modalidade">
-            </div>
-
-        </form>
-    </main>
+        </div>
+        <input type="submit" placeholder="Cadastrar Modalidade" value="Cadastrar Modalidade" align="center" class="envia">
+    </div>
 
 </body>
 

@@ -3,7 +3,7 @@ body {
     color: white;
 }
 
-.tela{
+.tela {
     display: flex;
     flex-direction: row;
 }
@@ -20,7 +20,7 @@ body {
     margin: 25px auto;
 }
 
-.novoitem{
+.novoitem {
     position: relative;
     font-size: 4vh;
     text-align: center;
@@ -40,7 +40,7 @@ body {
     background-color: #c74901;
 }
 
-.listagem{
+.listagem {
     position: relative;
     font-size: 4vh;
     text-align: center;
@@ -60,7 +60,7 @@ body {
     background-color: #c74901;
 }
 
-.indicadores{
+.indicadores {
     display: flex;
     flex-direction: column;
 }
