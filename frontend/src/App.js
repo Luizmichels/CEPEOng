@@ -1,8 +1,16 @@
+import { lazy } from 'react';
+import { Routes, Route, BrowserRouter } from 'react-router-dom'
+
+const ViewLogin = lazy(()=> import('./components/pages/login'));
+
 function App() {
   return (
-    <div className="App">
-      <h1>CEPE</h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='login' element={<ViewLogin />} />
+        <Route path='*' element={<div>Erro</div>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
