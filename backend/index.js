@@ -19,7 +19,7 @@ const Usuario = require("./models/usuario");
 app.use(express.json());
 
 // Resolve CORS
-app.use(cors({ credentials: true, origin: 'http://localhost:5000' }));
+app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 
 // Pasta para imagens
 app.use(express.static('public'));

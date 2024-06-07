@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Input, Label, Row } from "reactstrap";
+import { useNavigate } from "react-router-dom"; // Importar o hook useNavigate
+import { setToken } from "../../../utlis";
 import { post } from "../../../utlis/api";
 import "./login.css";
 import "./inputs.css";
@@ -7,27 +9,35 @@ import "./inputs.css";
 function Login() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate(); // Inicializar o hook useNavigate
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Lógica de autenticação
-    console.log("Usuário:", user);
-    console.log("Senha:", password);
-
-    post('entrar', { password, user }).then(()=>{
-      console.debug("Aqui");
-    })
+    try {
+      const { data } = await post('/home/cadastros/usuario/login', { NM_USUARIO: user, SENHA: password });
+      console.debug("Login bem-sucedido:", data);
+      setToken(data.token);
+      // Redirecionar para a tela de menu após login bem-sucedido
+      navigate('/menu');
+    } catch (error) {
+      console.error('Erro no login:', error);
+      if (error.response && error.response.data) {
+        setErrorMessage(error.response.data.message, 'error');
+      } else {
+        setErrorMessage('Erro desconhecido', 'error');
+      }
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 2500);
+    }
   };
 
   return (
     <div className="tela login">
       <Form onSubmit={handleLogin}>
         <div className="conteudo pe-4">
-          <img
-            src="/assets/img/cepe_joinville_laranja 2.png"
-            className="logo"
-            alt="Logo"
-          />
+          <img src="/assets/img/cepe_joinville_laranja 2.png" className="logo" alt="Logo" />
           <div className="campos">
             <h2>Login</h2>
             <div className="usuarioesenha">
@@ -59,11 +69,10 @@ function Login() {
             </div>
             <div className="esqueci mb-3">Esqueceu a senha?</div>
           </div>
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="d-flex justify-content-between rodapes">
             <Button color="default">Quero me associar</Button>
-            <Button color="default" type="submit">
-              Entrar
-            </Button>
+            <Button color="default" type="submit">Entrar</Button>
           </div>
         </div>
         <div className="imagemzona">

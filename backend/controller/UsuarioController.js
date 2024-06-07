@@ -57,42 +57,37 @@ module.exports = class UsuarioController {
 
     // Função de login
     static async login(req, res) {
-        const { NM_USUARIO, SENHA } = req.body
-
+        const { NM_USUARIO, SENHA } = req.body;
+    
         // Validação
         if (!NM_USUARIO) {
-            console.log('Nome de usuário não fornecido')
-            return res.status(422).json({ message: 'O nome de usuário é obrigatório' })
+            return res.status(422).json({ message: 'O nome de usuário é obrigatório' });
         }
-
+    
         if (!SENHA) {
-            console.log('Senha não fornecida')
-            return res.status(422).json({ message: 'A senha é obrigatória' })
+            return res.status(422).json({ message: 'A senha é obrigatória' });
         }
-
+    
         try {
             // Verificação se o usuario já existe
-            const usuario = await Usuario.findOne({ where: { NM_USUARIO: NM_USUARIO } })
+            const usuario = await Usuario.findOne({ where: { NM_USUARIO: NM_USUARIO } });
             if (!usuario) {
-                console.log('Usuário não encontrado:', NM_USUARIO)
-                return res.status(422).json({ message: 'Não há usuário cadastrado com este Nome!' })
+                return res.status(422).json({ message: 'Não há usuário cadastrado com este Nome!' });
             }
-
+    
             // Verificando se a senha enviada está batendo com a senha do banco de dados
-            const checarSenha = await bcrypt.compare(SENHA, usuario.SENHA)
-
+            const checarSenha = await bcrypt.compare(SENHA, usuario.SENHA);
+    
             if (!checarSenha) {
-                console.log('Senha inválida para o usuário:', NM_USUARIO)
-                return res.status(422).json({ message: 'Senha inválida!' })
+                return res.status(422).json({ message: 'Senha inválida!' });
             }
-
-            console.log('Usuário autenticado com sucesso:', NM_USUARIO)
-            await CriarUsuarioToken(usuario, req, res)
+    
+            await CriarUsuarioToken(usuario, req, res);
         } catch (error) {
-            console.error('Erro no processo de login:', error)
-            return res.status(500).json({ message: 'Erro no servidor. Tente novamente mais tarde.' })
+            return res.status(500).json({ message: 'Erro no servidor. Tente novamente mais tarde.' });
         }
     }
+    
 
     // Função para deletar o Usuario
     static async DeletarUsuario(req, res) {
