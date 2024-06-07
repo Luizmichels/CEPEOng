@@ -1,6 +1,10 @@
 body {
     margin: 0 auto;
     color: white;
+    left: -20vh;
+    top: -4vh;
+    position: relative;
+    overflow: hidden;
 }
 
 .tela {
@@ -11,7 +15,7 @@ body {
 .menu {
     position: relative;
     width: 35vh;
-    height: 96vh;
+    height: 100vh;
     background-color: #D9D9D9;
 }
 
@@ -64,9 +68,14 @@ body {
 .indicadores {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
 }
 
 a {
     text-decoration: none;
     color: #fff;
+}
+
+#container2{
+margin-top: 10px !important;
 }
