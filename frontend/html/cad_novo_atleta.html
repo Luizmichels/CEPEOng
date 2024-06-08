@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/novo_atleta.css">
     <link rel="stylesheet" type="text/css" href="../img" media="screen" />
-    <link rel="stylesheet" href="../../backend/models/pessoa_fisica.js">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <title>Cadastro Novo Atleta</title>
@@ -82,13 +81,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="equipamento">Equipamento de Locomoção:</label>
-                    <input type="text" id="equipamento" name="equipamento">
+                    <label for="CD_EQUIPA_LOCOMOCAO)">Equipamento de Locomoção:</label>
+                    <input type="text" id="CD_EQUIPA_LOCOMOCAO)" name="CD_EQUIPA_LOCOMOCAO)">
                 </div>
 
                 <div class="form-group">
-                    <label for="deficiencia">Deficiência:</label>
-                    <input type="text" id="deficiencia" name="deficiencia">
+                    <label for="CD_DEFICIENCIA">Deficiência:</label>
+                    <input type="text" id="CD_DEFICIENCIA" name="CD_DEFICIENCIA">
                 </div>
 
                 <div class="form-group">
@@ -97,8 +96,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="funcao">Função:</label>
-                    <input type="text" id="funcao" name="funcao">
+                    <label for="CD_FUNCAO">Função:</label>
+                    <input type="text" id="CD_FUNCAO" name="CD_FUNCAO">
                 </div>
 
                 <div class="form-group">
@@ -149,8 +148,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="gp_sanguineo">Grupo Sanguíneo:</label>
-                    <select name="gp_sanguineo" id="gp_sanguineo">
+                    <label for="GP_SANGUE">Grupo Sanguíneo:</label>
+                    <select name="GP_SANGUE" id="GP_SANGUE">
                         <option value=" "> </option>
                         <option value="a+">A+</option>
                         <option value="a-">A-</option>
@@ -175,8 +174,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="escolaridade">Escolaridade:</label>
-                    <select name="escolaridade" id="escolaridade">
+                    <label for="ESCOLARIDADE">Escolaridade:</label>
+                    <select name="ESCOLARIDADE" id="ESCOLARIDADE">
                         <option value=" "> </option>
                         <option value="np">Não possuo</option>
                         <option value="efi">Ensino Fundamental Incompleto</option>
@@ -368,8 +367,8 @@
 
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="modalidade_esportiva">Modalidade Esportiva:</label>
-                    <input type="text" id="modalidade_esportiva" name="modalidade_esportiva">
+                    <label for="CD_MODALIDADE">Modalidade Esportiva:</label>
+                    <input type="text" id="CD_MODALIDADE" name="CD_MODALIDADE">
                 </div>
 
                 <div class="form-group">
@@ -503,6 +502,7 @@
         </form>
     </main>
 
+    <script href="../../backend/controller/PessoaFisicaController.js"></script>
 </body>
 
 </html>
