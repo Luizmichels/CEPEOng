@@ -1,9 +1,13 @@
 body {
     margin: 0 auto;
     color: white;
+    left: -20vh;
+    top: -4vh;
+    position: relative;
+    overflow: hidden;
 }
 
-.tela{
+.tela {
     display: flex;
     flex-direction: row;
 }
@@ -20,17 +24,17 @@ body {
     margin: 25px auto;
 }
 
-.novoitem{
+.novoitem {
+    margin: 0 auto;
     position: relative;
     font-size: 4vh;
     text-align: center;
-    text-align: middle;
+    line-height: 30px;
     display: block;
-    top: 18vh;
-    margin: 0 auto;
     font-family: "Inter", sans-serif;
     width: 28vh;
     height: 18vh;
+    top: 5vh;
     border-radius: 8px;
     background-color: #ED5600;
     transition: 0.5s ease;
@@ -40,13 +44,14 @@ body {
     background-color: #c74901;
 }
 
-.listagem{
+.listagem {
     position: relative;
     font-size: 4vh;
     text-align: center;
     text-align: middle;
     display: block;
-    top: 18vh;
+    line-height: 30px;
+    top: 8vh;
     margin: 0 auto;
     font-family: "Inter", sans-serif;
     width: 28vh;
@@ -60,12 +65,17 @@ body {
     background-color: #c74901;
 }
 
-.indicadores{
+.indicadores {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
 }
 
 a {
     text-decoration: none;
     color: #fff;
+}
+
+#container2{
+margin-top: 10px !important;
 }

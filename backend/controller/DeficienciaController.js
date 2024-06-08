@@ -93,7 +93,7 @@ module.exports = class DeficienciaController {
             // Atualizar a deficiência
             await def.update(updateData);
     
-            return res.status(200).json({ def: def, message: 'Deficiência atualizada com sucesso!' });
+            return res.status(200).json({message: 'Deficiência atualizada com sucesso!' });
         } catch (error) {
             console.error(error);
             return res.status(500).json({ error: 'Erro ao editar a Deficiência' });
@@ -112,8 +112,7 @@ module.exports = class DeficienciaController {
     
             const deficienciaFormatada = {
                 CD_DEFICIENCIA: deficiencia.CD_DEFICIENCIA,
-                TP_DEFICIENCIA: deficiencia.TP_DEFICIENCIA,
-                NOMENCLATURA: deficiencia.NOMENCLATURA
+                TP_DEFICIENCIA: deficiencia.TP_DEFICIENCIA
             };
     
             res.status(200).json({ deficiencia: deficienciaFormatada });

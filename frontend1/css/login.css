@@ -1,0 +1,91 @@
+.tela{
+    font-family: "Inter", sans-serif;
+    left: 10vh;
+    position: relative;
+}
+
+.conteudo.pe-4 {
+    position: relative;
+    left: -10vh;
+  }
+
+.campos{
+    position: relative;
+    left: 5vh;
+    position: relative;
+}
+.usuarioesenha{
+    font-size: 3vh !important;
+     
+}
+
+.logo{
+    width: 25vh !important;
+   height: 25vh !important;
+   padding: 25px;
+}
+
+.tela{
+    font-size: 5vh;
+}
+
+.esqueci{
+    font-size: 2.5vh !important;
+    margin-top: -20px;
+    font-weight: bold;
+}
+
+.rodapes{
+    display: flex;
+    flex-direction: row;
+}
+
+.quero{
+    background-color: #ED5600;
+    width: 35vh;
+    height: 10vh;
+    text-align: center;
+    line-height: 9vh;
+    vertical-align: middle;
+    border-radius: 50px;
+    font-size: 3.5vh !important;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 5vh;
+}
+
+.entrar{
+    background-color: #ED5600;
+    width: 35vh;
+    height: 10vh;
+    text-align: center;
+    line-height: 9vh;
+    vertical-align: middle;
+    border-radius: 50px;
+    font-size: 3.5vh !important;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 10vh;
+}
+body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-family: "Inter", sans-serif;
+}
+
+.tela {
+    width: 60%; /* Ajuste conforme necessário */
+}
+
+.imagemzona {
+    width: 40%; /* Ajuste conforme necessário */
+}
+
+.imagemzona img {
+    max-width: 100%;
+    height: 10%;
+    width: 10%;
+}

@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root{
+  width: 100%;
+  height: 100%;
+}
+
+.color-default {
+  background-color: #ED5600;
+}
+.btn-default {
+  background-color: #ED5600;
+  
+}
+
+.btn-default {
+  --bs-btn-bg: #ED5600 !important; 
+  --bs-btn-color: #000 !important;
+  --bs-btn-border-color: #ED5600 !important;
+  --bs-btn-hover-color: #ffffff !important;
+  --bs-btn-hover-bg: #fa6d1b !important;
+  --bs-btn-hover-border-color: #ED5600 !important;
+  --bs-btn-active-bg: #fa6d1b !important;
+  --bs-btn-active-border-color: #ED5600 !important;
+  --bs-btn-active-shadow: #ED5600 !important;
+  --bs-btn-disabled-color: #ED5600 !important;
+  --bs-btn-disabled-bg: transparent !important;
+  --bs-btn-disabled-border-color: #ED5600 !important;
+  --bs-gradient: none !important;
+}

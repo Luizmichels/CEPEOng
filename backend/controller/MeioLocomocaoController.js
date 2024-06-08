@@ -29,7 +29,7 @@ module.exports = class MeioLocomocaoController {
             });
 
             const novoMeioLocomocao = await meioLocomocao.save();
-            return res.status(201).json({ message: 'Meio de Locomoção cadastrado com sucesso', meioLocomocao: novoMeioLocomocao });
+            return res.status(201).json({ message: 'Meio de Locomoção cadastrado com sucesso'});
         } catch (error) {
             return res.status(500).json({ message: 'Erro ao cadastrar o Meio de Locomoção', error: error.message });
         }

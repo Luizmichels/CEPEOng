@@ -17,6 +17,11 @@ const Usuario = db.define("USUARIO", {
     SENHA:{
         type: DataTypes.TEXT,
         allowNull: false
+    },
+    NIVEL_ACESSO: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 1 // Defina um valor padrão para o nível de acesso, por exemplo, 1 para usuários comuns
     }
 })
  
