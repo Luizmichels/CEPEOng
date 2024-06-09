@@ -5,6 +5,7 @@ import { getToken } from './utlis';
 
 const ViewLogin = lazy(() => import('./components/pages/login'));
 const ViewMenu = lazy(() => import('./components/pages/menu'));
+const ViewCadGeral = lazy(() => import('./components/pages/cadastros_gerais'));
 
 function ValidaSessao({tela, nivel}) {
   const [load, setLoad] = useState(true);
@@ -35,7 +36,9 @@ function App() {
       <Routes>
         <Route path='menu' element={<ViewMenu />} />
         <Route path='tela_privada' element={<ValidaSessao tela={<ViewMenu />} />} />
-        <Route path='*' element={<div>Erro</div>} />
+      </Routes>
+      <Routes>
+        <Route path='cadastros' element={<ViewCadGeral />} />
       </Routes>
     </BrowserRouter>
   );

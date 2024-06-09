@@ -1,11 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, startTransition } from 'react';
 import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
-import './menu.css';
+import { Link } from 'react-router-dom';
 import './menu.css';
 
 const ChartComponent = () => {
   useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetchChartData();
+      renderCharts(response);
+    };
+
+    fetchData();
+  }, []);
+
+  const fetchChartData = async () => {
+    // Simulação de uma chamada assíncrona para obter os dados do gráfico
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve({
+          chart1Data: [10, 8, 7, 4],
+          chart2Data: [34.4, 27.58, 24.13, 13.79]
+        });
+      }, 1000); // Simular um atraso de 1 segundo
+    });
+  };
+
+  const renderCharts = ({ chart1Data, chart2Data }) => {
     // Configuração do primeiro gráfico
     const chart1 = Highcharts.chart('container1', {
       chart: {
@@ -25,7 +45,7 @@ const ChartComponent = () => {
       series: [{
         name: 'Modalidade',
         color: '#ED5600',
-        data: [10, 8, 7, 4]
+        data: chart1Data
       }]
     });
 
@@ -48,26 +68,25 @@ const ChartComponent = () => {
       series: [{
         name: 'Modalidade',
         color: '#ED5600',
-        data: [34.4, 27.58, 24.13, 13.79]
+        data: chart2Data
       }]
     });
-
-    return () => {
-      chart1.destroy();
-      chart2.destroy();
-    };
-  }, []);
+  };
 
   return (
     <div className="tela">
       <div className="menu">
         <div>
-          <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" />
+          <Link to="/menu" onClick={() => startTransition()}>
+            <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" />
+          </Link>
         </div>
         <div className="opcoes">
           <div className="novoitem">
             <br />
-            <a href="../html/cadastros_geral.html">Cadastrar Novo Item</a>
+            <Link to="/cadastros" onClick={() => startTransition()}>
+              Cadastrar Novo Item
+            </Link>
           </div>
           <br />
           <div className="listagem">
