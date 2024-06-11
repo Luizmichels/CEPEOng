@@ -1345,4 +1345,29 @@ module.exports = class PessoaFisicaController {
             return res.status(500).json({ mensagem: 'Erro ao buscar o usuário', erro: error.message });
         }
     }
+
+    static async BuscarPorID(req, res) {
+        const { CD_USUARIO } = req.params
+    
+        try {
+            const token = ObterToken(req)
+            const user = await ObterUsuarioToken(token)
+
+            const usuario = await PessoaFisica.findOne({ where: { CD_USUARIO: user.CD_USUARIO } })
+    
+            if (!usuario) {
+                return res.status(404).json({ mensagem: 'Usuário não encontrado' })
+            }
+    
+            const usuarioFormatado = {
+                CD_USUARIO: usuario.CD_USUARIO,
+                NM_USUARIO: usuario.NM_USUARIO
+            }
+    
+            res.status(200).json({ usuario: usuarioFormatado })
+        } catch (error) {
+            console.error(error)
+            res.status(500).json({ mensagem: 'Erro ao buscar Usuário' })
+        }
+    }
 }

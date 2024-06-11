@@ -87,6 +87,25 @@ module.exports = class UsuarioController {
             return res.status(500).json({ message: 'Erro no servidor. Tente novamente mais tarde.' });
         }
     }
+
+    static async login2(req, res) {
+        const { token } = req.body;
+    
+        // Validação
+        
+    
+        try {
+            const user = await ObterUsuarioToken(token)
+
+            const usuario = await Usuario.findOne({ where: { CD_USUARIO: user.CD_USUARIO } })
+            
+            return res.json({
+                ok: usuario.NIVEL_ACESSO,
+            })
+        } catch (error) {
+            return res.status(500).json({ message: 'Erro no servidor. Tente novamente mais tarde.' });
+        }
+    }
     
 
     // Função para deletar o Usuario

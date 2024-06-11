@@ -21,7 +21,7 @@ const Usuario = db.define("USUARIO", {
     NIVEL_ACESSO: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: 1 // Defina um valor padrão para o nível de acesso, por exemplo, 1 para usuários comuns
+        defaultValue: 1
     }
 })
  

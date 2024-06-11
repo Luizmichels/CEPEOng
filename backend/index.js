@@ -33,11 +33,11 @@ const RotaModalidade = require('./routes/ModalidadeRoutes');
 const RotaFuncao = require('./routes/FuncaoRoutes');
 
 app.use('/home/cadastros/deficiencia', RotaDeficiencia);
-app.use('/home/cadastros/usuario', RotaUsuario);
-app.use('/home/cadastros/associado/', RotaPessoaFisica);
+app.use('/usuario', RotaUsuario);
+app.use('/home/cadastros/associado', RotaPessoaFisica);
 app.use('/home/cadastros/meio_locomocao', RotaMeioLocomocao);
 app.use('/home/cadastros/modalidade', RotaModalidade);
-app.use('/home/cadastros/funcao', RotaFuncao);
+app.use('/funcao', RotaFuncao);
 
 // Definindo a porta que o backend vai rodar
 conn
@@ -48,4 +48,4 @@ conn
       console.log('Servidor rodando na porta 5000');
     });
   })
-  .catch((err) => console.log(err))
+  .catch((err) => console.log(err));
