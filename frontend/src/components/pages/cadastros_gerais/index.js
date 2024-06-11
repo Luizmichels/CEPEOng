@@ -1,13 +1,15 @@
 import React from "react";
 import { Button, Col, Form, Input, Label, Row } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./inputs.css";
 import "./cadastros_geral.css";
 
 function App() {
+  const navigate = useNavigate();
+
   const handleClick = () => {
     // Lidar com a navegação para o menu
-    window.location.href = "/menu";
+    navigate("/menu");
   };
 
   return (
@@ -20,33 +22,31 @@ function App() {
       <div className="cadastros">
         <div className="linha1">
           <div className="quadrado">
-            <a href="../html/cad_escolher_modalidade.html">Nova Modalidade</a>
+            <Link to="/nova-modalidade">Nova Modalidade</Link>
           </div>
           <div className="quadrado">
-            <a href="#">Permissões</a>
+            <Link to="/permissoes">Permissões</Link>
           </div>
           <div className="quadrado">
-            <a href="../html/cad_meio_locomocao.html">
-              Equipamento de Locomoção
-            </a>
+            <Link to="/equipamento-locomocao">Equipamento de Locomoção</Link>
           </div>
           <div className="quadrado">
-            <a href="../html/cad_novo_associado.html">Novo Associado</a>
+            <Link to="/novo-associado">Novo Associado</Link>
           </div>
         </div>
 
         <div className="linha2">
           <div className="quadrado">
-            <a href="../html/cad_nova_funcao.html">Nova Função</a>
+            <Link to="/funcoes">Nova Função</Link>
           </div>
           <div className="quadrado">
-            <a href="#">Alterar Cadastro</a>
+            <Link to="/alterar-cadastro">Alterar Cadastro</Link>
           </div>
           <div className="quadrado">
-            <a href="../html/cad_nova_deficiencia.html">Nova Deficiencia</a>
+            <Link to="/nova-deficiencia">Nova Deficiencia</Link>
           </div>
           <div className="quadrado">
-            <a href="../html/cad_novo_usuario.html">Novo Usuário</a>
+            <Link to="/novo-usuario">Novo Usuário</Link>
           </div>
         </div>
       </div>

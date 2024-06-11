@@ -3,7 +3,8 @@ import Highcharts from 'highcharts';
 import { Link } from 'react-router-dom';
 import './menu.css';
 
-const ChartComponent = () => {
+const ChartComponent = ({ nivel }) => {
+  console.debug('nivel', nivel); // nivel de acesso do usuario
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetchChartData();
