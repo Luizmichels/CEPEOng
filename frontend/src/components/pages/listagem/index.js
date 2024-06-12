@@ -1,7 +1,7 @@
 import React, { useEffect, startTransition } from 'react';
 import Highcharts from 'highcharts';
 import { Link } from 'react-router-dom';
-import './menu.css';
+import './listagem.css';
 
 const ChartComponent = ({ nivel }) => {
   console.debug('nivel', nivel); // nivel de acesso do usuario
@@ -90,11 +90,9 @@ const ChartComponent = ({ nivel }) => {
             </Link>
           </div>
           <br />
-          <Link to="/cadastros" onClick={() => startTransition()}>
           <div className="listagem">
             <br />Listagem de Atletas
           </div>
-          </Link>
         </div>
       </div>
 

@@ -1,8 +1,6 @@
 body {
     margin: 0 auto;
     color: white;
-    left: -20vh;
-    top: -4vh;
     position: relative;
     overflow: hidden;
 }
@@ -10,11 +8,13 @@ body {
 .tela {
     display: flex;
     flex-direction: row;
+    position: absolute;
 }
 
 .menu {
-    position: relative;
+    position: absolute;
     width: 35vh;
+    left: 0px;
     height: 100vh;
     background-color: #D9D9D9;
 }
@@ -69,6 +69,8 @@ body {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    left: 40vh;
+    position: absolute;
 }
 
 a {

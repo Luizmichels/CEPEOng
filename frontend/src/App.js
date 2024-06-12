@@ -6,6 +6,7 @@ import { getToken } from './utlis';
 // Componentes Lazy-loaded
 const ViewLogin = lazy(() => import('./components/pages/login'));
 const ViewMenu = lazy(() => import('./components/pages/menu'));
+const ViewListagem = lazy(() => import('./components/pages/listagem'));
 const ViewCadGeral = lazy(() => import('./components/pages/cadastros_gerais'));
 const ViewFuncoes = lazy(() => import('./components/pages/funcao'));
 const ViewNovaFuncao = lazy(() => import('./components/pages/funcao/nova-funcao'));
@@ -46,7 +47,7 @@ function App() {
         <Routes>
           <Route path="/login" element={<ViewLogin />} />
           <Route path="/menu" element={<ValidaSessao tela={ViewMenu} nivel={3} />} />
-          <Route path="/tela_privada" element={<ValidaSessao tela={ViewMenu} nivel={1} />} />
+          <Route path="/listagem" element={<ValidaSessao tela={ViewListagem} nivel={3} />} />
           <Route path="/cadastros" element={<ValidaSessao tela={ViewCadGeral} nivel={3} />} />
           <Route path="/funcoes" element={<ValidaSessao tela={ViewFuncoes} nivel={3} />} />
           <Route path="/funcoes/nova" element={<ValidaSessao tela={ViewNovaFuncao} nivel={3} />} />
