@@ -4,8 +4,8 @@ import api from '../../../utlis/api';
 import './nova-funcao.css';
 
 const ViewNovaFuncao = () => {
-  const [nome, setNome] = useState('');
-  const [descricao, setDescricao] = useState('');
+  const [NM_FUNCAO, setNome] = useState('');
+  const [DS_FUNCAO, setDescricao] = useState('');
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -15,13 +15,12 @@ const ViewNovaFuncao = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem('token'); // Supondo que o token está armazenado no localStorage
+      const token = localStorage.getItem('token');
       const config = {
         headers: { Authorization: `Bearer ${token}` }
       };
-      await api.post('/funcao/cadastro', { nome, descricao }, config);
+      await api.post('/funcao/cadastro', { NM_FUNCAO, DS_FUNCAO }, config);
       
-      // Use startTransition para envolver a navegação
       startTransition(() => {
         navigate('/funcoes');
       });
@@ -49,7 +48,7 @@ const ViewNovaFuncao = () => {
             <input
               type="text"
               id="nome"
-              value={nome}
+              value={NM_FUNCAO}
               onChange={(e) => setNome(e.target.value)}
             />
           </div>
@@ -58,7 +57,7 @@ const ViewNovaFuncao = () => {
             <input
               type="text"
               id="descricao"
-              value={descricao}
+              value={DS_FUNCAO}
               onChange={(e) => setDescricao(e.target.value)}
             />
           </div>

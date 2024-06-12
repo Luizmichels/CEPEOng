@@ -1,67 +1,67 @@
-.tela-funcoes, .tela-editar-funcao, .tela-nova-funcao {
-  margin: 0 auto;
-  padding: 20px;
-  max-width: 800px;
-  text-align: center;
-}
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 20px;
-}
-
-.btn-nova-funcao, .btn-alterar, .btn-excluir, .btn-criar-funcao, .btn-atualizar-funcao {
-  background-color: #ED5600;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-.btn-nova-funcao:hover, .btn-alterar:hover, .btn-excluir:hover, .btn-criar-funcao:hover, .btn-atualizar-funcao:hover {
-  background-color: #D14D00;
-}
-
-.lista-funcoes {
+.tela {
+  padding: 3vh;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  height: 100vh;
+}
+
+.header, .footer {
+  flex-shrink: 0;
+}
+
+.main-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  margin-bottom: 5vh;
 }
 
 .funcao-item {
+  background-color: #ff6600;
+  margin-bottom: 1.5vh;
+  border-radius: 1vh;
+  margin-top: 2vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  color: white;
+  padding: 1vh;
+  height: 8vh;
 }
 
-form {
+.funcao-nome {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.button-group {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  gap: 5vh;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+.text-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  background-color: transparent;
 }
 
-form input {
-  padding: 10px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+.text-button:hover {
+  color: black;
+  text-decoration: none;
+  background-color: transparent;
 }
 
-form button {
-  align-self: flex-end;
+.large-cadastrar {
+  padding: 2.5vh 3vh;
+  font-size: 2.5vh;
+}
+
+.large-voltar {
+  padding: 1vh 3vh;
+  font-size: 2.5vh;
 }

@@ -5,7 +5,7 @@ import './Funcoes.css';
 import { get, remove } from '../../../utlis/api';
 
 const Funcoes = () => {
-  const [funcoes, setFuncoes] = useState([]); // Inicializa como um array vazio
+  const [funcoes, setFuncoes] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -15,11 +15,10 @@ const Funcoes = () => {
   const fetchFuncoes = async () => {
     try {
       const response = await get('/funcao/listar');
-      console.log('Resposta da API:', response.data); // Log para verificar a resposta
+      console.log('Resposta da API:', response.data);
 
-      // Verifica se a resposta é um objeto com uma propriedade "data" que é um array
-      if (response.data && Array.isArray(response.data)) {
-        setFuncoes(response.data);
+      if (response.data && Array.isArray(response.data.funcoes)) {
+        setFuncoes(response.data.funcoes);
       } else {
         console.error('A resposta da API não é um array:', response.data);
       }
@@ -39,7 +38,7 @@ const Funcoes = () => {
 
   return (
     <Container className="tela">
-      <Row className="align-items-center">
+      <Row className="header align-items-center">
         <Col xs="3">
           <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" onClick={() => navigate(-1)} style={{ cursor: 'pointer' }} />
         </Col>
@@ -47,16 +46,18 @@ const Funcoes = () => {
           <h1>Função</h1>
         </Col>
         <Col xs="3">
-          <Button color="default" onClick={() => navigate('/funcoes/nova')}>+ Nova Função</Button>
+          <Button color="default" className="large-cadastrar" onClick={() => navigate('/funcoes/nova')}>+ Nova Função</Button>
         </Col>
       </Row>
-      <Row>
+      <Row className="main-content">
         {funcoes.length > 0 ? (
           funcoes.map((funcao) => (
-            <Col key={funcao.id} xs="12" className="funcao-item">
-              <div className="funcao-nome">{funcao.nome}</div>
-              <Button color="default" onClick={() => navigate(`/funcoes/editar/${funcao.id}`)}>Alterar</Button>
-              <Button color="default" onClick={() => handleDelete(funcao.id)}>Excluir</Button>
+            <Col key={funcao.CD_FUNCAO} xs="12" className="funcao-item">
+              <div className="funcao-nome">{funcao.NM_FUNCAO}</div>
+              <div className="button-group">
+                <Button className="text-button" onClick={() => navigate(`/funcoes/editar/${funcao.CD_FUNCAO}`)}>Alterar</Button>
+                <Button className="text-button" onClick={() => handleDelete(funcao.CD_FUNCAO)}>Excluir</Button>
+              </div>
             </Col>
           ))
         ) : (
@@ -64,6 +65,11 @@ const Funcoes = () => {
             <p>Nenhuma função encontrada.</p>
           </Col>
         )}
+      </Row>
+      <Row className="footer">
+        <Col xs="12" className="text-center">
+          <Button color="default" className="large-voltar" onClick={() => navigate(-1)}>Voltar</Button>
+        </Col>
       </Row>
     </Container>
   );
