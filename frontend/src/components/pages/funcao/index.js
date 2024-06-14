@@ -40,7 +40,7 @@ const Funcoes = () => {
     <Container className="tela">
       <Row className="header align-items-center">
         <Col xs="3">
-          <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" onClick={() => navigate(-1)} style={{ cursor: 'pointer' }} />
+          <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" onClick={() => navigate('/cadastros')} style={{ cursor: 'pointer' }} />
         </Col>
         <Col xs="6">
           <h1>Função</h1>
@@ -68,7 +68,7 @@ const Funcoes = () => {
       </Row>
       <Row className="footer">
         <Col xs="12" className="text-center">
-          <Button color="default" className="large-voltar" onClick={() => navigate(-1)}>Voltar</Button>
+          <Button color="default" className="large-voltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
         </Col>
       </Row>
     </Container>

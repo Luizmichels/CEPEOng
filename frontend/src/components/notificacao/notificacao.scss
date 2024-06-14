@@ -1,0 +1,400 @@
+$main-menu-item-height: 110px;
+$main-menu-width: 120px;
+$main-menu-width-lg: 110px;
+$main-menu-width-md: 100px;
+$main-menu-width-xs: 90px;
+
+$sub-menu-width: 230px;
+$sub-menu-width-lg: 230px;
+$sub-menu-width-md: 230px;
+$sub-menu-width-xs: 230px;
+
+$navbar-height: 100px;
+$navbar-height-xs: 70px;
+$navbar-height-md: 80px;
+$navbar-height-lg: 90px;
+
+$main-margin: 60px;
+$main-margin-lg: 50px;
+$main-margin-md: 40px;
+$main-margin-xs: 15px;
+
+$app-menu-width: 280px;
+$main-menu-item-height-mobile: 90px;
+
+$menu-collapse-time: 300ms;
+$animation-time-long: 1000ms;
+$animation-time-short: 200ms;
+
+$border-radius: 0.1rem;
+$border-radius-rounded: 0.75rem;
+
+$theme-color-purple-monster: #922c88;
+$theme-color-blue-navy: #00365a;
+$theme-color-blue-yale: #145388;
+$theme-color-blue-olympic: #008ecc;
+$theme-color-green-moss: #576a3d;
+$theme-color-green-lime: #6fb327;
+$theme-color-orange-carrot: #ed7117;
+$theme-color-red-ruby: #900604;
+$theme-color-yellow-granola: #c0a145;
+$theme-color-grey-steel: #48494b;
+
+$info-color: #3195a5;
+$system-color: #53b1e6;
+$success-color: #91cc43;
+$warning-color: #b69329;
+$error-color: #dc3545;
+
+$separator-color-light: #f3f3f3;
+$separator-color: #d7d7d7;
+$background-color: #f8f8f8;
+$foreground-color: white;
+$input-background: white;
+$direcao-incremento: -1%;
+
+$dark-btn-background: #131113;
+$light-btn-background: #ececec;
+$button-text-color: #fff;
+$btn-border: #ececec;
+$btn-color: #4caee5;
+
+$theme-color-1: #ed7117;
+$theme-color-2: #e7523e;
+$theme-color-3: #d6a779;
+$theme-color-4: #dba070;
+$theme-color-5: #f6c797;
+$theme-color-6: #d6cdca;
+
+$primary-color: #3a3a3a;
+$secondary-color: #8f8f8f;
+$muted-color: #909090;
+
+$gradient-color-1: #f0701a;
+$gradient-color-2: #ce6520;
+$gradient-color-3: #da6b22;
+
+$lp-bg-color-1: #af4b03;
+$lp-bg-color-2: #bb5308;
+$lp-bg-color-3: #ed7117;
+$lp-bg-color-4: #ff8935;
+
+$shadow-offsets-top: 1 3 10 14 19;
+$shadow-blurs-top: 1.5 5 10 14 19;
+$shadow-opacities-top: 0.04 0.1 0.19 0.25 0.3;
+
+$shadow-offsets-bottom: 1 3 6 10 15;
+$shadow-blurs-bottom: 3 6 6 5 6;
+$shadow-opacities-bottom: 0.04 0.1 0.2 0.22 0.22;
+
+
+@mixin depth($depth) {
+  @if $depth < 1 {
+    box-shadow: none;
+  }
+
+  @else if $depth >5 {
+    @warn "Invalid $depth `#{$depth}` for mixin `card`.";
+  }
+
+  @else {
+    // @include temasMixin using ($map) {
+    box-shadow: bottom-shadow($depth,
+        $shadow-offsets-top,
+        $shadow-opacities-top,
+        $shadow-blurs-top ),
+      top-shadow($depth,
+        $shadow-offsets-bottom,
+        $shadow-opacities-bottom,
+        $shadow-blurs-bottom );
+  }
+
+  // }
+}
+
+@function top-shadow($depth, $shadow-offsets-top, $shadow-opacities-top, $shadow-blurs-top, $color: black) {
+  $primary-offset: nth($shadow-offsets-top, $depth) * 1px;
+  $blur: nth($shadow-blurs-top, $depth) * 4px;
+  $color: rgba($color, nth($shadow-opacities-top, $depth));
+
+  @return 0 $primary-offset $blur $color;
+}
+
+// Computes a bottom-shadow for a card effect.
+// @param {Number} $depth - depth level
+// @return {List}
+@function bottom-shadow($depth, $shadow-offsets-bottom, $shadow-opacities-bottom, $shadow-blurs-bottom, $color: black) {
+  $primary-offset: nth($shadow-offsets-bottom, $depth) * 1px;
+  $blur: nth($shadow-blurs-bottom, $depth) * 5px;
+  $color: rgba($color, nth($shadow-opacities-bottom, $depth));
+  @return 0 $primary-offset $blur $color;
+}
+
+
+.notification {
+  border-radius: $border-radius;
+  @include depth(1);
+  padding: 25px 25px 25px 25px;
+}
+
+.notification:before {
+  content: "";
+  display: none;
+}
+
+.notification-primary {
+  color: $theme-color-1;
+  background-color: $foreground-color;
+  border: 1px solid $theme-color-1;
+  opacity: 1;
+
+  .notification-message {
+    .title {
+      color: $theme-color-1;
+    }
+
+    .message {
+      color: $primary-color;
+    }
+  }
+
+  &.filled {
+    color: $foreground-color;
+    background-color: $theme-color-1;
+
+    .notification-message {
+      .title {
+        color: $foreground-color;
+      }
+
+      .message {
+        color: $foreground-color;
+      }
+    }
+  }
+}
+
+.notification-secondary {
+  color: $theme-color-2;
+  background-color: $foreground-color;
+  border: 1px solid $theme-color-2;
+  opacity: 1;
+
+  .notification-message {
+    .title {
+      color: $theme-color-2;
+    }
+
+    .message {
+      color: $secondary-color;
+    }
+  }
+
+  &.filled {
+    color: $foreground-color;
+    background-color: $theme-color-2;
+
+    .notification-message {
+      .title {
+        color: $foreground-color;
+      }
+
+      .message {
+        color: $foreground-color;
+      }
+    }
+  }
+}
+
+.notification-info {
+  color: $info-color;
+  background-color: $foreground-color;
+  border: 1px solid $info-color;
+  opacity: 1;
+
+  .notification-message {
+    .title {
+      color: $info-color;
+    }
+
+    .message {
+      color: $secondary-color;
+    }
+  }
+
+  &.filled {
+    color: $foreground-color;
+    background-color: $info-color;
+
+    .notification-message {
+      .title {
+        color: $foreground-color;
+      }
+
+      .message {
+        color: $foreground-color;
+      }
+    }
+  }
+}
+
+.notification-success {
+  color: $success-color;
+  background-color: $foreground-color;
+  border: 1px solid $success-color;
+  opacity: 1;
+
+  .notification-message {
+    .title {
+      color: $success-color;
+    }
+
+    .message {
+      color: $secondary-color;
+    }
+  }
+
+  &.filled {
+    color: $foreground-color;
+    background-color: $success-color;
+
+    .notification-message {
+      .title {
+        color: $foreground-color;
+      }
+
+      .message {
+        color: $foreground-color;
+      }
+    }
+  }
+}
+
+.notification-warning {
+  color: $warning-color;
+  background-color: $foreground-color;
+  border: 1px solid $warning-color;
+  opacity: 1;
+
+  .notification-message {
+    .title {
+      color: $warning-color;
+    }
+
+    .message {
+      color: $secondary-color;
+    }
+  }
+
+  &.filled {
+    color: $foreground-color;
+    background-color: $warning-color;
+
+    .notification-message {
+      .title {
+        color: $foreground-color;
+      }
+
+      .message {
+        color: $foreground-color;
+      }
+    }
+  }
+}
+
+.notification-error {
+  color: $error-color;
+  background-color: $foreground-color;
+  border: 1px solid $error-color;
+  opacity: 1;
+
+  .notification-message {
+    .title {
+      color: $error-color;
+    }
+
+    .message {
+      color: $secondary-color;
+    }
+  }
+
+  &.filled {
+    color: $foreground-color;
+    background-color: $error-color;
+
+    .notification-message {
+      .title {
+        color: $foreground-color;
+      }
+
+      .message {
+        color: $foreground-color;
+      }
+    }
+  }
+}
+
+.notification-container {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 999999;
+  width: 320px;
+  padding: 0px 15px;
+  max-height: calc(100% - 30px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.notification {
+  box-sizing: border-box;
+  padding: 15px 15px 15px 58px;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 1em;
+  line-height: 1.2em;
+  position: relative;
+  opacity: 0.9;
+  margin-top: 15px;
+}
+
+.notification .title {
+  font-size: 1em;
+  line-height: 1.2em;
+  font-weight: bold;
+  margin: 0 0 5px 0;
+}
+
+.notification:hover,
+.notification:focus {
+  opacity: 1;
+}
+
+.notification-enter {
+  visibility: hidden;
+  transform: translate3d(100%, 0, 0);
+}
+
+.notification-enter.notification-enter-active {
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  transition: all 0.4s;
+}
+
+.notification-leave {
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+}
+
+.notification-leave.notification-leave-active {
+  visibility: hidden;
+  transform: translate3d(100%, 0, 0);
+  transition: all 0.4s;
+}
+
+.rounded {
+  .notification {
+    border-radius: $border-radius-rounded;
+  }
+}

@@ -1,7 +1,7 @@
-import React, { useEffect, startTransition } from 'react';
+import React, { useEffect } from 'react';
 import Highcharts from 'highcharts';
 import { Link } from 'react-router-dom';
-import './menu.css';
+import './menu.scss';
 
 const ChartComponent = ({ nivel }) => {
   console.debug('nivel', nivel); // nivel de acesso do usuario
@@ -13,6 +13,13 @@ const ChartComponent = ({ nivel }) => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    document.body.classList.add('pagina-menu-body');
+    return () => {
+      document.body.classList.remove('pagina-menu-body'); 
+    }
+  },[])
 
   const fetchChartData = async () => {
     // Simulação de uma chamada assíncrona para obter os dados do gráfico
@@ -75,22 +82,22 @@ const ChartComponent = ({ nivel }) => {
   };
 
   return (
-    <div className="tela">
+    <div className="tela pagina-menu">
       <div className="menu">
         <div>
-          <Link to="/menu" onClick={() => startTransition()}>
+          <Link to="/menu" >
             <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" />
           </Link>
         </div>
         <div className="opcoes">
           <div className="novoitem">
             <br />
-            <Link to="/cadastros" onClick={() => startTransition()}>
+            <Link to="/cadastros" >
               Cadastrar Novo Item
             </Link>
           </div>
           <br />
-          <Link to="/cadastros" onClick={() => startTransition()}>
+          <Link to="/cadastros" >
           <div className="listagem">
             <br />Listagem de Atletas
           </div>

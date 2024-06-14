@@ -1,54 +1,60 @@
-import React, { useEffect, useState, startTransition } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import api from '../../../utlis/api';
-import './nova-funcao.css';
+import React, { useEffect, useState, startTransition } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Button, Input } from "reactstrap";
+import api from "../../../utlis/api";
+import { NotificacaoManager } from "../../notificacao";
+import "./nova-funcao.scss";
 
 const ViewEditarFuncao = () => {
-  const [NM_FUNCAO, setNome] = useState('');
-  const [DS_FUNCAO, setDescricao] = useState('');
+  const [NM_FUNCAO, setNome] = useState("");
+  const [DS_FUNCAO, setDescricao] = useState("");
   const navigate = useNavigate();
-  const { CD_FUNCAO } = useParams(); // Pegamos o ID da função a partir dos parâmetros da rota
+  const { CD_FUNCAO } = useParams();
 
   useEffect(() => {
     if (CD_FUNCAO) {
-      // Se existe um ID, buscamos os dados da função
       fetchFuncao(CD_FUNCAO);
     }
   }, [CD_FUNCAO]);
 
   const fetchFuncao = async (CD_FUNCAO) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const config = {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       };
-      const response = await api.get(`/funcao/obter/${CD_FUNCAO}`, config);
-      setNome(response.data.NM_FUNCAO);
-      setDescricao(response.data.DS_FUNCAO);
+      const { data } = await api.get(`/funcao/obter/${CD_FUNCAO}`, config);
+      const { funcoes } = data;
+      setNome(funcoes.NM_FUNCAO ?? "");
+      setDescricao(funcoes.DS_FUNCAO ?? "");
     } catch (error) {
-      console.error('Erro ao buscar função:', error);
+      console.error("Erro ao buscar função:", error);
     }
   };
 
   const handleLogoClick = () => {
-    navigate(-2); 
+    navigate("/cadastros");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const config = {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       };
 
-      await api.patch(`/funcao/atualizar/${CD_FUNCAO}`, { NM_FUNCAO, DS_FUNCAO }, config);
-      
-      startTransition(() => {
-        navigate('/funcoes');
-      });
+      await api.patch(
+        `/funcao/atualizar/${CD_FUNCAO}`,
+        { NM_FUNCAO, DS_FUNCAO },
+        config
+      );
+
+      NotificacaoManager.primary('Alterado com sucesso!', '', 500, 'filled')
+
+      navigate("/funcoes");
     } catch (error) {
-      console.error('Erro ao atualizar função:', error);
+      console.error("Erro ao atualizar função:", error);
     }
   };
 
@@ -68,7 +74,7 @@ const ViewEditarFuncao = () => {
         <div id="campos">
           <div className="form-group">
             <label htmlFor="nome">Nome da Função</label>
-            <input
+            <Input
               type="text"
               id="nome"
               value={NM_FUNCAO}
@@ -77,7 +83,7 @@ const ViewEditarFuncao = () => {
           </div>
           <div className="form-group">
             <label htmlFor="descricao">Descrição da Função</label>
-            <input
+            <Input
               type="text"
               id="descricao"
               value={DS_FUNCAO}
@@ -85,7 +91,9 @@ const ViewEditarFuncao = () => {
             />
           </div>
         </div>
-        <button type="submit" className="btn-criar-funcao">Salvar Alterações</button>
+        <Button color="primary" className="btn-criar-funcao">
+          Salvar Alterações
+        </Button>
       </form>
     </div>
   );

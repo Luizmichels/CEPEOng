@@ -40,3 +40,7 @@ code {
   --bs-btn-disabled-border-color: #ED5600 !important;
   --bs-gradient: none !important;
 }
+
+.btn-h2 {
+  font-size: 2rem !important;
+}

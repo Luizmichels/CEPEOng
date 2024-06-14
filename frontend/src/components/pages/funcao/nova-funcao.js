@@ -1,31 +1,34 @@
-import React, { useState, startTransition } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../../../utlis/api';
-import './nova-funcao.css';
+import React, { useState, startTransition } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "reactstrap";
+import api from "../../../utlis/api";
+import "./nova-funcao.scss";
 
 const ViewNovaFuncao = () => {
-  const [NM_FUNCAO, setNome] = useState('');
-  const [DS_FUNCAO, setDescricao] = useState('');
+  const [NM_FUNCAO, setNome] = useState("");
+  const [DS_FUNCAO, setDescricao] = useState("");
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate(-2); 
+    navigate("/cadastros");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const config = {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       };
-      await api.post('/funcao/cadastro', { NM_FUNCAO, DS_FUNCAO }, config);
-      
+      await api.post("/funcao/cadastro", { NM_FUNCAO, DS_FUNCAO }, config);
+
+      NotificacaoManager.primary('Cadastrado com sucesso!', '', 500, 'filled')
+
       startTransition(() => {
-        navigate('/funcoes');
+        navigate("/funcoes");
       });
     } catch (error) {
-      console.error('Erro ao criar função:', error);
+      console.error("Erro ao criar função:", error);
     }
   };
 
@@ -62,7 +65,9 @@ const ViewNovaFuncao = () => {
             />
           </div>
         </div>
-        <button type="submit" className="btn-criar-funcao">Cadastrar Função</button>
+        <Button color="primary" className="btn-criar-funcao">
+          Cadastrar Função
+        </Button>
       </form>
     </div>
   );
