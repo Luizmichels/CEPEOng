@@ -2,6 +2,7 @@ import React, { useState, startTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import api from "../../../utlis/api";
+import { NotificacaoManager } from "../../notificacao";
 import "./nova-funcao.scss";
 
 const ViewNovaFuncao = () => {
@@ -65,7 +66,7 @@ const ViewNovaFuncao = () => {
             />
           </div>
         </div>
-        <Button color="primary" className="btn-criar-funcao">
+        <Button color="primary" className="btn-criar-funcao" onClick={() => navigate('/cadastros')}>
           Cadastrar Função
         </Button>
       </form>
