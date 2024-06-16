@@ -67,11 +67,7 @@ const ViewNovaFuncao = () => {
             />
           </div>
         </div>
-<<<<<<< Updated upstream
-        <Button color="primary" className="btn-criar-funcao" onClick={() => navigate('/cadastros')}>
-=======
         <Button color="default" className="btn-criar-funcao">
->>>>>>> Stashed changes
           Cadastrar Função
         </Button>
       </form>
