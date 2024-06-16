@@ -5,14 +5,18 @@ import api from "../../../utlis/api";
 import { NotificacaoManager } from "../../notificacao";
 import "./NovaUsuario.scss";
 
-const ViewEditarAcesso = () => {
+const ViewEditarUsuario = () => {
   const [NM_USUARIO, setNome] = useState("");
-  const [NIVEL_ACESSO, setAcesso] = useState("");
+  const [SENHA, setSenha] = useState("");
   const navigate = useNavigate();
-  const { CD_USUARIO } = useParams();
+  const { CD_USUARIO
+    
+   } = useParams();
 
   useEffect(() => {
-    if (CD_USUARIO) {
+    if (CD_USUARIO
+      
+    ) {
       fetchUsuario(CD_USUARIO);
     }
   }, [CD_USUARIO]);
@@ -26,9 +30,9 @@ const ViewEditarAcesso = () => {
       const { data } = await api.get(`/usuario/obter/${CD_USUARIO}`, config);
       const { usuario } = data;
       setNome(usuario.NM_USUARIO ?? "");
-      setAcesso(usuario.NIVEL_ACESSO ?? "");
+      setSenha(usuario.SENHA ?? "");
     } catch (error) {
-      console.error("Erro ao buscar Usuário:", error);
+      console.error("Erro ao buscar Deficiência:", error);
     }
   };
 
@@ -44,9 +48,8 @@ const ViewEditarAcesso = () => {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      await api.patch(
-        `/usuario/editar/nivel_acesso/${CD_USUARIO}`,
-        { NIVEL_ACESSO },
+      await api.patch(`/usuario/editar/${CD_USUARIO}`,
+        { NM_USUARIO, SENHA },
         config
       );
 
@@ -54,7 +57,7 @@ const ViewEditarAcesso = () => {
 
       navigate("/usuario");
     } catch (error) {
-      console.error("Erro ao atualizar Nível de Acesso:", error);
+      console.error("Erro ao atualizar Deficiência:", error);
     }
   };
 
@@ -68,7 +71,7 @@ const ViewEditarAcesso = () => {
           className="logo"
           onClick={handleLogoClick}
         />
-        <h1>Editar Nível de Acesso do Usuário</h1>
+        <h1>Editar Usuário</h1>
       </header>
       <form onSubmit={handleSubmit}>
         <div id="campos">
@@ -79,23 +82,16 @@ const ViewEditarAcesso = () => {
               id="nome"
               value={NM_USUARIO}
               onChange={(e) => setNome(e.target.value)}
-              disabled
             />
           </div>
           <div className="form-group">
-            <label htmlFor="acesso">Nível de Acesso</label>
+            <label htmlFor="senha">Senha</label>
             <Input
-              type="select"
-              id="acesso"
-              value={NIVEL_ACESSO}
-              onChange={(e) => setAcesso(e.target.value)}
-              className="custom-select"
-            >
-              <option value="">Selecione o nível de acesso</option>
-              <option value="1">Usuário</option>
-              <option value="2">Técnico</option>
-              <option value="3">Administrador</option>
-            </Input>
+              type="text"
+              id="senha"
+              value={SENHA}
+              onChange={(e) => setSenha(e.target.value)}
+            />
           </div>
         </div>
         <Button color="default" className="btn-criar-usuario">
@@ -106,4 +102,4 @@ const ViewEditarAcesso = () => {
   );
 };
 
-export default ViewEditarAcesso;
+export default ViewEditarUsuario;
