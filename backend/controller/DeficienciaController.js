@@ -112,7 +112,8 @@ module.exports = class DeficienciaController {
     
             const deficienciaFormatada = {
                 CD_DEFICIENCIA: deficiencia.CD_DEFICIENCIA,
-                TP_DEFICIENCIA: deficiencia.TP_DEFICIENCIA
+                TP_DEFICIENCIA: deficiencia.TP_DEFICIENCIA,
+                NOMENCLATURA: deficiencia.NOMENCLATURA
             };
     
             res.status(200).json({ deficiencia: deficienciaFormatada });

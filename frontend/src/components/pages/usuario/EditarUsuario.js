@@ -3,32 +3,32 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Input } from "reactstrap";
 import api from "../../../utlis/api";
 import { NotificacaoManager } from "../../notificacao";
-import "./nova-funcao.scss";
+import "./NovaUsuario.scss";
 
-const ViewEditarFuncao = () => {
-  const [NM_FUNCAO, setNome] = useState("");
-  const [DS_FUNCAO, setDescricao] = useState("");
+const ViewEditarAcesso = () => {
+  const [NM_USUARIO, setNome] = useState("");
+  const [NIVEL_ACESSO, setAcesso] = useState("");
   const navigate = useNavigate();
-  const { CD_FUNCAO } = useParams();
+  const { CD_USUARIO } = useParams();
 
   useEffect(() => {
-    if (CD_FUNCAO) {
-      fetchFuncao(CD_FUNCAO);
+    if (CD_USUARIO) {
+      fetchUsuario(CD_USUARIO);
     }
-  }, [CD_FUNCAO]);
+  }, [CD_USUARIO]);
 
-  const fetchFuncao = async (CD_FUNCAO) => {
+  const fetchUsuario = async (CD_USUARIO) => {
     try {
       const token = localStorage.getItem("token");
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      const { data } = await api.get(`/funcao/obter/${CD_FUNCAO}`, config);
-      const { funcoes } = data;
-      setNome(funcoes.NM_FUNCAO ?? "");
-      setDescricao(funcoes.DS_FUNCAO ?? "");
+      const { data } = await api.get(`/usuario/obter/${CD_USUARIO}`, config);
+      const { usuario } = data;
+      setNome(usuario.NM_USUARIO ?? "");
+      setAcesso(usuario.NIVEL_ACESSO ?? "");
     } catch (error) {
-      console.error("Erro ao buscar função:", error);
+      console.error("Erro ao buscar Usuário:", error);
     }
   };
 
@@ -45,21 +45,21 @@ const ViewEditarFuncao = () => {
       };
 
       await api.patch(
-        `/funcao/atualizar/${CD_FUNCAO}`,
-        { NM_FUNCAO, DS_FUNCAO },
+        `/usuario/editar/nivel_acesso/${CD_USUARIO}`,
+        { NIVEL_ACESSO },
         config
       );
 
       NotificacaoManager.primary('Alterado com sucesso!', '', 500, 'filled')
 
-      navigate("/funcoes");
+      navigate("/usuario");
     } catch (error) {
-      console.error("Erro ao atualizar função:", error);
+      console.error("Erro ao atualizar Nível de Acesso:", error);
     }
   };
 
   return (
-    <div className="tela-nova-funcao">
+    <div className="tela-nova-usuario">
       <header>
         <img
           src="/assets/img/cepe_joinville_laranja 2.png"
@@ -68,30 +68,37 @@ const ViewEditarFuncao = () => {
           className="logo"
           onClick={handleLogoClick}
         />
-        <h1>Editar Função</h1>
+        <h1>Editar Nível de Acesso do Usuário</h1>
       </header>
       <form onSubmit={handleSubmit}>
         <div id="campos">
           <div className="form-group">
-            <label htmlFor="nome">Nome da Função</label>
+            <label htmlFor="nome">Usuário</label>
             <Input
               type="text"
               id="nome"
-              value={NM_FUNCAO}
+              value={NM_USUARIO}
               onChange={(e) => setNome(e.target.value)}
+              disabled
             />
           </div>
           <div className="form-group">
-            <label htmlFor="descricao">Descrição da Função</label>
+            <label htmlFor="acesso">Nível de Acesso</label>
             <Input
-              type="text"
-              id="descricao"
-              value={DS_FUNCAO}
-              onChange={(e) => setDescricao(e.target.value)}
-            />
+              type="select"
+              id="acesso"
+              value={NIVEL_ACESSO}
+              onChange={(e) => setAcesso(e.target.value)}
+              className="custom-select"
+            >
+              <option value="">Selecione o nível de acesso</option>
+              <option value="1">Usuário</option>
+              <option value="2">Técnico</option>
+              <option value="3">Administrador</option>
+            </Input>
           </div>
         </div>
-        <Button color="primary" className="btn-criar-funcao">
+        <Button color="default" className="btn-criar-usuario">
           Salvar Alterações
         </Button>
       </form>
@@ -99,4 +106,4 @@ const ViewEditarFuncao = () => {
   );
 };
 
-export default ViewEditarFuncao;
+export default ViewEditarAcesso;

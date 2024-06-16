@@ -3,32 +3,36 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Input } from "reactstrap";
 import api from "../../../utlis/api";
 import { NotificacaoManager } from "../../notificacao";
-import "./nova-funcao.scss";
+import "./NovaDeficiencia.scss";
 
-const ViewEditarFuncao = () => {
-  const [NM_FUNCAO, setNome] = useState("");
-  const [DS_FUNCAO, setDescricao] = useState("");
+const ViewEditarDeficiencia = () => {
+  const [TP_DEFICIENCIA, setNome] = useState("");
+  const [NOMENCLATURA, setDescricao] = useState("");
   const navigate = useNavigate();
-  const { CD_FUNCAO } = useParams();
+  const { CD_DEFICIENCIA
+    
+   } = useParams();
 
   useEffect(() => {
-    if (CD_FUNCAO) {
-      fetchFuncao(CD_FUNCAO);
+    if (CD_DEFICIENCIA
+      
+    ) {
+      fetchDeficiencia(CD_DEFICIENCIA);
     }
-  }, [CD_FUNCAO]);
+  }, [CD_DEFICIENCIA]);
 
-  const fetchFuncao = async (CD_FUNCAO) => {
+  const fetchDeficiencia = async (CD_DEFICIENCIA) => {
     try {
       const token = localStorage.getItem("token");
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      const { data } = await api.get(`/funcao/obter/${CD_FUNCAO}`, config);
-      const { funcoes } = data;
-      setNome(funcoes.NM_FUNCAO ?? "");
-      setDescricao(funcoes.DS_FUNCAO ?? "");
+      const { data } = await api.get(`/deficiencia/obter/${CD_DEFICIENCIA}`, config);
+      const { deficiencia } = data;
+      setNome(deficiencia.TP_DEFICIENCIA ?? "");
+      setDescricao(deficiencia.NOMENCLATURA ?? "");
     } catch (error) {
-      console.error("Erro ao buscar função:", error);
+      console.error("Erro ao buscar Deficiência:", error);
     }
   };
 
@@ -44,22 +48,21 @@ const ViewEditarFuncao = () => {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      await api.patch(
-        `/funcao/atualizar/${CD_FUNCAO}`,
-        { NM_FUNCAO, DS_FUNCAO },
+      await api.patch(`/deficiencia/editar/${CD_DEFICIENCIA}`,
+        { TP_DEFICIENCIA, NOMENCLATURA },
         config
       );
 
       NotificacaoManager.primary('Alterado com sucesso!', '', 500, 'filled')
 
-      navigate("/funcoes");
+      navigate("/deficiencia");
     } catch (error) {
-      console.error("Erro ao atualizar função:", error);
+      console.error("Erro ao atualizar Deficiência:", error);
     }
   };
 
   return (
-    <div className="tela-nova-funcao">
+    <div className="tela-nova-deficiencia">
       <header>
         <img
           src="/assets/img/cepe_joinville_laranja 2.png"
@@ -68,30 +71,30 @@ const ViewEditarFuncao = () => {
           className="logo"
           onClick={handleLogoClick}
         />
-        <h1>Editar Função</h1>
+        <h1>Editar Deficiência</h1>
       </header>
       <form onSubmit={handleSubmit}>
         <div id="campos">
           <div className="form-group">
-            <label htmlFor="nome">Nome da Função</label>
+            <label htmlFor="nome">Deficiência</label>
             <Input
               type="text"
               id="nome"
-              value={NM_FUNCAO}
+              value={TP_DEFICIENCIA}
               onChange={(e) => setNome(e.target.value)}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="descricao">Descrição da Função</label>
+            <label htmlFor="descricao">Descrição da Deficiência</label>
             <Input
               type="text"
               id="descricao"
-              value={DS_FUNCAO}
+              value={NOMENCLATURA}
               onChange={(e) => setDescricao(e.target.value)}
             />
           </div>
         </div>
-        <Button color="primary" className="btn-criar-funcao">
+        <Button color="primary" className="btn-criar-deficiencia">
           Salvar Alterações
         </Button>
       </form>
@@ -99,4 +102,4 @@ const ViewEditarFuncao = () => {
   );
 };
 
-export default ViewEditarFuncao;
+export default ViewEditarDeficiencia;

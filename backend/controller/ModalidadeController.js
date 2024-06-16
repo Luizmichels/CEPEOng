@@ -65,7 +65,7 @@ module.exports = class ModalidadeController {
             }
 
             const modalidadesFormatada = modalidades.map(modalidade => ({
-                CD_MODALIDEDADE: modalidade.CD_MODALIDEDADE,
+                CD_MODALIDADE: modalidade.CD_MODALIDADE,
                 NM_MODALIDADE: modalidade.NM_MODALIDADE
             }));
 
@@ -80,15 +80,16 @@ module.exports = class ModalidadeController {
         const { CD_MODALIDADE } = req.params;
     
         try {
-            const modalidade = await Modalidade.findOne({ where: { CD_MODALIDEDADE: CD_MODALIDADE } });
+            const modalidade = await Modalidade.findOne({ where: { CD_MODALIDADE: CD_MODALIDADE } });
     
             if (!modalidade) {
                 return res.status(404).json({ mensagem: 'Modalidade não encontrada' });
             }
     
             const modalidadeFormatada = {
-                CD_MODALIDEDADE: modalidade.CD_MODALIDEDADE,
-                NM_MODALIDADE: modalidade.NM_MODALIDADE
+                CD_MODALIDADE: modalidade.CD_MODALIDADE,
+                NM_MODALIDADE: modalidade.NM_MODALIDADE,
+                NOMENCLATURA: modalidade.NOMENCLATURA
             };
     
             res.status(200).json({ modalidade: modalidadeFormatada });

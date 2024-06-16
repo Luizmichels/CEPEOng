@@ -68,7 +68,7 @@ const Funcoes = () => {
       </Row>
       <Row className="footer">
         <Col xs="12" className="text-center">
-          <Button color="default" className="large-voltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
+          <Button color="default" className="large-voltar" id="botaoVoltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
         </Col>
       </Row>
     </Container>

@@ -3,32 +3,35 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button, Input } from "reactstrap";
 import api from "../../../utlis/api";
 import { NotificacaoManager } from "../../notificacao";
-import "./nova-funcao.scss";
+import "./NovaEquipamento.scss";
 
-const ViewEditarFuncao = () => {
-  const [NM_FUNCAO, setNome] = useState("");
-  const [DS_FUNCAO, setDescricao] = useState("");
+const ViewEditarEquipamento = () => {
+  const [NM_MEIO_LOCOMOCAO, setNome] = useState("");
+  const [DS_MEIO_LOCOMOCAO, setDescricao] = useState("");
   const navigate = useNavigate();
-  const { CD_FUNCAO } = useParams();
+  const { CD_MEIO_LOCOMOCAO
+    
+   } = useParams();
 
   useEffect(() => {
-    if (CD_FUNCAO) {
-      fetchFuncao(CD_FUNCAO);
+    if (CD_MEIO_LOCOMOCAO
+    ) {
+      fetchEquipamento(CD_MEIO_LOCOMOCAO);
     }
-  }, [CD_FUNCAO]);
+  }, [CD_MEIO_LOCOMOCAO]);
 
-  const fetchFuncao = async (CD_FUNCAO) => {
+  const fetchEquipamento = async (CD_MEIO_LOCOMOCAO) => {
     try {
       const token = localStorage.getItem("token");
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      const { data } = await api.get(`/funcao/obter/${CD_FUNCAO}`, config);
-      const { funcoes } = data;
-      setNome(funcoes.NM_FUNCAO ?? "");
-      setDescricao(funcoes.DS_FUNCAO ?? "");
+      const { data } = await api.get(`/meioLocomocao/obter/${CD_MEIO_LOCOMOCAO}`, config);
+      const { meioLocomocao } = data;
+      setNome(meioLocomocao.NM_MEIO_LOCOMOCAO ?? "");
+      setDescricao(meioLocomocao.DS_MEIO_LOCOMOCAO ?? "");
     } catch (error) {
-      console.error("Erro ao buscar função:", error);
+      console.error("Erro ao buscar Equipamento Locomoção:", error);
     }
   };
 
@@ -44,22 +47,21 @@ const ViewEditarFuncao = () => {
         headers: { Authorization: `Bearer ${token}` },
       };
 
-      await api.patch(
-        `/funcao/atualizar/${CD_FUNCAO}`,
-        { NM_FUNCAO, DS_FUNCAO },
+      await api.patch(`/meioLocomocao/editar/${CD_MEIO_LOCOMOCAO}`,
+        { NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO },
         config
       );
 
       NotificacaoManager.primary('Alterado com sucesso!', '', 500, 'filled')
 
-      navigate("/funcoes");
+      navigate("/equipamento");
     } catch (error) {
-      console.error("Erro ao atualizar função:", error);
+      console.error("Erro ao atualizar Equipamento Locomoção:", error);
     }
   };
 
   return (
-    <div className="tela-nova-funcao">
+    <div className="tela-nova-equipamento">
       <header>
         <img
           src="/assets/img/cepe_joinville_laranja 2.png"
@@ -68,30 +70,30 @@ const ViewEditarFuncao = () => {
           className="logo"
           onClick={handleLogoClick}
         />
-        <h1>Editar Função</h1>
+        <h1>Editar Equipamento Locomoção</h1>
       </header>
       <form onSubmit={handleSubmit}>
         <div id="campos">
           <div className="form-group">
-            <label htmlFor="nome">Nome da Função</label>
+            <label htmlFor="nome">Equipamento Locomoção</label>
             <Input
               type="text"
               id="nome"
-              value={NM_FUNCAO}
+              value={NM_MEIO_LOCOMOCAO}
               onChange={(e) => setNome(e.target.value)}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="descricao">Descrição da Função</label>
+            <label htmlFor="descricao">Descrição da Equipamento Locomoção</label>
             <Input
               type="text"
               id="descricao"
-              value={DS_FUNCAO}
+              value={DS_MEIO_LOCOMOCAO}
               onChange={(e) => setDescricao(e.target.value)}
             />
           </div>
         </div>
-        <Button color="primary" className="btn-criar-funcao">
+        <Button color="primary" className="btn-criar-equipamento">
           Salvar Alterações
         </Button>
       </form>
@@ -99,4 +101,4 @@ const ViewEditarFuncao = () => {
   );
 };
 
-export default ViewEditarFuncao;
+export default ViewEditarEquipamento;

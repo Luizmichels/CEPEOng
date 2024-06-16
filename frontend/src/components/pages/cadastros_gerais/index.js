@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
-import { Button, Col, Form, Input, Label, Row } from "reactstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Col, Row } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 import "./inputs.scss";
 import "./cadastros_geral.scss";
 
 const teste = [
-  { link: "/nova-modalidade", tela: "Nova Modalidade" },
-  { link: "/permissoes", tela: "Permissões" },
-  { link: "/equipamento-locomocao", tela: "Equipamento de Locomoção" },
+  { link: "/usuario", tela: "Novo Usuário" },
   { link: "/novo-associado", tela: "Novo Associado" },
-  { link: "/funcoes", tela: "Nova Função" },
   { link: "/alterar-cadastro", tela: "Alterar Cadastro" },
-  { link: "/nova-deficiencia", tela: "Nova Deficiencia" },
-  { link: "/novo-usuario", tela: "Novo Usuário" },
+  { link: "/permissoes", tela: "Permissões" },
+  { link: "/modalidade", tela: "Nova Modalidade" },
+  { link: "/equipamento", tela: "Equipamento de Locomoção" },
+  { link: "/funcoes", tela: "Nova Função" },
+  { link: "/deficiencia", tela: "Nova Deficiencia" },
 ];
 
 function App() {

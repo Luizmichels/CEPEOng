@@ -11,7 +11,7 @@ module.exports = class UsuarioController {
 
     // Função para cadastrar o usuário
     static async CadastroUsuario(req, res) {
-        const { NM_USUARIO, SENHA, CONFIRMASENHA } = req.body
+        const { NM_USUARIO, SENHA } = req.body
 
         // Validações
         if (!NM_USUARIO) {
@@ -20,15 +20,6 @@ module.exports = class UsuarioController {
 
         if (!SENHA) {
             return res.status(422).json({ message: 'A senha é obrigatória' })
-        }
-
-        if (!CONFIRMASENHA) {
-            return res.status(422).json({ message: 'Confirmar a senha é obrigatório' })
-        }
-
-        // Verificação se a senha e a confirmação de senha são iguais
-        if (SENHA !== CONFIRMASENHA) {
-            return res.status(422).json({ message: 'A senha e a confirmação de senha precisam ser iguais!' })
         }
 
         try {
@@ -131,7 +122,7 @@ module.exports = class UsuarioController {
 
     static async EditarUsuario(req, res) {
         const { CD_USUARIO } = req.params
-        const { SENHA, CONFIRMASENHA } = req.body
+        const { SENHA } = req.body
         const updateData = {}
 
         try {
@@ -142,16 +133,6 @@ module.exports = class UsuarioController {
             if (usuario.CD_USUARIO !== CD_USUARIO) {
                 return res.status(403).json({ message: 'Você não tem permissão para editar este usuário' })
             }*/
-
-            // Validações
-            if (!CONFIRMASENHA) {
-                return res.status(422).json({ message: 'Confirmar a senha é obrigatório' })
-            }
-
-            // Verificação se a senha e a confirmação de senha são iguais
-            if (SENHA !== CONFIRMASENHA) {
-                return res.status(422).json({ message: 'A senha e a confirmação de senha precisam ser iguais!' })
-            }
 
             if (!SENHA) {
                 return res.status(422).json({ message: 'A Senha é obrigatória!' })
@@ -208,6 +189,7 @@ module.exports = class UsuarioController {
             }
 
             const usuarioFormatados = usuario.map(usuario => ({
+                CD_USUARIO: usuario.CD_USUARIO,
                 NM_USUARIO: usuario.NM_USUARIO
             }))
 

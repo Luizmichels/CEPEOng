@@ -1,0 +1,78 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Container, Row, Col } from 'reactstrap';
+import './Deficiencia.css';
+import { get, remove } from '../../../utlis/api';
+
+const Deficiencias = () => {
+  const [deficiencias, setDeficiencias] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchDeficiencias();
+  }, []);
+
+  const fetchDeficiencias = async () => {
+    try {
+      const response = await get('/deficiencia/listar');
+      console.log('Resposta da API:', response.data);
+
+      if (response.data && Array.isArray(response.data.deficiencias)) {
+        setDeficiencias(response.data.deficiencias);
+      } else {
+        console.error('A resposta da API não é um array:', response.data);
+      }
+    } catch (error) {
+      console.error('Erro ao buscar deficiência', error);
+    }
+  };
+
+  const handleDelete = async (CD_DEFICIENCIA) => {
+    try {
+      await remove(`/deficiencia/deletar/${CD_DEFICIENCIA}`);
+      fetchDeficiencias();
+    } catch (error) {
+      console.error('Erro ao excluir deficiência', error);
+    }
+  };
+
+  return (
+    <Container className="tela">
+      <Row className="header align-items-center">
+        <Col xs="3">
+          <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" onClick={() => navigate('/cadastros')} style={{ cursor: 'pointer' }} />
+        </Col>
+        <Col xs="6">
+          <h1>Deficiência</h1>
+        </Col>
+        <Col xs="3">
+          <Button color="default" className="large-cadastrar" onClick={() => navigate('/deficiencia/nova')}>+ Nova Deficiência</Button>
+        </Col>
+      </Row>
+      <Row className="main-content">
+        {deficiencias.length > 0 ? (
+          deficiencias.map((deficiencias) => (
+            <Col key={deficiencias.CD_DEFICIENCIA} xs="12" className="deficiencia-item">
+              <div className="deficiencia-nome">{deficiencias.TP_DEFICIENCIA}</div>
+              <div className="button-group">
+                <Button className="text-button" onClick={() => navigate(`/deficiencia/editar/${deficiencias.CD_DEFICIENCIA}`)}>Alterar</Button>
+                <Button className="text-button" onClick={() => handleDelete(deficiencias.CD_DEFICIENCIA)}>Excluir</Button>
+              </div>
+            </Col>
+          ))
+        ) : (
+          <Col xs="12">
+            <p>Nenhuma deficiência cadastrar.</p>
+          </Col>
+        )}
+      </Row>
+      <Row className="footer">
+        <Col xs="12" className="text-center">
+          <Button color="default" className="large-voltar" id="botaoVoltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
+
+export default Deficiencias;

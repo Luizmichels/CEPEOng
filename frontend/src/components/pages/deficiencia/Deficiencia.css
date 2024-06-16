@@ -15,7 +15,7 @@
   margin-bottom: 5vh;
 }
 
-.funcao-item {
+.deficiencia-item {
   background-color: #ff6600;
   margin-bottom: 1.5vh;
   border-radius: 1vh;
@@ -28,7 +28,7 @@
   height: 8vh;
 }
 
-.funcao-nome {
+.deficiencia-nome {
   font-size: 18px;
   font-weight: bold;
 }

@@ -1,9 +1,4 @@
 const MeioLocomocao = require('../models/meio_locomocao');
-
-// 500 -> servidor
-// 201 -> deu bom
-// 422 -> faltando infos
-
 module.exports = class MeioLocomocaoController {
 
     // Função para cadastrar o Meio de locomoção

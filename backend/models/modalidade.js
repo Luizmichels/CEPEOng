@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize')
 const db = require('../db/conn')
  
 const Modalidade = db.define("MODALIDADE", {
-    CD_MODALIDEDADE: {
+    CD_MODALIDADE: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,

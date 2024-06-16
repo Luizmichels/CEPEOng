@@ -6,6 +6,7 @@ const app = express();
 
 // Conectando ao banco
 const conn = require("./db/conn");
+const createDefaultAdminUser = require('./helpers/CriarUsarioAdim');
 
 // Models
 const Deficiencia = require("./models/deficiencia");
@@ -32,18 +33,20 @@ const RotaMeioLocomocao = require('./routes/MeioLocomocaoRoutes');
 const RotaModalidade = require('./routes/ModalidadeRoutes');
 const RotaFuncao = require('./routes/FuncaoRoutes');
 
-app.use('/home/cadastros/deficiencia', RotaDeficiencia);
+app.use('/deficiencia', RotaDeficiencia);
 app.use('/usuario', RotaUsuario);
-app.use('/home/cadastros/associado', RotaPessoaFisica);
-app.use('/home/cadastros/meio_locomocao', RotaMeioLocomocao);
-app.use('/home/cadastros/modalidade', RotaModalidade);
+app.use('/associado', RotaPessoaFisica);
+app.use('/meioLocomocao', RotaMeioLocomocao);
+app.use('/modalidade', RotaModalidade);
 app.use('/funcao', RotaFuncao);
 
 // Definindo a porta que o backend vai rodar
 conn
   .sync()
   //.sync({force: true}) // Apaga todas as tabelas e faz novamente
-  .then(() => {
+  .then(async () => {
+    await createDefaultAdminUser();
+  
     app.listen(5000, () => {
       console.log('Servidor rodando na porta 5000');
     });

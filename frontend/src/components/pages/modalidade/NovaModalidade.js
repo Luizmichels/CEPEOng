@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import api from "../../../utlis/api";
 import { NotificacaoManager } from "../../notificacao";
-import "./nova-funcao.scss";
+import "./NovaModalidade.scss";
 
-const ViewNovaFuncao = () => {
-  const [NM_FUNCAO, setNome] = useState("");
-  const [DS_FUNCAO, setDescricao] = useState("");
+const ViewNovaModalidade = () => {
+  const [NM_MODALIDADE, setNome] = useState("");
+  const [NOMENCLATURA, setDescricao] = useState("");
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -21,21 +21,21 @@ const ViewNovaFuncao = () => {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      await api.post("/funcao/cadastro", { NM_FUNCAO, DS_FUNCAO }, config);
+      await api.post("/modalidade/cadastro", { NM_MODALIDADE, NOMENCLATURA }, config);
 
       NotificacaoManager.success('Cadastrado com sucesso!', '', 1000, 'filled');
 
       startTransition(() => {
-        navigate("/funcoes");
+        navigate("/modalidade");
       });
     } catch (error) {
-      console.error("Erro ao criar função:", error);
-      NotificacaoManager.error('Erro ao cadastrar função!', '', 1000, 'filled');
+      console.error("Erro ao criar modalidade:", error);
+      NotificacaoManager.error('Erro ao cadastrar modalidade!', '', 1000, 'filled');
     }
   };
 
   return (
-    <div className="tela-nova-funcao">
+    <div className="tela-nova-modalidade">
       <header>
         <img
           src="/assets/img/cepe_joinville_laranja 2.png"
@@ -44,39 +44,35 @@ const ViewNovaFuncao = () => {
           className="logo"
           onClick={handleLogoClick}
         />
-        <h1>Nova Função</h1>
+        <h1>Nova modalidade</h1>
       </header>
       <form onSubmit={handleSubmit}>
         <div id="campos">
           <div className="form-group">
-            <label htmlFor="nome">Nome da Função</label>
+            <label htmlFor="nome">Nome da modalidade</label>
             <input
               type="text"
               id="nome"
-              value={NM_FUNCAO}
+              value={NM_MODALIDADE}
               onChange={(e) => setNome(e.target.value)}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="descricao">Descrição da Função</label>
+            <label htmlFor="descricao">Descrição da modalidade</label>
             <input
               type="text"
               id="descricao"
-              value={DS_FUNCAO}
+              value={NOMENCLATURA}
               onChange={(e) => setDescricao(e.target.value)}
             />
           </div>
         </div>
-<<<<<<< Updated upstream
-        <Button color="primary" className="btn-criar-funcao" onClick={() => navigate('/cadastros')}>
-=======
-        <Button color="default" className="btn-criar-funcao">
->>>>>>> Stashed changes
-          Cadastrar Função
+        <Button color="default" className="btn-criar-modalidade">
+          Cadastrar modalidade
         </Button>
       </form>
     </div>
   );
 };
 
-export default ViewNovaFuncao;
+export default ViewNovaModalidade;

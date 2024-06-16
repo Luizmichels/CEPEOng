@@ -26,18 +26,18 @@ code {
 }
 
 .btn-default {
-  --bs-btn-bg: #ED5600 !important; 
+  --bs-btn-bg: #ff6600 !important; 
   --bs-btn-color: #ffffff !important;
-  --bs-btn-border-color: #ED5600 !important;
+  --bs-btn-border-color: #ff6600 !important;
   --bs-btn-hover-color: #000 !important;
   --bs-btn-hover-bg: #fa6d1b !important;
-  --bs-btn-hover-border-color: #ED5600 !important;
+  --bs-btn-hover-border-color: #ff6600 !important;
   --bs-btn-active-bg: #fa6d1b !important;
-  --bs-btn-active-border-color: #ED5600 !important;
-  --bs-btn-active-shadow: #ED5600 !important;
-  --bs-btn-disabled-color: #ED5600 !important;
+  --bs-btn-active-border-color: #ff6600 !important;
+  --bs-btn-active-shadow: #ff6600 !important;
+  --bs-btn-disabled-color: #ff6600 !important;
   --bs-btn-disabled-bg: transparent !important;
-  --bs-btn-disabled-border-color: #ED5600 !important;
+  --bs-btn-disabled-border-color: #ff6600 !important;
   --bs-gradient: none !important;
 }
 

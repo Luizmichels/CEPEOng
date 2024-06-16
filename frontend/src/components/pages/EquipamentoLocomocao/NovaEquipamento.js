@@ -3,11 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 import api from "../../../utlis/api";
 import { NotificacaoManager } from "../../notificacao";
-import "./nova-funcao.scss";
+import "./NovaEquipamento.scss";
 
-const ViewNovaFuncao = () => {
-  const [NM_FUNCAO, setNome] = useState("");
-  const [DS_FUNCAO, setDescricao] = useState("");
+const ViewNovaEquipamento
+ = () => {
+  const [NM_MEIO_LOCOMOCAO, setNome] = useState("");
+  const [DS_MEIO_LOCOMOCAO, setDescricao] = useState("");
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -21,21 +22,21 @@ const ViewNovaFuncao = () => {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      await api.post("/funcao/cadastro", { NM_FUNCAO, DS_FUNCAO }, config);
+      await api.post("/meioLocomocao/cadastro", { NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO }, config);
 
       NotificacaoManager.success('Cadastrado com sucesso!', '', 1000, 'filled');
 
       startTransition(() => {
-        navigate("/funcoes");
+        navigate("/equipamento");
       });
     } catch (error) {
-      console.error("Erro ao criar função:", error);
-      NotificacaoManager.error('Erro ao cadastrar função!', '', 1000, 'filled');
+      console.error("Erro ao criar equipamento:", error);
+      NotificacaoManager.error('Erro ao cadastrar Equipamento Locomoção!', '', 1000, 'filled');
     }
   };
 
   return (
-    <div className="tela-nova-funcao">
+    <div className="tela-nova-equipamento">
       <header>
         <img
           src="/assets/img/cepe_joinville_laranja 2.png"
@@ -44,39 +45,35 @@ const ViewNovaFuncao = () => {
           className="logo"
           onClick={handleLogoClick}
         />
-        <h1>Nova Função</h1>
+        <h1>Novo Equipamento Locomoção</h1>
       </header>
       <form onSubmit={handleSubmit}>
         <div id="campos">
           <div className="form-group">
-            <label htmlFor="nome">Nome da Função</label>
+            <label htmlFor="nome">Equipamento Locomoção</label>
             <input
               type="text"
               id="nome"
-              value={NM_FUNCAO}
+              value={NM_MEIO_LOCOMOCAO}
               onChange={(e) => setNome(e.target.value)}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="descricao">Descrição da Função</label>
+            <label htmlFor="descricao">Descrição da Equipamento Locomoção</label>
             <input
               type="text"
               id="descricao"
-              value={DS_FUNCAO}
+              value={DS_MEIO_LOCOMOCAO}
               onChange={(e) => setDescricao(e.target.value)}
             />
           </div>
         </div>
-<<<<<<< Updated upstream
-        <Button color="primary" className="btn-criar-funcao" onClick={() => navigate('/cadastros')}>
-=======
-        <Button color="default" className="btn-criar-funcao">
->>>>>>> Stashed changes
-          Cadastrar Função
+        <Button color="default" className="btn-criar-equipamento">
+          Cadastrar Equipamento Locomoção
         </Button>
       </form>
     </div>
   );
 };
 
-export default ViewNovaFuncao;
+export default ViewNovaEquipamento;
