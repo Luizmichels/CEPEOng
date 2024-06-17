@@ -18,18 +18,15 @@ function Login() {
       const { data } = await post('/usuario/login', { NM_USUARIO: user, SENHA: password });
       console.debug("Login bem-sucedido:", data);
       setToken(data.token);
-      if(data.nivel === 3){
-          navigate('/menu');
-        }
-      // if(data.nivel === 1){
-      //   navigate('/menu');
-      // } else if (data.nivel === 2){
-      //   navigate('/login');
-      // } else if (data.nivel === 3){
-      //   navigate('/admin');
-      // }
-      // Redirecionar para a tela de menu após login bem-sucedido
-      navigate('/menu');
+
+      if(data.nivelAcesso === 3){
+        navigate('/menu');
+      } else if (data.nivelAcesso === 2){
+        navigate('/menu');
+      } else if (data.nivelAcesso === 1){
+        navigate('/usuario');
+      }
+
     } catch (error) {
       console.error('Erro no login:', error);
       if (error.response && error.response.data) {

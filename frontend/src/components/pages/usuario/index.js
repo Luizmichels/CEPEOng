@@ -56,7 +56,7 @@ const Usuarios = () => {
               <div className="usuario-nome">{usuario.NM_USUARIO}</div>
               <div className="button-group">
                 <Button className="text-button" onClick={() => navigate(`/usuario/editar/acesso/${usuario.CD_USUARIO}`)}>Nivel Acesso</Button>
-                <Button className="text-button" onClick={() => navigate(`/usuario/editar/${usuario.CD_USUARIO}`)}>Alterar</Button>
+                {/* <Button className="text-button" onClick={() => navigate(`/usuario/editar/${usuario.CD_USUARIO}`)}>Alterar</Button> */}
                 <Button className="text-button" onClick={() => handleDelete(usuario.CD_USUARIO)}>Excluir</Button>
               </div>
             </Col>

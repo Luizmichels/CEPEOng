@@ -24,7 +24,7 @@ const ViewNovaEquipamento = lazy(() => import("./components/pages/EquipamentoLoc
 const ViewEditarEquipamento = lazy(() => import("./components/pages/EquipamentoLocomocao/EditarEquipamento"));
 const ViewUsuario = lazy(() => import("./components/pages/usuario"));
 const ViewNovaUsuario = lazy(() => import("./components/pages/usuario/NovaUsuario"));
-const ViewEditarUsuario = lazy(() => import("./components/pages/usuario/EditarUsuario"));
+// const ViewEditarUsuario = lazy(() => import("./components/pages/usuario/EditarUsuario"));
 const ViewEditarAcesso = lazy(() => import("./components/pages/usuario/EditarNivelAcesso"));
 
 function ValidaSessao({ tela: Tela, nivel = 1 }) {
@@ -83,7 +83,7 @@ function App() {
             <Route path = "/equipamento/editar/:CD_MEIO_LOCOMOCAO" element = {<ValidaSessao tela={ViewEditarEquipamento} nivel={3} />} />
             <Route path = "/usuario" element = {<ValidaSessao tela={ViewUsuario} nivel={3} />} />
             <Route path = "/usuario/novo" element = {<ValidaSessao tela={ViewNovaUsuario} nivel={3} />} />
-            <Route path = "/usuario/editar/:CD_USUARIO" element = {<ValidaSessao tela={ViewEditarUsuario} nivel={3} />} />
+            {/* <Route path = "/usuario/editar/:CD_USUARIO" element = {<ValidaSessao tela={ViewEditarUsuario} nivel={3} />} /> */}
             <Route path = "/usuario/editar/acesso/:CD_USUARIO" element = {<ValidaSessao tela={ViewEditarAcesso} nivel={3} />} />
             <Route path="*" element={<div>Erro: Página não encontrada</div>} />
           </Routes>
