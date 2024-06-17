@@ -9,7 +9,8 @@ const CriarUsuarioToken = async (usuario, req, res) => {
     res.status(200).json({
         message: 'Você está autenticado!',
         token: token,
-        usuarioId: usuario.CD_USUARIO
+        usuarioId: usuario.CD_USUARIO,
+        nivelAcesso: usuario.NIVEL_ACESSO
     });
 };
 

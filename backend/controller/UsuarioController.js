@@ -190,7 +190,8 @@ module.exports = class UsuarioController {
 
             const usuarioFormatados = usuario.map(usuario => ({
                 CD_USUARIO: usuario.CD_USUARIO,
-                NM_USUARIO: usuario.NM_USUARIO
+                NM_USUARIO: usuario.NM_USUARIO,
+                SENHA: usuario.SENHA
             }))
 
             res.status(200).json({ usuario: usuarioFormatados })
