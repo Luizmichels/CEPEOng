@@ -10,6 +10,7 @@ const ViewLogin = lazy(() => import("./components/pages/login"));
 const ViewMenu = lazy(() => import("./components/pages/menu"));
 const ViewListagem = lazy(() => import("./components/pages/listagem"));
 const ViewCadGeral = lazy(() => import("./components/pages/cadastros_gerais"));
+const ViewCadTec = lazy(() => import("./components/pages/CadastroTecnico"));
 const ViewFuncoes = lazy(() => import("./components/pages/funcao"));
 const ViewNovaFuncao = lazy(() => import("./components/pages/funcao/nova-funcao"));
 const ViewEditarFuncao = lazy(() => import("./components/pages/funcao/editar-funcao"));
@@ -26,6 +27,7 @@ const ViewUsuario = lazy(() => import("./components/pages/usuario"));
 const ViewNovaUsuario = lazy(() => import("./components/pages/usuario/NovaUsuario"));
 // const ViewEditarUsuario = lazy(() => import("./components/pages/usuario/EditarUsuario"));
 const ViewEditarAcesso = lazy(() => import("./components/pages/usuario/EditarNivelAcesso"));
+const ViewNovoAssociado = lazy(() => import("./components/pages/CadastroAssociado"));
 
 function ValidaSessao({ tela: Tela, nivel = 1 }) {
   const [load, setLoad] = useState(true);
@@ -69,6 +71,8 @@ function App() {
             <Route path = "/menu" element = {<ValidaSessao tela={ViewMenu} nivel={3} />} />
             <Route path = "/listagem" element = {<ValidaSessao tela={ViewListagem} nivel={3} />} />
             <Route path = "/cadastros" element = {<ValidaSessao tela={ViewCadGeral} nivel={3} />} />
+            <Route path = "/associado" element = {<ValidaSessao tela={ViewNovoAssociado} nivel={1} />} />
+            <Route path = "/cadastro" element = {<ValidaSessao tela={ViewCadTec} nivel={2} />} />
             <Route path = "/funcoes" element = {<ValidaSessao tela={ViewFuncoes} nivel={3} />} />
             <Route path = "/funcoes/nova" element = {<ValidaSessao tela={ViewNovaFuncao} nivel={3} />} />
             <Route path = "/funcoes/editar/:CD_FUNCAO" element = {<ValidaSessao tela={ViewEditarFuncao} nivel={3} />} />

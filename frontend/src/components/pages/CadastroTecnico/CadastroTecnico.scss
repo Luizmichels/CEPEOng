@@ -1,0 +1,76 @@
+img {
+  padding: 20px;
+  display: block;
+  margin: 8px auto;
+  /*margin-top: -40px;*/
+}
+
+.cadastro-gerais {
+  // margin: 0 auto;
+  color: white;
+  // overflow: hidden;
+
+  a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .linha1 {
+    position: relative;
+    left: 3%;
+    display: flex;
+    flex-direction: row;
+    margin-top: -40px;
+    align-self: center;
+    justify-content: center;
+  }
+
+  .cadastros {
+    transform: translateX(25%) !important;
+    margin-top: 15vh;
+  }
+
+  .linha2 {
+    position: relative;
+    left: 3%;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: center;
+  }
+
+
+  .quadrado {
+    width: 30vh;
+    height: 20vh;
+    background-color: #ed5600;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Alinha verticalmente */
+    margin-right: 8%;
+    margin-top: 60px;
+    font-size: 3.2vh;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    transition: 0.5s ease;
+  }
+
+  .quadradov2 {
+    width: 30vh;
+    height: 20vh;
+  }
+
+  .quadrado:hover {
+    background-color: #c74901;
+  }
+  /* 
+.linha1:not(:last-child) {
+    margin-right: 8%; 
+} */
+
+  .linha1 > .quadrado:not(:last-child),
+  .linha2 > .quadrado:not(:last-child) {
+    margin-right: 8%;
+  }
+}

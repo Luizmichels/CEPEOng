@@ -12,7 +12,6 @@ const ChartComponent = ({ nivel }) => {
   const handleNavigate = () => {
     const token = getToken();
     if (token) {
-      // Simulação de verificação de nível de acesso com token
       const decodedToken = JSON.parse(atob(token.split('.')[1]));
       if (decodedToken.nivelAcesso === 3) {
         navigate("/cadastros");

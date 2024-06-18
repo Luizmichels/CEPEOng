@@ -46,7 +46,7 @@ const Equipamento = () => {
           <h1>Equipamento Locomoção</h1>
         </Col>
         <Col xs="3">
-          <Button color="default" className="large-cadastrar" onClick={() => navigate('/equipamento/nova')}>+ Novo Equipamento Locomoção</Button>
+          <Button color="default" className="large-cadastrar" onClick={() => navigate('/equipamento/nova')}>+ Novo Equipamento de Locomoção</Button>
         </Col>
       </Row>
       <Row className="main-content">

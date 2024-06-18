@@ -2,20 +2,14 @@ import React, { useEffect } from "react";
 import { Button, Col, Row } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import "./inputs.scss";
-import "./cadastros_geral.scss";
+import "./CadastroTecnico.scss";
 
 const teste = [
-  { link: "/usuario", tela: "Novo Usuário" },
-  { link: "/associado", tela: "Novo Associado" },
+  { link: "/novo-associado", tela: "Novo Associado" },
   { link: "/alterar-cadastro", tela: "Alterar Cadastro" },
-  { link: "/permissoes", tela: "Permissões" },
-  { link: "/modalidade", tela: "Nova Modalidade" },
-  { link: "/equipamento", tela: "Equipamento de Locomoção" },
-  { link: "/funcoes", tela: "Nova Função" },
-  { link: "/deficiencia", tela: "Nova Deficiencia" },
 ];
 
-function App() {
+function CadastroTecnico() {
   const navigate = useNavigate();
 
   const handleClick = (link = "/menu") => {
@@ -34,13 +28,13 @@ function App() {
       <img
         src="../../../assets/img/cepe_joinville_laranja 2.png"
         alt="logo"
-        onClick={() => handleClick()} // Adicionar evento de clique para lidar com a navegação
+        onClick={() => handleClick()}
       />
       <div className="cadastros">
-        {new Array(Math.ceil(teste.length / 4)).fill().map((_, i) => {
+        {new Array(Math.ceil(teste.length / 2)).fill().map((_, i) => {
           return (
             <Row className="mb-4">
-              {teste.slice(i * 4, (i + 1) * 4).map(({ link, tela }) => {
+              {teste.slice(i * 2, (i + 1) * 2).map(({ link, tela }) => {
                 return (
                   <Col xs="3" className="justify-content-center d-flex">
                     <Button
@@ -61,4 +55,4 @@ function App() {
   );
 }
 
-export default App;
+export default CadastroTecnico;
