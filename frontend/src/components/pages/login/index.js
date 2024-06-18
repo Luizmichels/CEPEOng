@@ -24,7 +24,7 @@ function Login() {
       } else if (data.nivelAcesso === 2){
         navigate('/menu');
       } else if (data.nivelAcesso === 1){
-        navigate('/a');
+        navigate('/check-cadastro');
       }
 
     } catch (error) {

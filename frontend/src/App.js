@@ -28,6 +28,8 @@ const ViewNovaUsuario = lazy(() => import("./components/pages/usuario/NovaUsuari
 // const ViewEditarUsuario = lazy(() => import("./components/pages/usuario/EditarUsuario"));
 const ViewEditarAcesso = lazy(() => import("./components/pages/usuario/EditarNivelAcesso"));
 const ViewNovoAssociado = lazy(() => import("./components/pages/CadastroAssociado"));
+const ViewEditarUsuario = lazy(() => import("./components/pages/usuario/EditarUsuario"));
+const ViewCheckCadastro = lazy(() => import("./components/pages/menu_usuario/CheckCadastro"));
 
 function ValidaSessao({ tela: Tela, nivel = 1 }) {
   const [load, setLoad] = useState(true);
@@ -68,6 +70,8 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/login" element={<ViewLogin />} />
+            <Route path="/usuario/editar" element={<ViewEditarUsuario />} />
+            <Route path="/check-cadastro" element={<ViewCheckCadastro />} />
             <Route path = "/menu" element = {<ValidaSessao tela={ViewMenu} nivel={3} />} />
             <Route path = "/listagem" element = {<ValidaSessao tela={ViewListagem} nivel={3} />} />
             <Route path = "/cadastros" element = {<ValidaSessao tela={ViewCadGeral} nivel={3} />} />
