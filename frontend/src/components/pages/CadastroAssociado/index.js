@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./CadastroAssociado.scss"
+import "./CadastroAssociado.scss";
  
 const CadastroNovoAtleta = () => {
     const navigate = useNavigate();
@@ -58,7 +58,8 @@ const CadastroNovoAtleta = () => {
         FOTO_RG: null,
         FOTO_RG_RESPONS: null,
     });
- 
+
+
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
         if (type === 'file') {
@@ -85,11 +86,11 @@ const CadastroNovoAtleta = () => {
             <header>
                 <nav>
                     <Row>
-                        <Col>
-                            <img src="../img/cepe_joinville_laranja 2.png" alt="logo" />
+                        <Col md={3}>
+                            <img className='logo' src="../../../assets/img/cepe_joinville_laranja 2.png" alt="logo" />
                         </Col>
-                        <Col className="titulo">
-                            <h1>Cadastro Novo Atleta</h1>
+                        <Col className="titulo" md={6}>
+                            <h1 className='txt-titulo'>Cadastro Novo Atleta</h1>
                         </Col>
                     </Row>
                 </nav>
@@ -157,7 +158,7 @@ const CadastroNovoAtleta = () => {
                         <Col md={4}>
                             <FormGroup>
                                 <Label for="CD_EQUIPA_LOCOMOCAO">Equipamento de Locomoção:</Label>
-                                <Input type="text" id="CD_EQUIPA_LOCOMOCAO" name="CD_EQUIPA_LOCOMOCAO" value={formData.CD_EQUIPA_LOCOMOCAO} onChange={handleChange} />
+                                <Input type="select" id="CD_EQUIPA_LOCOMOCAO" name="CD_EQUIPA_LOCOMOCAO" value={formData.CD_EQUIPA_LOCOMOCAO} onChange={handleChange} />
                             </FormGroup>
                         </Col>
                         <Col md={4}>
@@ -169,7 +170,7 @@ const CadastroNovoAtleta = () => {
                         <Col md={4}>
                             <FormGroup>
                                 <Label for="MEIO_LOCOMOCAO">Meio de locomoção:</Label>
-                                <Input type="text" id="MEIO_LOCOMOCAO" name="MEIO_LOCOMOCAO" value={formData.MEIO_LOCOMOCAO} onChange={handleChange} />
+                                <Input type="select" id="MEIO_LOCOMOCAO" name="MEIO_LOCOMOCAO" value={formData.MEIO_LOCOMOCAO} onChange={handleChange} />
                             </FormGroup>
                         </Col>
                     </Row>
@@ -177,7 +178,7 @@ const CadastroNovoAtleta = () => {
                         <Col md={4}>
                             <FormGroup>
                                 <Label for="CD_FUNCAO">Função:</Label>
-                                <Input type="text" id="CD_FUNCAO" name="CD_FUNCAO" value={formData.CD_FUNCAO} onChange={handleChange} />
+                                <Input type="select" id="CD_FUNCAO" name="CD_FUNCAO" value={formData.CD_FUNCAO} onChange={handleChange} />
                             </FormGroup>
                         </Col>
                         <Col md={4}>
@@ -188,27 +189,29 @@ const CadastroNovoAtleta = () => {
                         </Col>
                     </Row>
                     <Row form>
-                        <Col md={4}>
+                        <Col md={6}>
                             <FormGroup>
                                 <Label for="NM_PAI">Nome do Pai:</Label>
                                 <Input type="text" id="NM_PAI" name="NM_PAI" value={formData.NM_PAI} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                        <Col md={4}>
+                        <Col md={6}>
                             <FormGroup>
-                                <Label for="CELULAR_PAI">Telefone Celular:</Label>
-                                <Input type="number" id="CELULAR_PAI" name="CELULAR_PAI" placeholder="(00) 00000-0000" maxlength="15" pattern="\(\d{2}\) \d{5}-\d{4}" value={formData.CELULAR_PAI} onChange={handleChange} />
+                                <Label for="CELULAR_PAI">Telefone Celular Pai:</Label>
+                                <Input type="tel" id="CELULAR_PAI" name="CELULAR_PAI" placeholder="(00) 00000-0000" maxlength="15" pattern="\(\d{2}\) \d{5}-\d{4}" value={formData.CELULAR_PAI} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                        <Col md={4}>
+                        .
+                        <Col md={6}>
                             <FormGroup>
                                 <Label for="NM_MAE">Nome da Mãe:</Label>
                                 <Input type="text" id="NM_MAE" name="NM_MAE" value={formData.NM_MAE} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                        <Col md={4}>
+                        <Col md={6}>
                             <FormGroup>
-                                <Input type="text" id="CELULAR_MAE" name="CELULAR_MAE" placeholder="(00) 00000-0000" maxLength="15" pattern="\(\d{2}\) \d{5}-\d{4}" value={formData.CELULAR_MAE} onChange={handleChange} />
+                                <Label for="CELULAR_MAE">Telefone Celular Mãe:</Label>
+                                <Input type="tel" id="CELULAR_MAE" name="CELULAR_MAE" placeholder="(00) 00000-0000" maxlength="15" pattern="\(\d{2}\) \d{5}-\d{4}" value={formData.CELULAR_MAE} onChange={handleChange} />
                             </FormGroup>
                         </Col>
                     </Row>
@@ -349,27 +352,25 @@ const CadastroNovoAtleta = () => {
                     </Row>
                     <h2>Endereço</h2>
                     <Row form>
-                        <Col md={4}>
+                        <Col md={7}>
                             <FormGroup>
                                 <Label for="ENDERECO">Endereço:</Label>
                                 <Input type="text" id="ENDERECO" name="ENDERECO" value={formData.ENDERECO} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                        <Col md={2}>
+                        <Col md={5}>
                             <FormGroup>
                                 <Label for="NR_ENDERECO">Número:</Label>
                                 <Input type="text" id="NR_ENDERECO" name="NR_ENDERECO" value={formData.NR_ENDERECO} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                        <Col md={6}>
+                        <Col md={5}>
                             <FormGroup>
                                 <Label for="DS_ENDERECO">Complemento:</Label>
                                 <Input type="text" id="DS_ENDERECO" name="DS_ENDERECO" value={formData.DS_ENDERECO} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                    </Row>
-                    <Row form>
-                        <Col md={4}>
+                        <Col md={3}>
                             <FormGroup>
                                 <Label for="CEP">CEP:</Label>
                                 <Input type="text" id="CEP" name="CEP" value={formData.CEP} onChange={handleChange} />
@@ -387,7 +388,7 @@ const CadastroNovoAtleta = () => {
                         <Col md={4}>
                             <FormGroup>
                                 <Label for="CLASSIF_FUNC">Classificação Funcional:</Label>
-                                <Input type="text" id="CLASSIF_FUNC" name="CLASSIF_FUNC" value={formData.                                CLASSIF_FUNC} onChange={handleChange} />
+                                <Input type="text" id="CLASSIF_FUNC" name="CLASSIF_FUNC" value={formData.CLASSIF_FUNC} onChange={handleChange} />
                             </FormGroup>
                         </Col>
                         <Col md={4}>
@@ -397,56 +398,68 @@ const CadastroNovoAtleta = () => {
                             </FormGroup>
                         </Col>
                     </Row>
-                    <h2>Medidas</h2>
+                    <h2>Uniformes</h2>  
                     <Row form>
-                        <Col md={4}>
+                        <Col md={3}>
                             <FormGroup>
                                 <Label for="TAMANHO_CAMISA">Tamanho da Camisa:</Label>
                                 <Input type="text" id="TAMANHO_CAMISA" name="TAMANHO_CAMISA" value={formData.TAMANHO_CAMISA} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                        <Col md={4}>
+                        <Col md={3}>
                             <FormGroup>
                                 <Label for="TAMANHO_AGASALHO">Tamanho do Agasalho:</Label>
                                 <Input type="text" id="TAMANHO_AGASALHO" name="TAMANHO_AGASALHO" value={formData.TAMANHO_AGASALHO} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                        <Col md={4}>
+                        <Col md={3}>
                             <FormGroup>
                                 <Label for="TAMANHO_BERM_CAL">Tamanho da Bermuda/Calça:</Label>
                                 <Input type="text" id="TAMANHO_BERM_CAL" name="TAMANHO_BERM_CAL" value={formData.TAMANHO_BERM_CAL} onChange={handleChange} />
                             </FormGroup>
                         </Col>
-                        <Col md={4}>
+                        <Col md={3}>
                             <FormGroup>
                                 <Label for="NR_CALCADO">Número do Calçado:</Label>
                                 <Input type="number" id="NR_CALCADO" name="NR_CALCADO" value={formData.NR_CALCADO} onChange={handleChange} />
                             </FormGroup>
                         </Col>
                     </Row>
-                    <h2>Fotos</h2>
+                    <h2>Documento Digitalizados</h2>
+                    <h3>RECOMENDAÇÕES DA FOTO 3X4</h3>
+                    <h4>• A foto deve ser enquadrada a partir do meio do tronco até a cabeça;<br></br>
+                    • A cabeça deverá manter se RETA, e o atleta deverá olhar DIRETAMENTE para a lente da câmera;<br></br>
+                    • O fundo da imagem deve ser clara ou branca, dando importância à foco e nitidez;<br></br>
+                    • A foto deverá evitar ter reflexos e sombras;<br></br>
+                    • Não é permitido a utilização de qualquer tipo de adereço que impossibilite a identificação do rosto como óculos de sol, chapéus, máscaras e outros;<br></br>
+                    • É opcional o atleta manter os lábios serrados (expressão séria) ou lábios entre abertos (sorrindo);<br></br>
+                    • Atletas do sexo  FEMININO devem estar trajadas com camiseta de manga ou meia manga (é <b>PROIBIDO</b> posar/enviar fotos com camiseta de cor branca); <br></br>
+                    • Atletas do sexo  MASCULINO devem estar devidamente trajados com camiseta com mangas (é <b>PROIBIDO</b> posar/enviar fotos com camiseta de cor branca);<br></br>
+                    • É <b>INADMISSÍVEL</b> o envio de fotos de atletas <b>SEM CAMISA.</b>
+                    </h4>
                     <Row form>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="FOTO_ATLETA">Foto do Atleta:</Label>
+                                <Label className="UploadIMG" for="FOTO_ATLETA">Clique aqui para anexar FOTO 3x4 ATUAL</Label>
                                 <Input type="file" id="FOTO_ATLETA" name="FOTO_ATLETA" onChange={handleChange} />
                             </FormGroup>
                         </Col>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="FOTO_RG">Foto do RG:</Label>
+                                <Label className="UploadIMG" for="FOTO_RG">Clique aqui para anexar RG DO(A) ATLETA</Label>
                                 <Input type="file" id="FOTO_RG" name="FOTO_RG" onChange={handleChange} />
                             </FormGroup>
                         </Col>
                         <Col md={4}>
                             <FormGroup>
-                                <Label for="FOTO_RG_RESPONS">Foto do RG do Responsável:</Label>
+                                <Label className="UploadIMG" for="FOTO_RG_RESPONS">Clique aqui para anexar RG DO(A) RESPONSÁVEL</Label>
                                 <Input type="file" id="FOTO_RG_RESPONS" name="FOTO_RG_RESPONS" onChange={handleChange} />
                             </FormGroup>
                         </Col>
                     </Row>
-                    <Button type="submit">Enviar</Button>
+                    <Button color='default' className='btn-cad-ass' type="submit">Cadastrar Associado</Button>
                 </Form>
+                <br></br>
             </main>
         </Container>
     );

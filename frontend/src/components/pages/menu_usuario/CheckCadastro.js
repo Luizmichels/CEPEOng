@@ -32,7 +32,7 @@ function CheckCadastro() {
     if (usuarioCadastrado) {
       navigate('/usuario/editar');
     } else {
-      navigate('/usuario/novo');
+      navigate('/associado');
     }
   };
 
