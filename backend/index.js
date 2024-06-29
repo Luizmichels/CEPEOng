@@ -43,7 +43,7 @@ app.use('/funcao', RotaFuncao);
 // Definindo a porta que o backend vai rodar
 conn
   .sync()
-  //.sync({force: true}) // Apaga todas as tabelas e faz novamente
+  // .sync({force: true}) // Apaga todas as tabelas e faz novamente
   .then(async () => {
     await createDefaultAdminUser();
   
