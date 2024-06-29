@@ -8,7 +8,7 @@ const teste = [
   { link: "/usuario", tela: "Novo Usuário" },
   { link: "/associado", tela: "Novo Associado" },
   { link: "/alterar-cadastro", tela: "Alterar Cadastro" },
-  { link: "/permissoes", tela: "Permissões" },
+  { link: "/tecnico", tela: "Modalidade / Tecnico" },
   { link: "/modalidade", tela: "Nova Modalidade" },
   { link: "/equipamento", tela: "Equipamento de Locomoção" },
   { link: "/funcoes", tela: "Nova Função" },

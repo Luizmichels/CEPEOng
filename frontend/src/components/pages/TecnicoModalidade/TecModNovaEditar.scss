@@ -1,0 +1,98 @@
+.tela-nova-modalidade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 200px;
+  background-color: white;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 200px;
+    
+    .logo {
+      cursor: pointer;
+      height: 20vh;
+      width: 20vh;
+      margin-right: 10px;
+    }
+  }
+
+  header h1 {
+    background-color: #ed5600;
+    color: white;
+    padding: 20px;
+    margin: 0;
+    border-radius: 5px;
+    text-align: center;
+    flex-grow: 1;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 200px;
+  }
+
+  #campos {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .form-group label {
+    margin-bottom: 5px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ed5600;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #ed5600;
+    color: white;
+  }
+
+  .btn-criar-usuario {
+    background-color: #ed5600;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .btn-criar-usuario:hover {
+    background-color: #e04f00;
+  }
+
+  .custom-select {
+    background-color: #e04f00; // Cor laranja para o fundo do dropdown
+    border-color: #e04f00; // Cor laranja para a borda do dropdown
+    color: white; // Cor branca para o texto do dropdown
+    &:focus {
+      background-color: #e04f00; // Cor laranja escura quando o dropdown está focado
+      border-color: #e04f00; // Cor laranja escura quando o dropdown está focado
+    }
+  }
+}
