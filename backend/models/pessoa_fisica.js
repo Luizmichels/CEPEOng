@@ -6,7 +6,7 @@ const db = require("../db/conn");
 // Importando as outras tabelas
 const deficiencia = require("./deficiencia");
 const funcao = require("./funcao");
-const equipa_locom = require("./equipamento_locomocao");
+const equipa_locom = require("./meio_locomocao");
 const modalidade = require("./modalidade");
 const DeficienciaPessoa = require("./DeficienciaPessoa");
 const Usuario = require("./usuario");
