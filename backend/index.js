@@ -11,7 +11,7 @@ const createDefaultAdminUser = require('./helpers/CriarUsarioAdim');
 // Models
 const Deficiencia = require("./models/deficiencia");
 const Funcao = require("./models/funcao");
-const EquipamentoLocomocao = require("./models/equipamento_locomocao");
+const MeioLocomocao = require("./models/meio_locomocao");
 const Modalidade = require('./models/modalidade');
 const PessoaFisica = require("./models/pessoa_fisica");
 const Usuario = require("./models/usuario");
@@ -29,21 +29,21 @@ app.use(express.static('public'));
 const RotaDeficiencia = require('./routes/DeficienciaRoutes');
 const RotaUsuario = require('./routes/UsuarioRoutes');
 const RotaPessoaFisica = require('./routes/PessoaFisicaRoutes');
-const RotaEquipamentoLocomocao = require('./routes/EquipamentoLocomocaoRoutes');
+const RotaMeioLocomocao = require('./routes/MeioLocomocaoRoutes');
 const RotaModalidade = require('./routes/ModalidadeRoutes');
 const RotaFuncao = require('./routes/FuncaoRoutes');
 
 app.use('/deficiencia', RotaDeficiencia);
 app.use('/usuario', RotaUsuario);
 app.use('/associado', RotaPessoaFisica);
-app.use('/equipamentoLocomocao', RotaEquipamentoLocomocao);
+app.use('/meioLocomocao', RotaMeioLocomocao);
 app.use('/modalidade', RotaModalidade);
 app.use('/funcao', RotaFuncao);
 
 // Definindo a porta que o backend vai rodar
 conn
   .sync()
-   //.sync({force: true}) // Apaga todas as tabelas e faz novamente
+  // .sync({force: true}) // Apaga todas as tabelas e faz novamente
   .then(async () => {
     await createDefaultAdminUser();
   
