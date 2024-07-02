@@ -127,22 +127,14 @@ input[type="file"] {
   display: none;
 }
 
-input[type="select"] {
-  background-color: #ED5600;
-  height: 45px;
-  color: white;
-  font-family: "Inter", sans-serif;
-  border-radius: 5px;
-  outline: none;
-  border: none;
-  padding-left: 10px;
-  -webkit-appearance: none; /* Remove default arrow in WebKit browsers */
-  -moz-appearance: none; /* Remove default arrow in Firefox */
-  appearance: none; /* Remove default arrow in modern browsers */
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="white" d="M2 0L0 2h4z"/></svg>'); /* Custom arrow */
-  background-repeat: no-repeat;
-  background-position: right 10px center; /* Position of the custom arrow */
-  background-size: 10px; /* Size of the custom arrow */
+.custom-select {
+  background-color: #e04f00; // Cor laranja para o fundo do dropdown
+  border-color: #e04f00; // Cor laranja para a borda do dropdown
+  color: white; // Cor branca para o texto do dropdown
+  &:focus {
+    background-color: #e04f00; // Cor laranja escura quando o dropdown está focado
+    border-color: #e04f00; // Cor laranja escura quando o dropdown está focado
+  }
 }
 
 .logo {

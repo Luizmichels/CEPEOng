@@ -3,20 +3,20 @@ const { DataTypes } = require('sequelize')
 // Importando a conexão com o banco
 const db = require('../db/conn')
  
-const MeioLocomocao = db.define("MEIO_LOCOMOCAO", {
-    CD_MEIO_LOCOMOCAO: {
+const EquipamentoLocomocao = db.define("EQUIPAMENTO_LOCOMOCAO", {
+    CD_EQUIPAMENTO_LOCOMOCAO: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true
     },
-    NM_MEIO_LOCOMOCAO:{
+    NM_EQUIPAMENTO_LOCOMOCAO:{
         type: DataTypes.STRING,
         allowNull: false
     },
-    DS_MEIO_LOCOMOCAO:{
+    DS_EQUIPAMENTO_LOCOMOCAO:{
         type: DataTypes.STRING
     }
 })
  
-module.exports = MeioLocomocao
+module.exports = EquipamentoLocomocao
