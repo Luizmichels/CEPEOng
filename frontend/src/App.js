@@ -30,6 +30,9 @@ const ViewEditarAcesso = lazy(() => import("./components/pages/usuario/EditarNiv
 const ViewNovoAssociado = lazy(() => import("./components/pages/CadastroAssociado"));
 const ViewEditarUsuario = lazy(() => import("./components/pages/usuario/EditarUsuario"));
 const ViewCheckCadastro = lazy(() => import("./components/pages/menu_usuario/CheckCadastro"));
+const ViewTecnico = lazy(() => import("./components/pages/TecnicoModalidade"));
+const ViewNovoTecnico = lazy(() => import("./components/pages/TecnicoModalidade/NovaTecMod"));
+const ViewEditarTecnico = lazy(() => import("./components/pages/TecnicoModalidade/EditarTecMod"));
 
 function ValidaSessao({ tela: Tela, nivel = 1 }) {
   const [load, setLoad] = useState(true);
@@ -70,6 +73,7 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/login" element={<ViewLogin />} />
+            <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/usuario/editar" element={<ViewEditarUsuario />} />
             <Route path="/check-cadastro" element={<ViewCheckCadastro />} />
             <Route path = "/menu" element = {<ValidaSessao tela={ViewMenu} nivel={3} />} />
@@ -93,6 +97,9 @@ function App() {
             <Route path = "/usuario/novo" element = {<ValidaSessao tela={ViewNovaUsuario} nivel={3} />} />
             {/* <Route path = "/usuario/editar/:CD_USUARIO" element = {<ValidaSessao tela={ViewEditarUsuario} nivel={3} />} /> */}
             <Route path = "/usuario/editar/acesso/:CD_USUARIO" element = {<ValidaSessao tela={ViewEditarAcesso} nivel={3} />} />
+            <Route path = "/tecnico" element = {<ValidaSessao tela={ViewTecnico} nivel={3} />} />
+            <Route path = "/tecnico/novo" element = {<ValidaSessao tela={ViewNovoTecnico} nivel={3} />} />
+            <Route path = "/tecnico/editar/:CD_TECNICO_MODALIDADE" element = {<ValidaSessao tela={ViewEditarTecnico} nivel={3} />} />
             <Route path="*" element={<div>Erro: Página não encontrada</div>} />
           </Routes>
         </Suspense>
