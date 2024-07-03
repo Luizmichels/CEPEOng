@@ -74,7 +74,9 @@ function Login() {
                 </Col>
               </Row>
             </div>
-            <div className="esqueci mb-3">Esqueceu a senha?</div>
+            <div className="esqueci">
+              <a href="/esqueci-senha">Esqueceu a senha?</a>
+            </div>
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="d-flex justify-content-between rodapes">

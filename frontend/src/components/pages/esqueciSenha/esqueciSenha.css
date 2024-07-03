@@ -1,0 +1,87 @@
+.tela {
+  font-family: "Inter", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Centraliza verticalmente */
+  height: 100vh; /* Define altura total da tela */
+  position: relative; /* Define posição relativa para posicionar absolutamente */
+}
+
+.logo-container {
+  position: absolute; /* Posiciona absolutamente dentro da tela */
+  top: 10%; /* Ajusta a posição vertical */
+  left: 20%; /* Ajusta a posição horizontal */
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+}
+
+.logo {
+  width: 100%; /* Ajusta a largura do logo em relação à tela */
+  max-width: 150px; /* Largura máxima do logo */
+  height: auto; /* Altura automática proporcional ao width */
+  margin-right: 2%; /* Adiciona margem à direita do logo */
+}
+
+.titulo {
+  font-size: 2.5vh; /* Tamanho da fonte do título */
+  margin: 10px 0; /* Remove margens padrão */
+  white-space: nowrap; /* Evita que o texto quebre linha */
+}
+
+.conteudo {
+  width: 80%;
+  text-align: center; /* Centraliza o conteúdo dentro do conteúdo */
+  margin: 0 auto; /* Centraliza horizontalmente */
+}
+
+.usuarioesenha {
+  font-size: 2.5vh !important;
+}
+
+.esqueci-senha form {
+  width: 60%;
+  display: flex;
+  flex-direction: column; /* Ajusta para coluna */
+  margin: 0 auto; /* Centraliza o formulário horizontalmente */
+}
+
+.success-message {
+  font-size: 2.5vh;
+  margin-top: 20px;
+}
+
+.rodapes {
+  display: flex;
+  justify-content: center; /* Centraliza botões horizontalmente */
+  margin-top: 20px;
+}
+
+.button {
+  background-color: #ed5600;
+  width: 25%;
+  height: 7%;
+  text-align: center;
+  line-height: 6%;
+  vertical-align: middle;
+  border-radius: 50px;
+  font-size: 2.5vh !important;
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
+}
+
+body {
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente o body */
+  align-items: center; /* Centraliza verticalmente o body */
+  font-family: "Inter", sans-serif;
+}
+
+.imagemzona {
+  display: none; /* Remove a zona de imagem */
+}
+
+.imagemzona img {
+  max-width: 100%;
+}

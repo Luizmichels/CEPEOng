@@ -25,7 +25,6 @@ const ViewNovaEquipamento = lazy(() => import("./components/pages/EquipamentoLoc
 const ViewEditarEquipamento = lazy(() => import("./components/pages/EquipamentoLocomocao/EditarEquipamento"));
 const ViewUsuario = lazy(() => import("./components/pages/usuario"));
 const ViewNovaUsuario = lazy(() => import("./components/pages/usuario/NovaUsuario"));
-// const ViewEditarUsuario = lazy(() => import("./components/pages/usuario/EditarUsuario"));
 const ViewEditarAcesso = lazy(() => import("./components/pages/usuario/EditarNivelAcesso"));
 const ViewNovoAssociado = lazy(() => import("./components/pages/CadastroAssociado"));
 const ViewEditarUsuario = lazy(() => import("./components/pages/usuario/EditarUsuario"));
@@ -33,6 +32,7 @@ const ViewCheckCadastro = lazy(() => import("./components/pages/menu_usuario/Che
 const ViewTecnico = lazy(() => import("./components/pages/TecnicoModalidade"));
 const ViewNovoTecnico = lazy(() => import("./components/pages/TecnicoModalidade/NovaTecMod"));
 const ViewEditarTecnico = lazy(() => import("./components/pages/TecnicoModalidade/EditarTecMod"));
+const ViewEsqueciSenha = lazy(() => import("./components/pages/esqueciSenha/esqueciSenha")); // Novo componente para Esqueci Minha Senha
 
 function ValidaSessao({ tela: Tela, nivel = 1 }) {
   const [load, setLoad] = useState(true);
@@ -73,33 +73,33 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route path="/login" element={<ViewLogin />} />
-            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/esqueci-senha" element={<ViewEsqueciSenha />} /> {/* Rota para Esqueci Minha Senha */}
             <Route path="/usuario/editar" element={<ViewEditarUsuario />} />
             <Route path="/check-cadastro" element={<ViewCheckCadastro />} />
-            <Route path = "/menu" element = {<ValidaSessao tela={ViewMenu} nivel={3} />} />
-            <Route path = "/listagem" element = {<ValidaSessao tela={ViewListagem} nivel={3} />} />
-            <Route path = "/cadastros" element = {<ValidaSessao tela={ViewCadGeral} nivel={3} />} />
-            <Route path = "/associado" element = {<ValidaSessao tela={ViewNovoAssociado} nivel={1} />} />
-            <Route path = "/cadastro" element = {<ValidaSessao tela={ViewCadTec} nivel={2} />} />
-            <Route path = "/funcoes" element = {<ValidaSessao tela={ViewFuncoes} nivel={3} />} />
-            <Route path = "/funcoes/nova" element = {<ValidaSessao tela={ViewNovaFuncao} nivel={3} />} />
-            <Route path = "/funcoes/editar/:CD_FUNCAO" element = {<ValidaSessao tela={ViewEditarFuncao} nivel={3} />} />
-            <Route path = "/modalidade" element = {<ValidaSessao tela={ViewModalidade} nivel={3} />} />
-            <Route path = "/modalidade/nova" element = {<ValidaSessao tela={ViewNovaModalidade} nivel={3} />} />
-            <Route path = "/modalidade/editar/:CD_MODALIDADE" element = {<ValidaSessao tela={ViewEditarModalidade} nivel={3} />} />
-            <Route path = "/deficiencia" element = {<ValidaSessao tela={ViewDeficiencia} nivel={3} />} />
-            <Route path = "/deficiencia/nova" element = {<ValidaSessao tela={ViewNovaDeficiencia} nivel={3} />} />
-            <Route path = "/deficiencia/editar/:CD_DEFICIENCIA" element = {<ValidaSessao tela={ViewEditarDeficiencia} nivel={3} />} />
-            <Route path = "/equipamento" element = {<ValidaSessao tela={ViewEquipamento} nivel={3} />} />
-            <Route path = "/equipamento/nova" element = {<ValidaSessao tela={ViewNovaEquipamento} nivel={3} />} />
-            <Route path = "/equipamento/editar/:CD_MEIO_LOCOMOCAO" element = {<ValidaSessao tela={ViewEditarEquipamento} nivel={3} />} />
-            <Route path = "/usuario" element = {<ValidaSessao tela={ViewUsuario} nivel={3} />} />
-            <Route path = "/usuario/novo" element = {<ValidaSessao tela={ViewNovaUsuario} nivel={3} />} />
+            <Route path="/menu" element={<ValidaSessao tela={ViewMenu} nivel={3} />} />
+            <Route path="/listagem" element={<ValidaSessao tela={ViewListagem} nivel={3} />} />
+            <Route path="/cadastros" element={<ValidaSessao tela={ViewCadGeral} nivel={3} />} />
+            <Route path="/associado" element={<ValidaSessao tela={ViewNovoAssociado} nivel={1} />} />
+            <Route path="/cadastro" element={<ValidaSessao tela={ViewCadTec} nivel={2} />} />
+            <Route path="/funcoes" element={<ValidaSessao tela={ViewFuncoes} nivel={3} />} />
+            <Route path="/funcoes/nova" element={<ValidaSessao tela={ViewNovaFuncao} nivel={3} />} />
+            <Route path="/funcoes/editar/:CD_FUNCAO" element={<ValidaSessao tela={ViewEditarFuncao} nivel={3} />} />
+            <Route path="/modalidade" element={<ValidaSessao tela={ViewModalidade} nivel={3} />} />
+            <Route path="/modalidade/nova" element={<ValidaSessao tela={ViewNovaModalidade} nivel={3} />} />
+            <Route path="/modalidade/editar/:CD_MODALIDADE" element={<ValidaSessao tela={ViewEditarModalidade} nivel={3} />} />
+            <Route path="/deficiencia" element={<ValidaSessao tela={ViewDeficiencia} nivel={3} />} />
+            <Route path="/deficiencia/nova" element={<ValidaSessao tela={ViewNovaDeficiencia} nivel={3} />} />
+            <Route path="/deficiencia/editar/:CD_DEFICIENCIA" element={<ValidaSessao tela={ViewEditarDeficiencia} nivel={3} />} />
+            <Route path="/equipamento" element={<ValidaSessao tela={ViewEquipamento} nivel={3} />} />
+            <Route path="/equipamento/nova" element={<ValidaSessao tela={ViewNovaEquipamento} nivel={3} />} />
+            <Route path="/equipamento/editar/:CD_MEIO_LOCOMOCAO" element={<ValidaSessao tela={ViewEditarEquipamento} nivel={3} />} />
+            <Route path="/usuario" element={<ValidaSessao tela={ViewUsuario} nivel={3} />} />
+            <Route path="/usuario/novo" element={<ValidaSessao tela={ViewNovaUsuario} nivel={3} />} />
             {/* <Route path = "/usuario/editar/:CD_USUARIO" element = {<ValidaSessao tela={ViewEditarUsuario} nivel={3} />} /> */}
-            <Route path = "/usuario/editar/acesso/:CD_USUARIO" element = {<ValidaSessao tela={ViewEditarAcesso} nivel={3} />} />
-            <Route path = "/tecnico" element = {<ValidaSessao tela={ViewTecnico} nivel={3} />} />
-            <Route path = "/tecnico/novo" element = {<ValidaSessao tela={ViewNovoTecnico} nivel={3} />} />
-            <Route path = "/tecnico/editar/:CD_TECNICO_MODALIDADE" element = {<ValidaSessao tela={ViewEditarTecnico} nivel={3} />} />
+            <Route path="/usuario/editar/acesso/:CD_USUARIO" element={<ValidaSessao tela={ViewEditarAcesso} nivel={3} />} />
+            <Route path="/tecnico" element={<ValidaSessao tela={ViewTecnico} nivel={3} />} />
+            <Route path="/tecnico/novo" element={<ValidaSessao tela={ViewNovoTecnico} nivel={3} />} />
+            <Route path="/tecnico/editar/:CD_TECNICO_MODALIDADE" element={<ValidaSessao tela={ViewEditarTecnico} nivel={3} />} />
             <Route path="*" element={<div>Erro: Página não encontrada</div>} />
           </Routes>
         </Suspense>
