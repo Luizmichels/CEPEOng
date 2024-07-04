@@ -143,6 +143,7 @@ Descrição: Tela onde o administrador poderá fazer uma solicitação de cadast
 - Ele lista todos usuários
 - Preencher os campos obrigatórios como usuário e senha
 - Clicar no botão "enviar a solicitação" e aguardar a solicitação
+- Na tela de alteração do novo usuário, tem como opção escolher o nível de acesso do usuário 
 
 5. Tela de Novo Associado
 
@@ -213,3 +214,9 @@ Descrição: Tela de Esqueci minha Senha onde o usuário já cadastrado no siste
 - Preencher campo obrigatório com Usuário, Email ou CPF
 - Clicar no botão "Enviar" para validar a solicitação
 
+14. Tela de Técnico
+
+Descrição: Tela de técnico onde o usuário de nível 2 que seria cadastrado como técnico pelo administrador do sistema
+
+- Preencher todos os campos obrigatórios 
+- Clicar no botão "enviar" para validar as informações
