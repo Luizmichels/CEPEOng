@@ -40,6 +40,10 @@ function Login() {
     }
   };
 
+  const handleRegisterClick = () => {
+    navigate('/realizar-cadastro');
+  };
+
   return (
     <div className="tela login">
       <Form onSubmit={handleLogin}>
@@ -80,7 +84,7 @@ function Login() {
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}
           <div className="d-flex justify-content-between rodapes">
-            <Button color="default">Quero me associar</Button>
+            <Button color="default" onClick={handleRegisterClick}>Quero me associar</Button>
             <Button color="default" type="submit">Entrar</Button>
           </div>
         </div>

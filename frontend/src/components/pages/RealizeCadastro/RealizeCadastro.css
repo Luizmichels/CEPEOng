@@ -1,0 +1,48 @@
+.tela {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .logo-container {
+    margin-top: 20px;
+    margin-left: 20px;
+  }
+  
+  .logo {
+    width: 100px; /* Ajuste conforme necessário */
+    height: auto;
+  }
+  
+  .titulo-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .titulo {
+    font-size: 2.5vh; /* Tamanho da fonte do título */
+    margin: 10px 0;
+  }
+  
+  .botao-container {
+    margin-top: 20px;
+  }
+  
+  .clique-aqui {
+    background-color: #ed5600;
+    width: 200px; /* Ajuste conforme necessário */
+    height: 60px; /* Ajuste conforme necessário */
+    border-radius: 50px;
+    font-size: 2.5vh !important;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

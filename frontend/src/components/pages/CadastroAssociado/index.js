@@ -200,7 +200,7 @@ const CadastroNovoAtleta = () => {
               />
             </Col>
             <Col className="titulo" md={6}>
-              <h1 className="txt-titulo">Cadastro Novo Atleta</h1>
+              <h1 className="txt-titulo">Cadastro Novo Associado</h1>
             </Col>
           </Row>
         </nav>

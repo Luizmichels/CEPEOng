@@ -32,7 +32,8 @@ const ViewCheckCadastro = lazy(() => import("./components/pages/menu_usuario/Che
 const ViewTecnico = lazy(() => import("./components/pages/TecnicoModalidade"));
 const ViewNovoTecnico = lazy(() => import("./components/pages/TecnicoModalidade/NovaTecMod"));
 const ViewEditarTecnico = lazy(() => import("./components/pages/TecnicoModalidade/EditarTecMod"));
-const ViewEsqueciSenha = lazy(() => import("./components/pages/esqueciSenha/esqueciSenha")); // Novo componente para Esqueci Minha Senha
+const ViewEsqueciSenha = lazy(() => import("./components/pages/esqueciSenha/esqueciSenha")); 
+const ViewRealizeCadastro = lazy(() => import("./components/pages/RealizeCadastro/RealizeCadastro.js"))
 
 function ValidaSessao({ tela: Tela, nivel = 1 }) {
   const [load, setLoad] = useState(true);
@@ -72,6 +73,7 @@ function App() {
       <BrowserRouter>
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
+            <Route path="/realizar-cadastro" element={<ViewRealizeCadastro />} />
             <Route path="/login" element={<ViewLogin />} />
             <Route path="/esqueci-senha" element={<ViewEsqueciSenha />} /> {/* Rota para Esqueci Minha Senha */}
             <Route path="/usuario/editar" element={<ViewEditarUsuario />} />
