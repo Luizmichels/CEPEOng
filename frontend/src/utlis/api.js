@@ -18,7 +18,7 @@ api.interceptors.request.use(
 
 export default api;
 
-export const get = (url, config = {}) => api.get(url, config);
+export const get = (url, data = {}, config = {}) => api.get(url, {...config, params:data });
 export const post = (url, data = {}, config = {}) => api.post(url, data, config);
 export const patch = (url, data = {}, config = {}) => api.patch(url, data, config);
 export const remove = (url, config = {}) => api.delete(url, config);

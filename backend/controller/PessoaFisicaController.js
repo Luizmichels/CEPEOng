@@ -1,4 +1,6 @@
 const PessoaFisica = require("../models/pessoa_fisica");
+const ExcelJS = require('exceljs');
+const fs = require('fs');
 const Deficiencia = require("../models/deficiencia");
 const DeficienciaPessoa = require("../models/DeficienciaPessoa");
 const AtletaModalidade = require("../models/AtletaModalidade");
@@ -177,26 +179,35 @@ module.exports = class PessoaFisicaController {
   }
 
   static async TodosCadastratos(req, res) {
+    const {nome} = req.query
     try {
+      let sql_nome = '';
+
+      if(nome != null){
+        sql_nome = `AND NM_PESSOA LIKE '%${nome}%'`
+      }
       const pessoas = await db.query(
-        `
-                SELECT pf.FOTO_ATLETA,
+                 `SELECT pf.CD_PESSOA_FISICA,
+                       pf.FOTO_ATLETA,
                        pf.NM_PESSOA,
                        pf.CPF,
                        GROUP_CONCAT(d.TP_DEFICIENCIA ORDER BY d.TP_DEFICIENCIA SEPARATOR ',') AS Deficiencia,
                        m.NM_MODALIDADE as Modalidade,
                        f.NM_FUNCAO as Funcao
                 FROM pessoa_fisicas pf
-                JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
-                JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
-                LEFT JOIN modalidades m ON pf.CD_MODALIDADE = m.CD_MODALIDEDADE
+                LEFT JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
+                LEFT JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
+                LEFT JOIN modalidades m ON pf.CD_MODALIDADE = m.CD_MODALIDADE
                 LEFT JOIN funcaos f ON pf.CD_FUNCAO = f.CD_FUNCAO
+                WHERE 1 = 1
+                ${sql_nome}
                 GROUP BY pf.CD_PESSOA_FISICA
                 `,
         { type: db.QueryTypes.SELECT }
       );
 
       const dadosFormatados = pessoas.map((pessoa) => ({
+        id: pessoa.CD_PESSOA_FISICA,
         Foto: pessoa.FOTO_ATLETA,
         CPF: formatarCPF(pessoa.CPF),
         Nome: pessoa.NM_PESSOA,
@@ -1391,23 +1402,31 @@ module.exports = class PessoaFisicaController {
     const { CD_PESSOA_FISICA } = req.params;
 
     try {
-      if (!CD_PESSOA_FISICA) {
-        return res.status(404).json({ message: "Usuário não encontrada" });
+      // if (!CD_PESSOA_FISICA) {
+      //   return res.status(404).json({ message: "Usuário não encontrada" });
+      // }
+
+      const {nome} = req.query
+      let sql_nome = '';
+
+      if(nome != null){
+        sql_nome = `AND NM_PESSOA LIKE '%${nome}%'`
       }
 
       const pessoas = await db.query(
-        `
-                SELECT pf.*,
-                       GROUP_CONCAT(d.TP_DEFICIENCIA ORDER BY d.TP_DEFICIENCIA SEPARATOR ',') AS Deficiencia,
-                       m.NM_MODALIDADE as Modalidade,
-                       f.NM_FUNCAO as Funcao
-                FROM pessoa_fisicas pf
-                JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
-                JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
-                LEFT JOIN modalidades m ON pf.CD_MODALIDADE = m.CD_MODALIDEDADE
-                LEFT JOIN funcaos f ON pf.CD_FUNCAO = f.CD_FUNCAO
-                WHERE pf.CD_PESSOA_FISICA IN (:CD_PESSOA_FISICA)
-                GROUP BY pf.CD_PESSOA_FISICA
+              `SELECT 
+              	pf.*,
+                  GROUP_CONCAT(d.TP_DEFICIENCIA ORDER BY d.TP_DEFICIENCIA SEPARATOR ',') AS Deficiencia,
+                  m.NM_MODALIDADE as Modalidade,
+              	f.NM_FUNCAO as Funcao
+              FROM pessoa_fisicas pf
+              left JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
+              left JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
+              LEFT JOIN modalidades m ON pf.CD_MODALIDADE = m.CD_MODALIDADE
+              LEFT JOIN funcaos f ON pf.CD_FUNCAO = f.CD_FUNCAO
+              WHERE 1 = 1
+              ${sql_nome}
+              GROUP BY pf.CD_PESSOA_FISICA
                 `,
         { replacements: { CD_PESSOA_FISICA }, type: db.QueryTypes.SELECT }
       );
@@ -1465,7 +1484,26 @@ module.exports = class PessoaFisicaController {
         FOTO_RG_RESPONS: pessoa.FOTO_RG_RESPONS,
       }));
 
-      res.status(200).json({ pessoas: dadosFormatados });
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet('Pessoas');
+    
+      worksheet.columns = Object.keys(dadosFormatados[0]).map((key) => ({
+        header: key,
+        key: key,
+        width: 20,
+      }));
+    
+      dadosFormatados.forEach((dado) => {
+        worksheet.addRow(dado);
+      });
+    
+      await workbook.xlsx.writeFile("../exports/export.xlsx");
+      const path = fs.realpathSync("../exports/export.xlsx");
+      console.log(path);
+    
+      res.download(path);
+
+      // res.status(200).json({ pessoas: dadosFormatados });
     } catch (error) {
       return res
         .status(500)

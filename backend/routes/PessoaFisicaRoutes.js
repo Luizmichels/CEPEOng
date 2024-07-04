@@ -21,7 +21,7 @@ routes.patch('/cadastro/editar/:CD_PESSOA_FISICA', ChecarToken, verificarNivelAc
         { name: "FOTO_ATLETA", maxCount: 1 },
       ]), PessoaFisicaController.editarPessoaFisica)
 routes.get('/cadastratos/grid', ChecarToken, verificarNivelAcesso(2), PessoaFisicaController.TodosCadastratos)
-routes.get('/cadastratos/grid/exportar/:CD_PESSOA_FISICA', ChecarToken, verificarNivelAcesso(3), PessoaFisicaController.DadosFormatados)
+routes.get('/cadastratos/grid/exportar', ChecarToken, verificarNivelAcesso(3), PessoaFisicaController.DadosFormatados)
 routes.patch('/cadastratos/grid/editar/:CD_PESSOA_FISICA', ChecarToken, verificarNivelAcesso(2),
 imageUpload.fields([
   { name: "FOTO_RG", maxCount: 1 },
