@@ -5,7 +5,7 @@ import "./inputs.scss";
 import "./CadastroTecnico.scss";
 
 const teste = [
-  { link: "/novo-associado", tela: "Novo Associado" },
+  { link: "/associado", tela: "Novo Associado" },
   { link: "/alterar-cadastro", tela: "Alterar Cadastro" },
 ];
 
