@@ -190,11 +190,26 @@ Descrição: Tela de nova deficiência onde o usuário poderá cadastrar uma nov
 
 11. Tela de Listagem
 
-Descrição: Tela de Listagem e lista todos os atletas da ONG
+Descrição: Tela de Listagem onde ele lista todos os atletas cadastrados da ONG
 
 - No cabeçalho tem como buscar por uma atleta específico preenchendo os campos de nome e deficiência do atleta
 - Clicar no botão "buscar" para filtar informções preenchidas nos campos do cabeçalho
 - Clicar no botão "exportar" para exportar um relatório com os atletas filtrados
 - Lista dados dos atletas como Foto, Nome, CPF, Deficiência, Modalidade e entre outros
 
-12.
+12. Tela Quero me  Associar 
+
+ Descrição: Tela de Quero me Associar onde um novo usuário pode enviar uma solictação de cadastrado para o administrador da ONG realizar
+
+ - Preencher campos obrigatórios como Nome, Telefone e E-mail
+ - Clicar no botão "Enviar" para validar a solicitação
+ - Ele envia a solicitação para o e-mail da ONG, onde o admin pode estar cadastrando esse novo usuário
+
+
+13. Tela de Esqueci a Senha
+
+Descrição: Tela de Esqueci minha Senha onde o usuário já cadastrado no sistema pode estar requisitando uma nova senha para acessar o sistema
+
+- Preencher campo obrigatório com Usuário, Email ou CPF
+- Clicar no botão "Enviar" para validar a solicitação
+
