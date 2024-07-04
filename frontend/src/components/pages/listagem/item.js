@@ -11,14 +11,14 @@ export default function Item({ item, editarUsuario, deletarUsuario}) {
     <td>{Modalidade}</td>
     <td>{Funcao}</td>
     <td>
-      <button className="editar" onClick={() => editarUsuario(1)}>
+      <button className="editar" onClick={() => editarUsuario(id)}>
         <img
           src="../../../../public/assets/img/Pencil.png"
           alt="Editar"
         />
       </button>
       <br />
-      <button className="deletar" onClick={() => deletarUsuario(1)}>
+      <button className="deletar" onClick={() => deletarUsuario(id)}>
         <img
           src="../../../../public/assets/img/Delete.png"
           alt="Deletar"

@@ -113,7 +113,7 @@ const ChartComponent = ({ nivel }) => {
             <Button className="text-button novoitem" onClick={handleNavigate}>
               Cadastrar Novo Item
             </Button>
-            <Button className="text-button listagem" onClick={() => navigate("/cadastros")}
+            <Button className="text-button listagem" onClick={() => navigate("/listagem ")}
             >
               Listagem de Atletas
             </Button>

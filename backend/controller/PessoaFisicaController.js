@@ -179,13 +179,31 @@ module.exports = class PessoaFisicaController {
   }
 
   static async TodosCadastratos(req, res) {
-    const {nome} = req.query
-    try {
-      let sql_nome = '';
 
-      if(nome != null){
-        sql_nome = `AND NM_PESSOA LIKE '%${nome}%'`
-      }
+const { nome } = req.query;
+const { modalidade } = req.query;
+const { deficiencia } = req.query;
+const { funcao } = req.query;
+
+try {
+  let sql_nome = '';
+  let sql_modalidade = '';
+  let sql_deficiencia = '';
+  let sql_funcao = '';
+
+  if (nome != null) {
+    sql_nome = `AND NM_PESSOA LIKE '%${nome}%'`;
+  }
+  if (modalidade != null) {
+    sql_modalidade = `AND m.NM_MODALIDADE LIKE '%${modalidade}%'`;
+  }
+  if (deficiencia != null) {
+    sql_deficiencia = `AND d.TP_DEFICIENCIA LIKE '%${deficiencia}%'`;
+  }
+  if (funcao != null) {
+    sql_funcao = `AND f.NM_FUNCAO LIKE '%${funcao}%'`;
+  }
+      
       const pessoas = await db.query(
                  `SELECT pf.CD_PESSOA_FISICA,
                        pf.FOTO_ATLETA,
@@ -201,6 +219,9 @@ module.exports = class PessoaFisicaController {
                 LEFT JOIN funcaos f ON pf.CD_FUNCAO = f.CD_FUNCAO
                 WHERE 1 = 1
                 ${sql_nome}
+                ${sql_modalidade}
+                ${sql_deficiencia}
+                ${sql_funcao}
                 GROUP BY pf.CD_PESSOA_FISICA
                 `,
         { type: db.QueryTypes.SELECT }

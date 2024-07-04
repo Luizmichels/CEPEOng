@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./listagem.scss";
 import Item from "./item";
 import { get } from "../../../utlis/api";
 import {Input, Button} from "reactstrap";
+import { NotificacaoManager } from "../../notificacao";
 
 const Listagem = () => {
+  const navigate = useNavigate();
   const [nome, setNome] = useState('')
+  const [Modalidade, setModalidade] = useState('')
+  const [Deficiencia, setDeficiencia] = useState('')
+  const [Funcao, setFuncao] = useState('')
   const [itens, setItens] = useState([])
+  const [update, setUpdate] = useState(false)
   const editarUsuario = (id) => {
     // lógica para editar o usuário com o ID fornecido
-    window.location.href = `editar_usuario.html?id=${id}`;
+    // window.location.href = `editar_usuario.html?id=${id}`;
+    // navigate(`editar_usuario.html?id=${id}`);
+    NotificacaoManager.warning('Em Dev', undefined, 2000)
   };
 
   const deletarUsuario = (id) => {
@@ -17,20 +26,23 @@ const Listagem = () => {
     if (window.confirm('Tem certeza que deseja deletar este usuário?')) {
       // Lógica de exclusão
       alert(`Usuário ${id} deletado.`);
+      get('/deletar/:CD_PESSOA_FISICA'+id).then(() => {
+        setUpdate((c) => !c);
+      });
     }
   };
 
   useEffect(()=> {
-    get('/associado/cadastratos/grid', {nome}).then(({data})=>{
+    get('/associado/cadastratos/grid', {nome, Modalidade, Deficiencia, Funcao}).then(({data})=>{
       setItens(data.pessoas);
     })
-  }, [nome])
+  }, [nome, Modalidade, Deficiencia, Funcao, update])
 
   return (
     <div className="tela">
       <header>
-        <a href="../menu/index.js">
-          <img src="../../../../../frontend/public/assets/img/cepe_joinville_laranja 2.png" alt="logo" className="logo" />
+        <a href="/menu">
+          <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" className="logo"/>
         </a>
         <div className="divisao">
           <p>Nome</p>
@@ -40,20 +52,22 @@ const Listagem = () => {
         </div>
         <div className="divisao">
           <p>Modalidade</p>
-          <Input type="search" className="buscar" id="busca_moda" />
-        </div>
+          <Input type="search" className="buscar" id="busca_nome" onChange={(e) => {
+            setModalidade(e.target.value)
+          }} />        
+          </div>
         <div className="divisao">
           <p>Deficiência</p>
-          <Input type="search" className="buscar" id="busca_defi" />
-        </div>
+          <Input type="search" className="buscar" id="busca_nome" onChange={(e) => {
+            setDeficiencia(e.target.value)
+          }} />        
+          </div>
         <div className="divisao">
           <p>Função</p>
-          <Input type="search" className="buscar" id="busca_func" />
-        </div>
-        <div className="divisao">
-          <p>Técnico</p>
-          <Input type="search" className="buscar" id="busca_tecn" />
-        </div>
+          <Input type="search" className="buscar" id="busca_nome" onChange={(e) => {
+            setFuncao(e.target.value)
+          }} />        
+          </div>
         <Button color="default" onClick={async ()=>{
 
           try {
@@ -88,7 +102,9 @@ const Listagem = () => {
         </thead>
         <tbody>
           {itens.map((item)=>{
-            return <Item key={`item_${item.id}`} item={item} deletarUsuario={deletarUsuario} editarUsuario={editarUsuario}/>
+            return <Item key={`item_${item.id}`} item={item}
+              deletarUsuario={deletarUsuario}
+              editarUsuario={editarUsuario} />
           })}
         </tbody>
       </table>
