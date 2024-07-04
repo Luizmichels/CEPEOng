@@ -33,6 +33,7 @@ const RotaPessoaFisica = require('./routes/PessoaFisicaRoutes');
 const RotaMeioLocomocao = require('./routes/MeioLocomocaoRoutes');
 const RotaModalidade = require('./routes/ModalidadeRoutes');
 const RotaFuncao = require('./routes/FuncaoRoutes');
+const RotaImagem = require('./routes/ImagemRoutes');
 
 app.use('/deficiencia', RotaDeficiencia);
 app.use('/usuario', RotaUsuario);
@@ -40,6 +41,7 @@ app.use('/associado', RotaPessoaFisica);
 app.use('/meioLocomocao', RotaMeioLocomocao);
 app.use('/modalidade', RotaModalidade);
 app.use('/funcao', RotaFuncao);
+app.use('/imagem', RotaImagem);
 console.log('Routes configured');
 
 // Definindo a porta que o backend vai rodar
