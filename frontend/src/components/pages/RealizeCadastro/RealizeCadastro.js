@@ -1,15 +1,8 @@
 import React from "react";
 import { Button } from "reactstrap";
-import { useNavigate } from "react-router-dom"; // Importar o hook useNavigate
 import "./RealizeCadastro.css";
 
 function RealizeCadastro() {
-  const navigate = useNavigate(); // Inicializar o hook useNavigate
-
-  const handleClick = () => {
-    navigate('/associado');
-  };
-
   return (
     <div className="tela realize-cadastro">
       <div className="logo-container">
@@ -22,9 +15,14 @@ function RealizeCadastro() {
       <div className="titulo-container">
         <h2 className="titulo">Realize seu cadastro!</h2>
       </div>
+      <div className="form-container">
+        <input type="text" className="input-field" placeholder="Nome" />
+        <input type="tel" className="input-field" placeholder="Telefone" />
+        <input type="email" className="input-field" placeholder="Email" />
+      </div>
       <div className="botao-container">
-        <Button color="default" className="clique-aqui" onClick={handleClick}>
-          Clique aqui
+        <Button color="default" className="clique-aqui">
+          Enviar
         </Button>
       </div>
     </div>
