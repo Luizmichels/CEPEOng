@@ -44,6 +44,10 @@ app.use('/funcao', RotaFuncao);
 app.use('/imagem', RotaImagem);
 console.log('Routes configured');
 
+app.use((_, res)=>{
+  res.status(404).send("Nada Aqui!")
+});
+
 // Definindo a porta que o backend vai rodar
 conn
   .sync()

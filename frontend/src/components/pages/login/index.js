@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, Label, Row } from "reactstrap";
 import { useNavigate } from "react-router-dom"; // Importar o hook useNavigate
 import { setToken } from "../../../utlis";
 import { post } from "../../../utlis/api";
-import "./login.css";
+import "./login.scss";
 import "./inputs.css";
 
 function Login() {
@@ -45,7 +45,7 @@ function Login() {
   };
 
   return (
-    <div className="tela login">
+    <div className="tela login tela-login">
       <Form onSubmit={handleLogin}>
         <div className="conteudo pe-4">
           <img src="/assets/img/cepe_joinville_laranja 2.png" className="logo" alt="Logo" />

@@ -1,18 +1,41 @@
 const PessoaFisica = require("../models/pessoa_fisica");
 const ExcelJS = require('exceljs');
 const fs = require('fs');
+const { mkdir } = require('fs/promises');
 const Deficiencia = require("../models/deficiencia");
 const DeficienciaPessoa = require("../models/DeficienciaPessoa");
 const AtletaModalidade = require("../models/AtletaModalidade");
 
 const db = require("../db/conn");
+const { existsSync, copyFileSync, realpathSync } = fs;
 
 // helpers
 const { formatarData, formatarTelefone, formatarCPF, formatarRG, formatarCEP } = require("../helpers/FormatarDadosPessoa");
 const { EmailValido, cpfValido, diferencaAnos } = require("../helpers/Validacoes");
 const ObterToken = require("../helpers/ObterToken");
 const ObterUsuarioToken = require("../helpers/ObterUsuarioToken");
+
 module.exports = class PessoaFisicaController {
+
+  static async CadastImagens(req, res) {
+
+    const file = req.file;
+    const { tipo, nome } = req.body;
+
+    if (!existsSync(`../uploads/${tipo}`)) {
+      await mkdir(`../uploads/${tipo}`, {
+        recursive: true
+      });
+    }
+  
+    copyFileSync(
+      file.path,
+      `../uploads/${tipo}/${nome}.jpg`
+    );
+
+    res.send('jose')
+  }
+
   // Criando o Cadastro da pessoa fisica no banco
   static async CadastPessoaFisica(req, res) {
     try {
@@ -26,13 +49,11 @@ module.exports = class PessoaFisicaController {
     //   if (usuario) return res.status(422).json({ message: "Você já está cadastrado" });
 
       const { NM_PESSOA, NR_CELULAR, NR_TELEFONE, SEXO, DT_NASCIMENTO, ESTADO_CIVIL, NATURALIDADE, EMAIL, CD_EQUIPA_LOCOMOCAO, CD_DEFICIENCIA, 
-              MEIO_LOCOMOCAO, CD_FUNCAO, ASSISTENCIA, NM_PAI, CELULAR_PAI, NM_MAE, CELULAR_MAE, EMAIL_RESPONS, NATURALIDADE_RESPONS, PESO,
+               CD_MEIO_LOCOMOCAO, CD_FUNCAO, ASSISTENCIA, NM_PAI, CELULAR_PAI, NM_MAE, CELULAR_MAE, EMAIL_RESPONS, NATURALIDADE_RESPONS, PESO,
               ALTURA, GP_SANGUE, RENDA, ESCOLARIDADE, INSTITUICAO, MATRICULA, TELEFONE_ESCOLA, CPF, RG, UF_RG, DT_EMISSAO_RG, NR_PASSAPORTE, 
               CPF_RESPONS, RG_RESPONS, UF_RG_RESPONS, DT_EMISSAO_RG_RESPONS, NR_PASSAPORTE_RESPONS, CEP, ENDERECO, NR_ENDERECO, DS_ENDERECO, 
-              CD_MODALIDADE, CLASSIF_FUNC, PROVA, TAMANHO_CAMISA, TAMANHO_AGASALHO, TAMANHO_BERM_CAL, NR_CALCADO
+              CD_MODALIDADE, CLASSIF_FUNC, PROVA, TAMANHO_CAMISA, TAMANHO_AGASALHO, TAMANHO_BERM_CAL, NR_CALCADO, FOTO_ATLETA, FOTO_RG, FOTO_RG_RESPONS
             } = req.body;
-
-      const { FOTO_ATLETA, FOTO_RG, FOTO_RG_RESPONS } = req.files;
 
       await Deficiencia.findAll({ where: { CD_DEFICIENCIA: CD_DEFICIENCIA } });
 
@@ -50,7 +71,7 @@ module.exports = class PessoaFisicaController {
       if (!EMAIL) return res.status(422).json({ message: "O email é obrigatório" });
       if (!CD_EQUIPA_LOCOMOCAO) return res.status(422).json({ message: "O equipamento de locomoção é obrigatório" });
       if (!CD_DEFICIENCIA) return res.status(422).json({ message: "A escolha de uma deficiencia é obrigatória" });
-      if (!MEIO_LOCOMOCAO) return res.status(422).json({ message: "O meio de locomoção é obrigatório" });
+      if (!CD_MEIO_LOCOMOCAO) return res.status(422).json({ message: "O meio de locomoção é obrigatório" });
       if (!CD_FUNCAO) return res.status(422).json({ message: "A função é obrigatória" });
       if (!ASSISTENCIA) return res.status(422).json({ message: "A opção de assistencia é obrigatória" });
       if (!NM_PAI) return res.status(422).json({ message: "O nome do pai é obrigatório" });
@@ -112,7 +133,8 @@ module.exports = class PessoaFisicaController {
         NATURALIDADE,
         EMAIL,
         CD_EQUIPA_LOCOMOCAO,
-        MEIO_LOCOMOCAO,
+        MEIO_LOCOMOCAO: CD_MEIO_LOCOMOCAO,
+        CD_EQUIPA_LOCOMOCAO: CD_MEIO_LOCOMOCAO,
         CD_FUNCAO,
         ASSISTENCIA,
         NM_PAI,
@@ -150,9 +172,9 @@ module.exports = class PessoaFisicaController {
         TAMANHO_AGASALHO,
         TAMANHO_BERM_CAL,
         NR_CALCADO,
-        FOTO_ATLETA: FOTO_ATLETA[0].filename,
-        FOTO_RG: FOTO_RG[0].filename,
-        FOTO_RG_RESPONS: req.files.FOTO_RG_RESPONS ? req.files.FOTO_RG_RESPONS[0].filename : null,
+        FOTO_ATLETA: FOTO_ATLETA,
+        FOTO_RG: FOTO_RG,
+        FOTO_RG_RESPONS: FOTO_RG_RESPONS,
         CD_USUARIO: user.CD_USUARIO,
       });
 
@@ -281,7 +303,7 @@ try {
         EMAIL,
         CD_EQUIPA_LOCOMOCAO,
         CD_DEFICIENCIA,
-        MEIO_LOCOMOCAO,
+        CD_MEIO_LOCOMOCAO,
         CD_FUNCAO,
         ASSISTENCIA,
         NM_PAI,
@@ -319,9 +341,8 @@ try {
         TAMANHO_AGASALHO,
         TAMANHO_BERM_CAL,
         NR_CALCADO,
+        FOTO_ATLETA, FOTO_RG, FOTO_RG_RESPONS
       } = req.body;
-
-      const { FOTO_ATLETA, FOTO_RG, FOTO_RG_RESPONS } = req.files;
 
       // Validações
 
@@ -397,7 +418,7 @@ try {
 
       pessoaFisica.CD_DEFICIENCIA = CD_DEFICIENCIA;
 
-      if (!MEIO_LOCOMOCAO) {
+      if (!CD_MEIO_LOCOMOCAO) {
         res.status(422).json({ message: "O meio de locomoção é obrigatório" });
         return;
       }
@@ -794,9 +815,9 @@ try {
         TAMANHO_AGASALHO,
         TAMANHO_BERM_CAL,
         NR_CALCADO,
-        FOTO_ATLETA: FOTO_ATLETA[0].filename,
-        FOTO_RG: FOTO_RG[0].filename,
-        FOTO_RG_RESPONS: FOTO_RG_RESPONS[0].filename,
+        FOTO_ATLETA: FOTO_ATLETA,
+        FOTO_RG: FOTO_RG,
+        FOTO_RG_RESPONS: FOTO_RG_RESPONS,
       });
 
       // Atualizar deficiências associadas

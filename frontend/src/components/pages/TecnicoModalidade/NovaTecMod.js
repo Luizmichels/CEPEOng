@@ -91,7 +91,7 @@ const ViewNovaUsuarios = () => {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="modalidade">Descrição do técnico</label>
+            <label htmlFor="modalidade">Modalidade</label>
             <select
               id="modalidade"
               value={selectedModalidade}

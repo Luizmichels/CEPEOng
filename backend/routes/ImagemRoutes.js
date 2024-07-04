@@ -7,4 +7,11 @@ routes.get('/:imagem', (req, res)=>{
     res.sendFile(path)
 })
 
+routes.get('/associado/:imagem', (req, res) => {
+    const {imagem} = req.params;
+    const path = fs.realpathSync('./public/images/associado/' + imagem)
+    res.sendFile(path)
+})
+
+
 module.exports = routes

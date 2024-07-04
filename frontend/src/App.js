@@ -32,6 +32,7 @@ const ViewCheckCadastro = lazy(() => import("./components/pages/menu_usuario/Che
 const ViewTecnico = lazy(() => import("./components/pages/TecnicoModalidade"));
 const ViewNovoTecnico = lazy(() => import("./components/pages/TecnicoModalidade/NovaTecMod"));
 const ViewEditarTecnico = lazy(() => import("./components/pages/TecnicoModalidade/EditarTecMod"));
+const ViewAlterarCadastro = lazy(() => import("./components/pages/AlterarCadastro"))
 const ViewEsqueciSenha = lazy(() => import("./components/pages/esqueciSenha/esqueciSenha")); 
 const ViewRealizeCadastro = lazy(() => import("./components/pages/RealizeCadastro/RealizeCadastro.js"))
 
@@ -75,6 +76,7 @@ function App() {
           <Routes>
             <Route path="/realizar-cadastro" element={<ViewRealizeCadastro />} />
             <Route path="/login" element={<ViewLogin />} />
+            <Route path="" element={<Navigate to="login" />} />
             <Route path="/esqueci-senha" element={<ViewEsqueciSenha />} /> {/* Rota para Esqueci Minha Senha */}
             <Route path="/usuario/editar" element={<ViewEditarUsuario />} />
             <Route path="/check-cadastro" element={<ViewCheckCadastro />} />
@@ -102,6 +104,7 @@ function App() {
             <Route path="/tecnico" element={<ValidaSessao tela={ViewTecnico} nivel={3} />} />
             <Route path="/tecnico/novo" element={<ValidaSessao tela={ViewNovoTecnico} nivel={3} />} />
             <Route path="/tecnico/editar/:CD_TECNICO_MODALIDADE" element={<ValidaSessao tela={ViewEditarTecnico} nivel={3} />} />
+            <Route path = "/alterar" element = {<ValidaSessao tela={ViewAlterarCadastro} nivel={3} />} />
             <Route path="*" element={<div>Erro: Página não encontrada</div>} />
           </Routes>
         </Suspense>

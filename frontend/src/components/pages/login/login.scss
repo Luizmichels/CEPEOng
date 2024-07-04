@@ -1,0 +1,92 @@
+.tela-login {
+  &.tela {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    justify-content: center;
+  }
+
+  &.tela .conteudo {
+    width: 80%;
+  }
+
+  .usuarioesenha {
+    font-size: 3vh !important;
+  }
+
+  .logo {
+    width: 25vh !important;
+    height: 25vh !important;
+    padding: 25px;
+  }
+
+  &.tela {
+    font-size: 5vh;
+  }
+
+  &.login form {
+    width: 60%;
+    display: flex;
+  }
+
+  .esqueci {
+    font-size: 2.5vh !important;
+    font-weight: bold;
+  }
+
+  .rodapes {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .quero {
+    background-color: #ed5600;
+    width: 35vh;
+    height: 10vh;
+    text-align: center;
+    line-height: 9vh;
+    vertical-align: middle;
+    border-radius: 50px;
+    font-size: 3.5vh !important;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 5vh;
+  }
+
+  .entrar {
+    background-color: #ed5600;
+    width: 35vh;
+    height: 10vh;
+    text-align: center;
+    line-height: 9vh;
+    vertical-align: middle;
+    border-radius: 50px;
+    font-size: 3.5vh !important;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 10vh;
+  }
+  body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-family: "Inter", sans-serif;
+  }
+
+  &.tela {
+    width: 100%; /* Ajuste conforme necessário */
+  }
+
+  .imagemzona {
+    /* width: 40%; Ajuste conforme necessário */
+    display: flex;
+    justify-content: center;
+  }
+
+  .imagemzona img {
+    max-width: 100%;
+    /* height: 99vh; */
+    /* width: 100vh; */
+  }
+}

@@ -7,8 +7,8 @@ import "./cadastros_geral.scss";
 const teste = [
   { link: "/usuario", tela: "Novo Usuário" },
   { link: "/associado", tela: "Novo Associado" },
-  { link: "/alterar-cadastro", tela: "Alterar Cadastro" },
-  { link: "/permissoes", tela: "Permissões" },
+  { link: "/alterar", tela: "Alterar Cadastro" },
+  { link: "/tecnico", tela: "Técnico" },
   { link: "/modalidade", tela: "Nova Modalidade" },
   { link: "/equipamento", tela: "Equipamento de Locomoção" },
   { link: "/funcoes", tela: "Nova Função" },
