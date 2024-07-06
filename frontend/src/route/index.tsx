@@ -114,7 +114,7 @@ export default function Rotas() {
           <Route path="editar/:CD_DEFICIENCIA" element={<ValidaSessao tela={ViewEditarDeficiencia} nivel={3} />} />
         </Route>
 
-        <Route path="/equipamento">
+        <Route path="equipamento">
           <Route index element={<ValidaSessao tela={ViewEquipamento} nivel={3} />} />
           <Route path="nova" element={<ValidaSessao tela={ViewNovaEquipamento} nivel={3} />} />
           <Route path="editar/:CD_MEIO_LOCOMOCAO" element={<ValidaSessao tela={ViewEditarEquipamento} nivel={3} />} />
@@ -123,9 +123,9 @@ export default function Rotas() {
         <Route path="usuario">
           <Route index element={<ValidaSessao tela={ViewUsuario} nivel={3} />} />
           <Route path="editar" element={<ViewEditarUsuario />} />
-          <Route path="/novo" element={<ValidaSessao tela={ViewNovaUsuario} nivel={3} />} />
+          <Route path="novo" element={<ValidaSessao tela={ViewNovaUsuario} nivel={3} />} />
           {/* <Route path = "/editar/:CD_USUARIO" element = {<ValidaSessao tela={ViewEditarUsuario} nivel={3} />} /> */}
-          <Route path="/editar/acesso/:CD_USUARIO" element={<ValidaSessao tela={ViewEditarAcesso} nivel={3} />} />
+          <Route path="editar/acesso/:CD_USUARIO" element={<ValidaSessao tela={ViewEditarAcesso} nivel={3} />} />
         </Route>
 
         <Route path="tecnico" >
@@ -134,7 +134,7 @@ export default function Rotas() {
           <Route path="editar/:CD_TECNICO_MODALIDADE" element={<ValidaSessao tela={ViewEditarTecnico} nivel={3} />} />
         </Route>
 
-        <Route path="/alterar" element={<ValidaSessao tela={ViewAlterarCadastro} nivel={3} />} />
+        <Route path="alterar" element={<ValidaSessao tela={ViewAlterarCadastro} nivel={3} />} />
         <Route path="*" element={<div>Erro: Página não encontrada</div>} />
       </Routes>
     </Suspense>
