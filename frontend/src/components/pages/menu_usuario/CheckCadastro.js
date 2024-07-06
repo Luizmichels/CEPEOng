@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Form, Input, Label, Row } from "reactstrap";
+import { Button } from "reactstrap";
 import { useNavigate } from 'react-router-dom';
-import api, { get } from '../../../utlis/api';
+import api from '../../../utlis/api';
 import { getToken } from '../../../utlis';
 import './CheckCadastro.css'; // Importa o arquivo CSS
 

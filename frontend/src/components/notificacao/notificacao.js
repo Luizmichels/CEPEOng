@@ -16,7 +16,7 @@ export default function Notificacao({
 
   useEffect(() => {
     let timer = null;
-    if (tempo != 0) {
+    if (tempo !== 0) {
       timer = setTimeout(requestHide, tempo);
     }
     return () => {
