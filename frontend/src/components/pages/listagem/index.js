@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import "./listagem.scss";
 import Item from "./item";
 import { get } from "../../../utlis/api";
@@ -7,7 +7,7 @@ import {Input, Button} from "reactstrap";
 import { NotificacaoManager } from "../../notificacao";
 
 const Listagem = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [nome, setNome] = useState('')
   const [Modalidade, setModalidade] = useState('')
   const [Deficiencia, setDeficiencia] = useState('')

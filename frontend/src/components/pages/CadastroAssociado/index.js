@@ -37,7 +37,6 @@ const djsConfig = {
             </span>
           </div>
           <div className="preview-container">
-            {/*  eslint-disable-next-line jsx-a11y/alt-text */}
             <img data-dz-thumbnail className="img-thumbnail border-0" />
             <i className="simple-icon-doc preview-icon" />
           </div>

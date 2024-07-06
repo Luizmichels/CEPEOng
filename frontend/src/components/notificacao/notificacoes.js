@@ -13,7 +13,7 @@ class Notificacoes extends React.Component {
   render() {
     const { notificacoes, enterTimeout, laeveTimeout } = this.props;
     const className = `notification-container ${
-      notificacoes.length == 0 ? "notification-container-empty" : ""
+      notificacoes.length === 0 ? "notification-container-empty" : ""
     }`;
     return (
       <div className={className}>
