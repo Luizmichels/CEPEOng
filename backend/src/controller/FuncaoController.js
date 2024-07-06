@@ -1,11 +1,13 @@
-const Funcao = require('../models/funcao');
+import Funcao from '../models/funcao';
 
-module.exports = class FuncaoController {
+
+const { create, findAll, findOne, destroy } = Funcao
+export default class FuncaoController {
     // criar uma nova função
     static async cadastrarFuncao(req, res) {
         try {
             const { NM_FUNCAO, DS_FUNCAO } = req.body
-            await Funcao.create({ NM_FUNCAO, DS_FUNCAO })
+            await create({ NM_FUNCAO, DS_FUNCAO })
             res.status(201).json({ mensagem: 'Função cadastrada com sucesso!' })
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -39,7 +41,7 @@ module.exports = class FuncaoController {
 
         try {
 
-            const funcoes = await Funcao.findOne({ where: { CD_FUNCAO: CD_FUNCAO } });
+            const funcoes = await findOne({ where: { CD_FUNCAO: CD_FUNCAO } });
     
             if (!funcoes) {
                 return res.status(404).json({ mensagem: 'Função não encontrada' });
@@ -75,7 +77,7 @@ module.exports = class FuncaoController {
             }
     
             // Encontrar a deficiência para atualizar
-            const funcao = await Funcao.findOne({ where: { CD_FUNCAO: CD_FUNCAO } });
+            const funcao = await findOne({ where: { CD_FUNCAO: CD_FUNCAO } });
     
             if (!funcao) {
                 return res.status(404).json({ message: 'Função não encontrada!' });
@@ -96,13 +98,13 @@ module.exports = class FuncaoController {
 
         try {
             // Verificação se a Deficiência existe
-            const funcaoExiste = await Funcao.findOne({ where: { CD_FUNCAO: CD_FUNCAO } })
+            const funcaoExiste = await findOne({ where: { CD_FUNCAO: CD_FUNCAO } })
             if (!funcaoExiste) {
                 return res.status(404).json({ message: 'Função não encontrado' })
             }
 
             // Deletando Deficiência
-            await Funcao.destroy({ where: { CD_FUNCAO: CD_FUNCAO } })
+            await destroy({ where: { CD_FUNCAO: CD_FUNCAO } })
 
             return res.status(200).json({ message: 'Função deletada com sucesso' })
         } catch (error) {

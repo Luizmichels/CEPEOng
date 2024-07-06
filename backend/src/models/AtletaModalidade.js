@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const db = require("../db/conn");
+const db = require("../db/conn").default;
 
 const AtletaModalidade = db.define("ATLETA_MODALIDADE", {
   CD_ATLETA_MODALIDADE: {

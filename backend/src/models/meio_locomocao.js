@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
  
 // Importando a conexão com o banco
-const db = require('../db/conn')
+const db = require('../db/conn').default
  
 const MeioLocomocao = db.define("MEIO_LOCOMOCAO", {
     CD_MEIO_LOCOMOCAO: {

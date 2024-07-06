@@ -1,15 +1,15 @@
 const { DataTypes, Model } = require("sequelize");
 
 // Importando a conexão com o banco
-const db = require("../db/conn");
+const db = require("../db/conn").default;
 
 // Importando as outras tabelas
 const deficiencia = require("./deficiencia");
-const funcao = require("./funcao");
+const funcao = require("./funcao").default;
 const equipa_locom = require("./meio_locomocao");
-const modalidade = require("./modalidade");
+const modalidade = require("./modalidade").default;
 const DeficienciaPessoa = require("./DeficienciaPessoa");
-const Usuario = require("./usuario");
+const Usuario = require("./usuario").default;
 const AtletaModalidade = require("./AtletaModalidade");
 
 const PessoaFisica = db.define("PESSOA_FISICA", {

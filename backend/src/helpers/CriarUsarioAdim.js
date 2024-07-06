@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const Usuario = require('../models/usuario');
+import { genSalt, hash } from 'bcrypt';
+import Usuario from '../models/usuario';
 
 async function createDefaultAdminUser() {
     const NM_USUARIO = 'admin';
@@ -11,8 +11,8 @@ async function createDefaultAdminUser() {
         const usuarioExiste = await Usuario.findOne({ where: { NM_USUARIO } });
         if (!usuarioExiste) {
             // Criando e criptografando a senha
-            const salt = await bcrypt.genSalt(12);
-            const senhaHash = await bcrypt.hash(SENHA, salt);
+            const salt = await genSalt(12);
+            const senhaHash = await hash(SENHA, salt);
 
             // Criando usuário
             await Usuario.create({
@@ -30,4 +30,4 @@ async function createDefaultAdminUser() {
     }
 }
 
-module.exports = createDefaultAdminUser;
+export default createDefaultAdminUser;

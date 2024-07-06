@@ -1,11 +1,14 @@
 const routes = require('express').Router();
-const FuncaoController = require('../controller/FuncaoController');
-const { ChecarToken, verificarNivelAcesso } = require('../helpers/VerificarToken');
+import FuncaoController from '../controller/FuncaoController';
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken';
 
-routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), FuncaoController.cadastrarFuncao);
-routes.get('/listar', ChecarToken, verificarNivelAcesso(3), FuncaoController.listarFuncoes);
-routes.get('/obter/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), FuncaoController.obterFuncao);
-routes.patch('/atualizar/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), FuncaoController.atualizarFuncao);
-routes.delete('/deletar/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), FuncaoController.deletarFuncao);
+const { cadastrarFuncao, listarFuncoes, obterFuncao, atualizarFuncao, deletarFuncao } = FuncaoController;
 
-module.exports = routes;
+routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), cadastrarFuncao);
+routes.get('/listar', ChecarToken, verificarNivelAcesso(3), listarFuncoes);
+routes.get('/listar2', listarFuncoes);
+routes.get('/obter/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), obterFuncao);
+routes.patch('/atualizar/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), atualizarFuncao);
+routes.delete('/deletar/:CD_FUNCAO', ChecarToken, verificarNivelAcesso(3), deletarFuncao);
+
+export default routes;

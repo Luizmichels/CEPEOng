@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize')
  
 // Importando a conexão com o banco
-const db = require('../db/conn')
+const db = require('../db/conn').default
  
 const Deficiencia = db.define("DEFICIENCIA", {
     CD_DEFICIENCIA: {

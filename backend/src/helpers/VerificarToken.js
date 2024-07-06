@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const ObterToken = require('../helpers/ObterToken');
-const Usuario = require('../models/usuario');
+const Usuario = require('../models/usuario').default;
 
 const ChecarToken = (req, res, next) => {
     const token = ObterToken(req);

@@ -6,7 +6,7 @@ const Deficiencia = require("../models/deficiencia");
 const DeficienciaPessoa = require("../models/DeficienciaPessoa");
 const AtletaModalidade = require("../models/AtletaModalidade");
 
-const db = require("../db/conn");
+const db = require("../db/conn").default;
 const { existsSync, copyFileSync, realpathSync } = fs;
 
 // helpers

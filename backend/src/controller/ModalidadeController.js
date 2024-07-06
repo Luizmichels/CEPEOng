@@ -1,4 +1,4 @@
-const Modalidade = require('../models/modalidade');
+const Modalidade = require('../models/modalidade').default;
 
 module.exports = class ModalidadeController {
     // criar uma nova modalidade

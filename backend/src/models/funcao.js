@@ -1,7 +1,7 @@
-const { DataTypes } = require('sequelize')
+import { DataTypes } from 'sequelize'
  
 // Importando a conexão com o banco
-const db = require('../db/conn')
+import db from '../db/conn'
  
 const Funcao = db.define("FUNCAO", {
     CD_FUNCAO: {
@@ -19,4 +19,4 @@ const Funcao = db.define("FUNCAO", {
     }
 })
  
-module.exports = Funcao
+export default Funcao

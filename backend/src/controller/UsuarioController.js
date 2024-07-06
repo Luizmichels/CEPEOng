@@ -1,9 +1,9 @@
-const Usuario = require("../models/usuario");
+const Usuario = require("../models/usuario").default;
 const TecnicoModalidade = require('../models/TecnicoModalidade')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const db = require("../db/conn");
+const db = require("../db/conn").default;
 
 // helpers
 const CriarUsuarioToken = require("../helpers/CriarUsuarioToken");

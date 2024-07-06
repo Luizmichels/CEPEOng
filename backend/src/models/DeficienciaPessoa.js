@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize")
 
-const db = require('../db/conn')
+const db = require('../db/conn').default
 
 const DeficienciaPessoa = db.define('DEFICIENCIA_PESSOA', {
     CD_DEFICIENCIA_PESSOA: {
