@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Funcoes.css';
 import { get, remove } from '../../../utlis/api';
 
 const Funcoes = () => {
   const [funcoes, setFuncoes] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [selectedFuncao, setSelectedFuncao] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,12 +29,21 @@ const Funcoes = () => {
     }
   };
 
-  const handleDelete = async (CD_FUNCAO) => {
+  const toggleModal = () => setModal(!modal);
+
+  const confirmDelete = (funcao) => {
+    setSelectedFuncao(funcao);
+    toggleModal();
+  };
+
+  const handleDelete = async () => {
     try {
-      await remove(`/funcao/deletar/${CD_FUNCAO}`);
+      await remove(`/funcao/deletar/${selectedFuncao.CD_FUNCAO}`);
       fetchFuncoes();
+      toggleModal();
     } catch (error) {
       console.error('Erro ao excluir função', error);
+      toggleModal();
     }
   };
 
@@ -56,7 +67,7 @@ const Funcoes = () => {
               <div className="funcao-nome">{funcao.NM_FUNCAO}</div>
               <div className="button-group">
                 <Button className="text-button" onClick={() => navigate(`/funcoes/editar/${funcao.CD_FUNCAO}`)}>Alterar</Button>
-                <Button className="text-button" onClick={() => handleDelete(funcao.CD_FUNCAO)}>Excluir</Button>
+                <Button className="text-button" onClick={() => confirmDelete(funcao)}>Excluir</Button>
               </div>
             </Col>
           ))
@@ -71,6 +82,16 @@ const Funcoes = () => {
           <Button color="default" className="large-voltar" id="botaoVoltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
         </Col>
       </Row>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Confirmação de Exclusão</ModalHeader>
+        <ModalBody>
+          Tem certeza de que deseja excluir a função {selectedFuncao && selectedFuncao.NM_FUNCAO}?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={handleDelete}>Excluir</Button>{' '}
+          <Button color="secondary" onClick={toggleModal}>Cancelar</Button>
+        </ModalFooter>
+      </Modal>
     </Container>
   );
 };

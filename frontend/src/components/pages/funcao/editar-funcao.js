@@ -24,9 +24,9 @@ const ViewEditarFuncao = () => {
         headers: { Authorization: `Bearer ${token}` },
       };
       const { data } = await api.get(`/funcao/obter/${CD_FUNCAO}`, config);
-      const { funcoes } = data;
-      setNome(funcoes.NM_FUNCAO ?? "");
-      setDescricao(funcoes.DS_FUNCAO ?? "");
+      const { funcao } = data;
+      setNome(funcao.NM_FUNCAO ?? "");
+      setDescricao(funcao.DS_FUNCAO ?? "");
     } catch (error) {
       console.error("Erro ao buscar função:", error);
     }

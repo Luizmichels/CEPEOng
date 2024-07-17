@@ -137,7 +137,7 @@ input[type="file"] {
 }
 
 .custom-select {
-  padding: 10px;
+  padding: 1.2vh;
   background-color: #ED5600; // Cor laranja para o fundo do dropdown
   border-color: #ED5600; // Cor laranja para a borda do dropdown
   color: white; // Cor branca para o texto do dropdown
@@ -183,10 +183,13 @@ h4 {
 }
 
 .btn-cad-ass{
-  padding: 10px 80px;
-  align-items: center;
-  text-align: center;
-  justify-content: center;
+  padding: 20px 80px;
+  left: auto;
+  bottom: 5vh;
+  transform: translateX(120%);
+  margin-top: 2vh;
+  margin-bottom: 5vh;
+  font-size: 3vh;
 }
 
 .titulo {

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Deficiencia.css';
 import { get, remove } from '../../../utlis/api';
 
 const Deficiencias = () => {
   const [deficiencias, setDeficiencias] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [selectedDeficiencia, setSelectedDeficiencia] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,12 +29,21 @@ const Deficiencias = () => {
     }
   };
 
-  const handleDelete = async (CD_DEFICIENCIA) => {
+  const toggleModal = () => setModal(!modal);
+
+  const confirmDelete = (deficiencias) => {
+    setSelectedDeficiencia(deficiencias);
+    toggleModal();
+  };
+
+  const handleDelete = async () => {
     try {
-      await remove(`/deficiencia/deletar/${CD_DEFICIENCIA}`);
+      await remove(`/deficiencia/deletar/${selectedDeficiencia.CD_DEFICIENCIA}`);
       fetchDeficiencias();
+      toggleModal();
     } catch (error) {
       console.error('Erro ao excluir deficiência', error);
+      toggleModal();
     }
   };
 
@@ -56,7 +67,7 @@ const Deficiencias = () => {
               <div className="deficiencia-nome">{deficiencias.TP_DEFICIENCIA}</div>
               <div className="button-group">
                 <Button className="text-button" onClick={() => navigate(`/deficiencia/editar/${deficiencias.CD_DEFICIENCIA}`)}>Alterar</Button>
-                <Button className="text-button" onClick={() => handleDelete(deficiencias.CD_DEFICIENCIA)}>Excluir</Button>
+                <Button className="text-button" onClick={() => confirmDelete(deficiencias)}>Excluir</Button>
               </div>
             </Col>
           ))
@@ -71,6 +82,16 @@ const Deficiencias = () => {
           <Button color="default" className="large-voltar" id="botaoVoltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
         </Col>
       </Row>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Confirmação de Exclusão</ModalHeader>
+        <ModalBody>
+          Tem certeza de que deseja excluir a deficiência {selectedDeficiencia && selectedDeficiencia.TP_DEFICIENCIA}?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={handleDelete}>Excluir</Button>{' '}
+          <Button color="secondary" onClick={toggleModal}>Cancelar</Button>
+        </ModalFooter>
+      </Modal>
     </Container>
   );
 };

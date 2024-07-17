@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Usuario.css';
 import { get, remove } from '../../../utlis/api';
 
 const Usuarios = () => {
   const [usuario, setUsuarios] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [selectedUsuario, setSelectedUsuario] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,12 +29,21 @@ const Usuarios = () => {
     }
   };
 
-  const handleDelete = async (CD_USUARIO) => {
+  const toggleModal = () => setModal(!modal);
+
+  const confirmDelete = (usuario) => {
+    setSelectedUsuario(usuario);
+    toggleModal();
+  };
+
+  const handleDelete = async () => {
     try {
-      await remove(`/usuario/deletar/${CD_USUARIO}`);
+      await remove(`/usuario/deletar/${selectedUsuario.CD_USUARIO}`);
       fetchUsuario();
+      toggleModal();
     } catch (error) {
       console.error('Erro ao excluir usuário', error);
+      toggleModal();
     }
   };
 
@@ -57,7 +68,7 @@ const Usuarios = () => {
               <div className="button-group">
                 <Button className="text-button" onClick={() => navigate(`/usuario/editar/acesso/${usuario.CD_USUARIO}`)}>Nivel Acesso</Button>
                 {/* <Button className="text-button" onClick={() => navigate(`/usuario/editar/${usuario.CD_USUARIO}`)}>Alterar</Button> */}
-                <Button className="text-button" onClick={() => handleDelete(usuario.CD_USUARIO)}>Excluir</Button>
+                <Button className="text-button" onClick={() => confirmDelete(usuario)}>Excluir</Button>
               </div>
             </Col>
           ))
@@ -72,6 +83,16 @@ const Usuarios = () => {
           <Button color="default" className="large-voltar" id="botaoVoltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
         </Col>
       </Row>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Confirmação de Exclusão</ModalHeader>
+        <ModalBody>
+          Tem certeza de que deseja excluir o usúario {selectedUsuario && selectedUsuario.NM_USUARIO}?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={handleDelete}>Excluir</Button>{' '}
+          <Button color="secondary" onClick={toggleModal}>Cancelar</Button>
+        </ModalFooter>
+      </Modal>
     </Container>
   );
 };

@@ -60,6 +60,7 @@ function ValidaSessao({ tela: Tela, nivel = 1 }: Props) {
           token: getToken(),
         });
         const { ok, nivel: nivelUsuario } = data;
+        console.log(ok, nivel)
         setPermissao({ ok, nivelUsuario });
       } catch (error) {
         console.error("Erro ao validar permissão:", error);
@@ -74,9 +75,11 @@ function ValidaSessao({ tela: Tela, nivel = 1 }: Props) {
 
   if (load) return <div>Loading...</div>;
   if (!permissao?.ok) return <Navigate to="/rota_de_falta_de_permissao" />;
-  if ((permissao?.nivelUsuario ?? 0) < nivel)
-    return <Navigate to="/rota_de_falta_de_permissao2" />;
-
+  if (permissao?.nivelUsuario) {
+    if (permissao?.nivelUsuario < nivel) {
+      return <Navigate to="/rota_de_falta_de_permissao2" />;
+    }
+  }
   return <Tela nivel={permissao.nivelUsuario} />;
 }
 
@@ -99,7 +102,7 @@ export default function Rotas() {
         <Route path="funcoes" >
           <Route index element={<ValidaSessao tela={ViewFuncoes} nivel={3} />} />
           <Route path="nova" element={<ValidaSessao tela={ViewNovaFuncao} nivel={3} />} />
-          <Route path="ditar/:CD_FUNCAO" element={<ValidaSessao tela={ViewEditarFuncao} nivel={3} />} />
+          <Route path="editar/:CD_FUNCAO" element={<ValidaSessao tela={ViewEditarFuncao} nivel={3} />} />
         </Route>
 
         <Route path="modalidade">

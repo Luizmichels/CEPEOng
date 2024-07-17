@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './TecMod.scss';
 import { get, remove } from '../../../utlis/api';
 
 const Usuarios = () => {
   const [usuario, setUsuarios] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [selectedTecModali, setSelectedTecModali] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,12 +29,21 @@ const Usuarios = () => {
     }
   };
 
-  const handleDelete = async (CD_TECNICO_MODALIDADE) => {
+  const toggleModal = () => setModal(!modal);
+
+  const confirmDelete = (usuario) => {
+    setSelectedTecModali(usuario);
+    toggleModal();
+  };
+
+  const handleDelete = async () => {
     try {
-      await remove(`usuario/deletar/tecModali/${CD_TECNICO_MODALIDADE}`);
+      await remove(`usuario/deletar/tecModali/${selectedTecModali.CD_TECNICO_MODALIDADE}`);
       fetchUsuarios();
+      toggleModal();
     } catch (error) {
       console.error('Erro ao excluir técnico', error);
+      toggleModal();
     }
   };
 
@@ -56,7 +67,7 @@ const Usuarios = () => {
               <div className="funcao-nome">{usuario.NM_PESSOA}</div>
               <div className="button-group">
                 <Button className="text-button" onClick={() => navigate(`/tecnico/editar/${usuario.CD_TECNICO_MODALIDADE}`)}>Alterar</Button>
-                <Button className="text-button" onClick={() => handleDelete(usuario.CD_TECNICO_MODALIDADE)}>Excluir</Button>
+                <Button className="text-button" onClick={() => confirmDelete(usuario)}>Excluir</Button>
               </div>
             </Col>
           ))
@@ -71,6 +82,16 @@ const Usuarios = () => {
           <Button color="default" className="large-voltar" id="botaoVoltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
         </Col>
       </Row>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Confirmação de Exclusão</ModalHeader>
+        <ModalBody>
+          Tem certeza de que deseja excluir o técnico {selectedTecModali && selectedTecModali.NM_PESSOA}?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={handleDelete}>Excluir</Button>{' '}
+          <Button color="secondary" onClick={toggleModal}>Cancelar</Button>
+        </ModalFooter>
+      </Modal>
     </Container>
   );
 };

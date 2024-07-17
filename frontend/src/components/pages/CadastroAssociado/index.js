@@ -2,25 +2,84 @@ import React, { useState, useEffect, startTransition } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Row, Col, Form, FormGroup, Label, Input } from "reactstrap";
 import { useDropzone } from "react-dropzone";
-import DropzoneComponent from 'react-dropzone-component';
+import DropzoneComponent from "react-dropzone-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./CadastroAssociado.scss";
 import api from "../../../utlis/api";
-import 'dropzone/dist/min/dropzone.min.css';
+import "dropzone/dist/min/dropzone.min.css";
 
 import { NotificacaoManager } from "../../notificacao";
 import { getToken } from "../../../utlis";
-var ReactDOMServer = require('react-dom/server');
+import Select from "react-select";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+var ReactDOMServer = require("react-dom/server");
 
 const componentConfig = {
-  iconFiletypes: ['.jpg', '.png', '.gif'],
+  iconFiletypes: [".jpg", ".png", ".gif"],
   showFiletypeIcon: false,
-  postUrl: 'http://localhost:5000/associado/imagens'
+  postUrl: "http://localhost:5000/associado/imagens",
+};
+
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: '#ED5600',
+    color: 'white',
+    borderColor: 'white',
+    boxShadow: state.isFocused ? '0 0 0 1px white' : 'none',
+    '&:hover': {
+      borderColor: 'white'
+    },
+    ':focus': {
+      borderColor: 'white'
+    },
+    paddingLeft: '0.2vh',
+    paddingRight: '0.2vh',
+    paddingTop: '0.1vh',
+    paddingBottom: '0.1vh',
+    minHeight: '1vh',  // Ajuste a altura mínima conforme necessário
+    width: '100%'
+  }),
+  menu: (provided) => ({
+    ...provided,
+    backgroundColor: '#ED5600',
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#ED5600' : '#ED5600',
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#ED5600',
+      color: 'white'
+    }
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: 'white'
+  }),
+  input: (provided) => ({
+    ...provided,
+    color: 'white'
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: 'white'
+  }),
+  indicatorSeparator: () => ({
+    display: 'none'
+  }),
+  dropdownIndicator: (provided) => ({
+    ...provided,
+    color: 'black',
+    '&:hover': {
+      color: 'black'
+    }
+  })
 };
 
 const djsConfig = {
   headers: {
-    Authorization: `Bearer ${getToken()}`
+    Authorization: `Bearer ${getToken()}`,
   },
   previewTemplate: ReactDOMServer.renderToStaticMarkup(
     <div className="dz-preview dz-file-preview mb-3">
@@ -28,7 +87,7 @@ const djsConfig = {
         <div className="p-0 w-30 position-relative">
           <div className="dz-error-mark">
             <span>
-              <i />{' '}
+              <i />{" "}
             </span>
           </div>
           <div className="dz-success-mark">
@@ -43,8 +102,8 @@ const djsConfig = {
         </div>
         <div className="pl-3 pt-2 pr-2 pb-1 w-70 dz-details position-relative">
           <div>
-            {' '}
-            <span data-dz-name />{' '}
+            {" "}
+            <span data-dz-name />{" "}
           </div>
           <div className="text-primary text-extra-small" data-dz-size />
           <div className="dz-progress">
@@ -56,32 +115,32 @@ const djsConfig = {
         </div>
       </div>
       <a href="#/" className="remove" data-dz-remove>
-        {' '}
+        {" "}
         x
       </a>
-    </div>,
+    </div>
   ),
   maxFiles: 1,
   withCredentials: true,
   uploadMultiple: false,
-  dictResponseError: 'Teste',
+  dictResponseError: "Teste",
   dictCancelUploadConfirmation:
-    'Tem certeza de que deseja cancelar este upload?',
-  dictDefaultMessage: 'Solte os arquivos aqui para enviar',
-  dictInvalidFileType: 'Tipo de arquivo invalido',
-  dictFileTooBig: 'Arquivo muito grande',
-  dictMaxFilesExceeded: 'Numero maximo de arquivos excedido',
-  dictUploadCanceled: 'Upload cancelado',
+    "Tem certeza de que deseja cancelar este upload?",
+  dictDefaultMessage: "Solte os arquivos aqui para enviar",
+  dictInvalidFileType: "Tipo de arquivo invalido",
+  dictFileTooBig: "Arquivo muito grande",
+  dictMaxFilesExceeded: "Numero maximo de arquivos excedido",
+  dictUploadCanceled: "Upload cancelado",
   error(file, response, xhr) {
     let message;
-    if (typeof response === 'string') {
+    if (typeof response === "string") {
       message = response; // dropzone sends it's own error messages in string
     } else if (xhr.status === 401) {
-      message = 'Sessão expirada';
+      message = "Sessão expirada";
     }
 
-    file.previewElement.classList.add('dz-error');
-    const ref = file.previewElement.querySelectorAll('[data-dz-errormessage]');
+    file.previewElement.classList.add("dz-error");
+    const ref = file.previewElement.querySelectorAll("[data-dz-errormessage]");
 
     for (let i = 0, len = ref.length; i < len; i += 1) {
       const node = ref[i];
@@ -152,15 +211,22 @@ const CadastroNovoAtleta = () => {
   const [funcao, setFuncaos] = useState([]);
   const [selectedFuncaos, setSelectedFuncaos] = useState("");
 
+  console.log(CadastroNovoAtleta);
+
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
-    navigate("/menu_usuario");
+    navigate("/cadastros");
   };
 
   const onDrop = (acceptedFiles, setFile) => {
     setFile(acceptedFiles[0]);
   };
+
+  const options = deficiencia.map((def) => ({
+    value: def.CD_DEFICIENCIA,
+    label: def.TP_DEFICIENCIA
+  }));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -255,10 +321,7 @@ const CadastroNovoAtleta = () => {
         setMeios(meiosResponse.data.meioLocomocaos);
 
         // Fetch deficiencia
-        const deficienciasResponse = await api.get(
-          "deficiencia/listar",
-          config
-        );
+        const deficienciasResponse = await api.get("deficiencia/listar", config);
         setDeficiencias(deficienciasResponse.data.deficiencias);
 
         // Fetch modalidade
@@ -276,6 +339,61 @@ const CadastroNovoAtleta = () => {
 
     fetchData();
   }, []);
+
+  function formatPhoneNumber(value) {
+    var phone = value.replace(/\D/g, ""); // Remove todos os caracteres não numéricos
+    var formattedPhone = "";
+
+    if (phone.length > 0) {
+      formattedPhone += `(${phone.substring(0, 2)}) `; // Código de área
+    }
+    if (phone.length <= 10) {
+      // Telefone fixo
+      formattedPhone += phone.substring(2, 6); // Primeiros 4 dígitos
+      if (phone.length > 6) {
+        formattedPhone += "-";
+        formattedPhone += phone.substring(6, 10); // Últimos 4 dígitos
+      }
+    } else {
+      // Telefone celular
+      formattedPhone += phone.substring(2, 7); // Primeiros 5 dígitos
+      formattedPhone += "-";
+      formattedPhone += phone.substring(7, 11); // Últimos 4 dígitos
+    }
+
+    return formattedPhone; // Retorna o número formatado
+  }
+
+  
+  const handleTelefoneCelular = (e) => {
+    const inputValue = e.target.value;
+    const formattedPhoneNumber = formatPhoneNumber(inputValue);
+    setNrCelular(formattedPhoneNumber);
+  };
+  
+  const handleTelefoneResidencial = (e) => {
+    const inputValue = e.target.value;
+    const formattedPhoneNumber = formatPhoneNumber(inputValue);
+    setNrTelefone(formattedPhoneNumber);
+  };
+  
+  const handlePhoneChange = (e) => {
+    const inputValue = e.target.value;
+    const formattedPhoneNumber = formatPhoneNumber(inputValue);
+    setCelularPai(formattedPhoneNumber);
+  };
+
+  const handleTelefoneCelularMae = (e) => {
+    const inputValue = e.target.value;
+    const formattedPhoneNumber = formatPhoneNumber(inputValue);
+    setCelularMae(formattedPhoneNumber);
+  };
+
+  const handleTelefoneEscola = (e) => {
+    const inputValue = e.target.value;
+    const formattedPhoneNumber = formatPhoneNumber(inputValue);
+    setTelefoneEscola(formattedPhoneNumber);
+  };
 
   return (
     <Container>
@@ -307,7 +425,7 @@ const CadastroNovoAtleta = () => {
           />
         </FormGroup>
         <Row>
-          <Col md={4}>
+        <Col md={4}>
             <FormGroup>
               <Label for="NR_CELULAR">Telefone Celular:</Label>
               <Input
@@ -316,9 +434,8 @@ const CadastroNovoAtleta = () => {
                 name="NR_CELULAR"
                 placeholder="(00) 00000-0000"
                 maxLength="15"
-                pattern="\(\d{2}\) \d{4,5}-\d{4}"
                 value={NR_CELULAR}
-                onChange={(e) => setNrCelular(e.target.value)}
+                onChange={handleTelefoneCelular}
               />
             </FormGroup>
           </Col>
@@ -329,11 +446,10 @@ const CadastroNovoAtleta = () => {
                 type="tel"
                 id="NR_TELEFONE"
                 name="NR_TELEFONE"
-                placeholder="(00) 00000-0000"
+                placeholder="(00) 0000-0000"
                 maxLength="15"
-                pattern="\(\d{2}\) \d{4,5}-\d{4}"
                 value={NR_TELEFONE}
-                onChange={(e) => setNrTelefone(e.target.value)}
+                onChange={handleTelefoneResidencial}
               />
             </FormGroup>
           </Col>
@@ -416,7 +532,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="CD_EQUIPA_LOCOMOCAO">Equipamento de Locomoção:</Label>
+              <Label for="CD_EQUIPA_LOCOMOCAO">Meio de Locomoção:</Label>
               <Input
                 type="select"
                 name="CD_EQUIPA_LOCOMOCAO"
@@ -425,7 +541,7 @@ const CadastroNovoAtleta = () => {
                 onChange={(e) => setEquipaLocomocao(e.target.value)}
                 className="custom-select"
               >
-                <option value=" ">Selecione</option>
+                <option value=" ">Selecione o Meio de Locomoção</option>
                 <option value="Carro">Carro</option>
                 <option value="Ônibus">Ônibus</option>
                 <option value="Trasnporte Eficiente">
@@ -438,36 +554,33 @@ const CadastroNovoAtleta = () => {
           <Col md={4}>
             <FormGroup>
               <Label for="CD_DEFICIENCIA">Deficiência:</Label>
-              <select
-                id="deficiencia"
-                value={selectedDeficiencias}
-                onChange={(e) => setSelectedDeficiencias(e.target.value)}
-                className="form-control custom-select"
-              >
-                <option value="">Selecione a Deficiência</option>
-                {deficiencia.map((deficiencia) => (
-                  <option
-                    key={deficiencia.CD_DEFICIENCIA}
-                    value={deficiencia.CD_DEFICIENCIA}
-                  >
-                    {deficiencia.TP_DEFICIENCIA}
-                  </option>
-                ))}
-              </select>
+              <Select
+                options={options}
+                placeholder="Selecione a defiência"
+                isMulti
+                styles={customStyles}
+                onChange={(vl) => {
+                  const newList = vl.map(({value})=> value)
+                  setSelectedDeficiencias(newList)
+                }}
+                // className="custom-select"
+                classNamePrefix="custom-select"
+              />
             </FormGroup>
           </Col>
         </Row>
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="CD_MEIO_LOCOMOCAO">Meio de locomoção:</Label>
-              <select
-                id="meio"
-                value={selectedMeios}
+              <Label for="CD_MEIO_LOCOMOCAO">Equipamento de locomoção:</Label>
+              <Input
+                type="select"
+                name="CD_MEIO_LOCOMOCAO"
+                id="CD_MEIO_LOCOMOCAO"
                 onChange={(e) => setSelectedMeios(e.target.value)}
-                className="form-control custom-select"
+                className="custom-select"
               >
-                <option value="">Selecione o Meio</option>
+                <option value=" ">Selecione o Equipamento</option>
                 {meio.map((meio) => (
                   <option
                     key={meio.CD_MEIO_LOCOMOCAO}
@@ -476,37 +589,43 @@ const CadastroNovoAtleta = () => {
                     {meio.NM_MEIO_LOCOMOCAO}
                   </option>
                 ))}
-              </select>
+              </Input>
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
               <Label for="CD_FUNCAO">Função:</Label>
-              <select
-                id="funcao"
-                value={selectedFuncaos}
+              <Input
+                type="select"
+                name="CD_FUNCAO"
+                id="CD_FUNCAO"
                 onChange={(e) => setSelectedFuncaos(e.target.value)}
-                className="form-control custom-select"
+                className="custom-select"
               >
-                <option value="">Selecione a função</option>
+                <option value=" ">Selecione a Função</option>
                 {funcao.map((funcao) => (
                   <option key={funcao.CD_FUNCAO} value={funcao.CD_FUNCAO}>
                     {funcao.NM_FUNCAO}
                   </option>
                 ))}
-              </select>
+              </Input>
             </FormGroup>
           </Col>
           <Col md={4}>
             <FormGroup>
               <Label for="ASSISTENCIA">Assistência:</Label>
               <Input
-                type="text"
-                id="ASSISTENCIA"
+                type="select"
                 name="ASSISTENCIA"
+                id="ASSISTENCIA"
                 value={ASSISTENCIA}
                 onChange={(e) => setAssistencia(e.target.value)}
-              />
+                className="custom-select"
+              >
+                <option value=" ">Necessita Assistência</option>
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+              </Input>
             </FormGroup>
           </Col>
         </Row>
@@ -533,13 +652,11 @@ const CadastroNovoAtleta = () => {
                 name="CELULAR_PAI"
                 placeholder="(00) 00000-0000"
                 maxLength="15"
-                pattern="\(\d{2}\) \d{5}-\d{4}"
                 value={CELULAR_PAI}
-                onChange={(e) => setCelularPai(e.target.value)}
+                onChange={handlePhoneChange}
               />
             </FormGroup>
           </Col>
-          .
           <Col md={5}>
             <FormGroup>
               <Label for="NM_MAE">Nome da Mãe:</Label>
@@ -561,9 +678,8 @@ const CadastroNovoAtleta = () => {
                 name="CELULAR_MAE"
                 placeholder="(00) 00000-0000"
                 maxLength="15"
-                pattern="\(\d{2}\) \d{5}-\d{4}"
                 value={CELULAR_MAE}
-                onChange={(e) => setCelularMae(e.target.value)}
+                onChange={handleTelefoneCelularMae}
               />
             </FormGroup>
           </Col>
@@ -702,15 +818,17 @@ const CadastroNovoAtleta = () => {
           </Col>
         </Row>
         <Row>
-          <Col md={4}>
+        <Col md={5}>
             <FormGroup>
               <Label for="TELEFONE_ESCOLA">Telefone da Escola:</Label>
               <Input
-                type="text"
+                type="tel"
                 id="TELEFONE_ESCOLA"
                 name="TELEFONE_ESCOLA"
+                placeholder="(00) 0000-0000"
+                maxLength="15"
                 value={TELEFONE_ESCOLA}
-                onChange={(e) => setTelefoneEscola(e.target.value)}
+                onChange={handleTelefoneEscola}
               />
             </FormGroup>
           </Col>
@@ -901,13 +1019,14 @@ const CadastroNovoAtleta = () => {
           <Col md={4}>
             <FormGroup>
               <Label for="CD_MODALIDADE">Modalidade:</Label>
-              <select
-                id="modalidade"
-                value={selectedModalidades}
+              <Input
+                type="select"
+                name="CD_MODALIDADE"
+                id="CD_MODALIDADE"
                 onChange={(e) => setSelectedModalidades(e.target.value)}
-                className="form-control custom-select"
+                className="custom-select"
               >
-                <option value="">Selecione o modalidade</option>
+                <option value=" ">Selecione a Modalidade</option>
                 {modalidade.map((modalidade) => (
                   <option
                     key={modalidade.CD_MODALIDADE}
@@ -916,7 +1035,7 @@ const CadastroNovoAtleta = () => {
                     {modalidade.NM_MODALIDADE}
                   </option>
                 ))}
-              </select>
+              </Input>
             </FormGroup>
           </Col>
           <Col md={4}>
@@ -959,8 +1078,8 @@ const CadastroNovoAtleta = () => {
               >
                 <option value=" ">Selecione</option>
                 <option value="PP">PP</option>
-                <option value="P">p</option>
-                <option value="M">P</option>
+                <option value="P">P</option>
+                <option value="M">M</option>
                 <option value="G">G</option>
                 <option value="GG">GG</option>
                 <option value="XG">XG</option>
@@ -980,8 +1099,8 @@ const CadastroNovoAtleta = () => {
               >
                 <option value=" ">Selecione</option>
                 <option value="PP">PP</option>
-                <option value="P">p</option>
-                <option value="M">P</option>
+                <option value="P">P</option>
+                <option value="M">M</option>
                 <option value="G">G</option>
                 <option value="GG">GG</option>
                 <option value="XG">XG</option>
@@ -1001,8 +1120,8 @@ const CadastroNovoAtleta = () => {
               >
                 <option value=" ">Selecione</option>
                 <option value="PP">PP</option>
-                <option value="P">p</option>
-                <option value="M">P</option>
+                <option value="P">P</option>
+                <option value="M">M</option>
                 <option value="G">G</option>
                 <option value="GG">GG</option>
                 <option value="XG">XG</option>
@@ -1021,12 +1140,24 @@ const CadastroNovoAtleta = () => {
                 className="custom-select"
               >
                 <option value=" ">Selecione</option>
+                <option value="30">30</option>
+                <option value="31">31</option>
+                <option value="32">32</option>
+                <option value="33">33</option>
                 <option value="34">34</option>
                 <option value="35">35</option>
                 <option value="36">36</option>
                 <option value="37">37</option>
                 <option value="38">38</option>
                 <option value="39">39</option>
+                <option value="40">40</option>
+                <option value="41">41</option>
+                <option value="42">42</option>
+                <option value="43">43</option>
+                <option value="44">44</option>
+                <option value="45">45</option>
+                <option value="46">46</option>
+                <option value="47">47</option>
               </Input>
             </FormGroup>
           </Col>
@@ -1035,20 +1166,18 @@ const CadastroNovoAtleta = () => {
         <h3>RECOMENDAÇÕES DA FOTO 3X4</h3>
         <h4>
           • A foto deve ser enquadrada a partir do meio do tronco até a cabeça;
-          <br></br>• A cabeça deverá manter se RETA, e o atleta deverá olhar
-          DIRETAMENTE para a lente da câmera;<br></br>• O fundo da imagem deve
-          ser clara ou branca, dando importância à foco e nitidez;
+          <br></br>• A cabeça deverá manter se <b>RETA</b>, e o atleta deverá
+          olhar
+          <b> DIRETAMENTE</b> para a lente da câmera;<br></br>• O fundo da
+          imagem deve ser clara ou branca, dando importância à foco e nitidez;
           <br></br>• A foto deverá evitar ter reflexos e sombras;<br></br>• Não
           é permitido a utilização de qualquer tipo de adereço que impossibilite
           a identificação do rosto como óculos de sol, chapéus, máscaras e
           outros;<br></br>• É opcional o atleta manter os lábios serrados
           (expressão séria) ou lábios entre abertos (sorrindo);
-          <br></br>• Atletas do sexo FEMININO devem estar trajadas com camiseta
-          de manga ou meia manga (é <b>PROIBIDO</b> posar/enviar fotos com
-          camiseta de cor branca); <br></br>• Atletas do sexo MASCULINO devem
-          estar devidamente trajados com camiseta com mangas (é <b>PROIBIDO</b>{" "}
-          posar/enviar fotos com camiseta de cor branca);
-          <br></br>• É <b>INADMISSÍVEL</b> o envio de fotos de atletas{" "}
+          <br></br>• Associado devem estar trajadas com camiseta de manga ou
+          meia manga (é <b>PROIBIDO</b> posar/enviar fotos com camiseta de cor
+          branca);<br></br>• É <b>INADMISSÍVEL</b> o envio de fotos de associado{" "}
           <b>SEM CAMISA.</b>
         </h4>
         <Row>
@@ -1057,10 +1186,14 @@ const CadastroNovoAtleta = () => {
               <DropzoneComponent
                 // onDrop={(files) => onDrop(files, setFotoAtleta)}
                 config={componentConfig}
-                djsConfig={{...djsConfig, params: {
-                  tipo: 'atleta',
-                  nome: FOTO_ATLETA,
-                }}}
+                djsConfig={{
+                  ...djsConfig,
+                  params: {
+                    tipo: "atleta",
+                    nome: FOTO_ATLETA,
+                  },
+                  dictDefaultMessage: "Foto 3x4 Atual",
+                }}
               />
             </FormGroup>
           </Col>
@@ -1068,10 +1201,14 @@ const CadastroNovoAtleta = () => {
             <FormGroup>
               <DropzoneComponent
                 config={componentConfig}
-                djsConfig={{...djsConfig, params: {
-                  tipo: 'rg',
-                  nome: FOTO_RG,
-                }}}
+                djsConfig={{
+                  ...djsConfig,
+                  params: {
+                    tipo: "rg",
+                    nome: FOTO_RG,
+                  },
+                  dictDefaultMessage: "Foto do RG do associado",
+                }}
               />
             </FormGroup>
           </Col>
@@ -1079,15 +1216,24 @@ const CadastroNovoAtleta = () => {
             <FormGroup>
               <DropzoneComponent
                 config={componentConfig}
-                djsConfig={{...djsConfig, params: {
-                  tipo: 'resp',
-                  nome: FOTO_RG_RESPONS,
-                }}}
+                djsConfig={{
+                  ...djsConfig,
+                  params: {
+                    tipo: "resp",
+                    nome: FOTO_RG_RESPONS,
+                  },
+                  dictDefaultMessage: "Foto do RG do responsável",
+                }}
               />
             </FormGroup>
           </Col>
         </Row>
-        <Button color="default" className="btn-cad-ass" type="submit">
+        <Button
+          color="default"
+          className="btn-cad-ass"
+          id="botaoCadastrar"
+          type="submit"
+        >
           Cadastrar Associado
         </Button>
       </Form>

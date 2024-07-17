@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './EquipamentoLocomocao.css';
 import { get, remove } from '../../../utlis/api';
 
 const Equipamento = () => {
   const [meioLocomocaos, setEquipamento] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [selectedLocomocao, setSelectedLocomocao] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,12 +29,21 @@ const Equipamento = () => {
     }
   };
 
-  const handleDelete = async (CD_MEIO_LOCOMOCAO) => {
+  const toggleModal = () => setModal(!modal);
+
+  const confirmDelete = (meioLocomocaos) => {
+    setSelectedLocomocao(meioLocomocaos);
+    toggleModal();
+  };
+
+  const handleDelete = async () => {
     try {
-      await remove(`/meioLocomocao/deletar/${CD_MEIO_LOCOMOCAO}`);
+      await remove(`/meioLocomocao/deletar/${selectedLocomocao.CD_MEIO_LOCOMOCAO}`);
       fetchEquipamento();
+      toggleModal();
     } catch (error) {
       console.error('Erro ao excluir equipamento locomoção', error);
+      toggleModal();
     }
   };
 
@@ -56,7 +67,7 @@ const Equipamento = () => {
               <div className="equipamento-nome">{meioLocomocaos.NM_MEIO_LOCOMOCAO}</div>
               <div className="button-group">
                 <Button className="text-button" onClick={() => navigate(`/equipamento/editar/${meioLocomocaos.CD_MEIO_LOCOMOCAO}`)}>Alterar</Button>
-                <Button className="text-button" onClick={() => handleDelete(meioLocomocaos.CD_MEIO_LOCOMOCAO)}>Excluir</Button>
+                <Button className="text-button" onClick={() => confirmDelete(meioLocomocaos)}>Excluir</Button>
               </div>
             </Col>
           ))
@@ -71,6 +82,16 @@ const Equipamento = () => {
           <Button color="default" className="large-voltar" id="botaoVoltar" onClick={() => navigate('/cadastros')}>Voltar</Button>
         </Col>
       </Row>
+      <Modal isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Confirmação de Exclusão</ModalHeader>
+        <ModalBody>
+          Tem certeza de que deseja excluir a equipamento locomoção {selectedLocomocao && selectedLocomocao.NM_MEIO_LOCOMOCAO}?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={handleDelete}>Excluir</Button>{' '}
+          <Button color="secondary" onClick={toggleModal}>Cancelar</Button>
+        </ModalFooter>
+      </Modal>
     </Container>
   );
 };
