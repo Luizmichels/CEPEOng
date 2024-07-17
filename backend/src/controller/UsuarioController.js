@@ -1,5 +1,5 @@
 const Usuario = require("../models/usuario").default;
-const TecnicoModalidade = require('../models/TecnicoModalidade')
+const TecnicoModalidade = require('../models/TecnicoModalidade').default
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 

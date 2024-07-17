@@ -129,23 +129,25 @@ async function loadRoutes(): Promise<void> {
   }
 }
 
-loadRoutes().catch(console.error);
+loadRoutes().catch(console.error).finally(()=>{
+  // Definindo a porta que o backend vai rodar
+  conn
+    .sync()
+    // .sync({force: true}) // Apaga todas as tabelas e faz novamente
+    .then(async () => {
+      console.log('Database synchronized');
+      await createDefaultAdminUser();
+      console.log('Default admin user created');
+
+      app.listen(PORTA, () => {
+        console.log('Servidor rodando na porta 5000');
+      });
+    })
+    .catch((err) => console.log('Database sync error:', err));
+
+});
 
 // app.use((_, res) => {
 //   res.status(404).send("Nada Aqui!")
 // });
 
-// Definindo a porta que o backend vai rodar
-conn
-  .sync()
-  // .sync({force: true}) // Apaga todas as tabelas e faz novamente
-  .then(async () => {
-    console.log('Database synchronized');
-    await createDefaultAdminUser();
-    console.log('Default admin user created');
-
-    app.listen(PORTA, () => {
-      console.log('Servidor rodando na porta 5000');
-    });
-  })
-  .catch((err) => console.log('Database sync error:', err));

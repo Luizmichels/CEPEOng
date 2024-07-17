@@ -1,18 +1,69 @@
-const { DataTypes, Model } = require("sequelize");
+import { DataTypes, Model } from "sequelize";
+
+class PessoaFisica extends Model{
+  public CD_PESSOA_FISICA!: number;
+  public NM_PESSOA!: string;
+  public NR_CELULAR!: string;
+  public NR_TELEFONE!: string;
+  public SEXO!: string;
+  public DT_NASCIMENTO!: Date;
+  public ESTADO_CIVIL!: string;
+  public NATURALIDADE!: string;
+  public EMAIL!: string;
+  public MEIO_LOCOMOCAO!: string;
+  public ASSISTENCIA!: string;
+  public NM_PAI!: string;
+  public CELULAR_PAI!: string;
+  public NM_MAE!: string;
+  public CELULAR_MAE!: string;
+  public EMAIL_RESPONS!: string;
+  public NATURALIDADE_RESPONS!: string;
+  public PESO!: number;
+  public ALTURA!: number;
+  public GP_SANGUE!: string;
+  public RENDA!: string;
+  public ESCOLARIDADE!: string;
+  public INSTITUICAO!: string;
+  public MATRICULA!: string;
+  public TELEFONE_ESCOLA!: string;
+  public CPF!: string;
+  public RG!: string;
+  public UF_RG!: string;
+  public DT_EMISSAO_RG!: Date;
+  public NR_PASSAPORTE!: string;
+  public CPF_RESPONS!: string;
+  public RG_RESPONS!: string;
+  public UF_RG_RESPONS!: string;
+  public DT_EMISSAO_RG_RESPONS!: string;
+  public NR_PASSAPORTE_RESPONS!: string;
+  public CEP!: string;
+  public ENDERECO!: string;
+  public NR_ENDERECO!: string;
+  public DS_ENDERECO!: string;
+  public CLASSIF_FUNC!: string;
+  public PROVA!: string;
+  public TAMANHO_CAMISA!: string;
+  public TAMANHO_AGASALHO!: string;
+  public TAMANHO_BERM_CAL!: string;
+  public NR_CALCADO!: string;
+  public FOTO_ATLETA!: string;
+  public FOTO_RG!: string;
+  public FOTO_RG_RESPONS!: string;
+}
 
 // Importando a conexão com o banco
-const db = require("../db/conn").default;
+import sequelize from "../db/conn";
 
 // Importando as outras tabelas
-const deficiencia = require("./deficiencia");
-const funcao = require("./funcao").default;
-const equipa_locom = require("./meio_locomocao");
-const modalidade = require("./modalidade").default;
-const DeficienciaPessoa = require("./DeficienciaPessoa");
-const Usuario = require("./usuario").default;
-const AtletaModalidade = require("./AtletaModalidade");
+import deficiencia from "./deficiencia";
+import funcao from "./funcao";
+import MeioLocomocao from "./meio_locomocao";
+import modalidade from "./modalidade";
+import DeficienciaPessoa from "./DeficienciaPessoa";
+import Usuario from "./usuario";
+import AtletaModalidade from "./AtletaModalidade";
 
-const PessoaFisica = db.define("PESSOA_FISICA", {
+PessoaFisica.init({
   CD_PESSOA_FISICA: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -79,11 +130,11 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
     type: DataTypes.TEXT,
   },
   PESO: {
-    type: DataTypes.DECIMAL(3, 3),
+    type: DataTypes.DECIMAL(6, 3),
     allowNull: false,
   },
   ALTURA: {
-    type: DataTypes.DECIMAL(3, 3),
+    type: DataTypes.DECIMAL(6, 3),
     allowNull: false,
   },
   GP_SANGUE: {
@@ -192,6 +243,9 @@ const PessoaFisica = db.define("PESSOA_FISICA", {
   FOTO_RG_RESPONS: {
     type: DataTypes.TEXT,
   },
+}, {
+  sequelize,
+  tableName: 'PESSOA_FISICA',
 });
 
 // Criando as ligações entres a tabela de pessoa fisica com as outras tabelas
@@ -225,7 +279,7 @@ modalidade.belongsToMany(PessoaFisica, {
 
 modalidade.hasMany(PessoaFisica, { foreignKey: "CD_MODALIDADE" });
 funcao.hasMany(PessoaFisica, { foreignKey: "CD_FUNCAO" });
-equipa_locom.hasMany(PessoaFisica, { foreignKey: "CD_EQUIPA_LOCOMOCAO" });
+MeioLocomocao.hasMany(PessoaFisica, { foreignKey: "CD_EQUIPA_LOCOMOCAO" });
 Usuario.hasMany(PessoaFisica, { foreignKey: "CD_USUARIO" });
 
-module.exports = PessoaFisica;
+export default PessoaFisica;

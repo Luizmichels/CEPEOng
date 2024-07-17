@@ -1,114 +1,106 @@
+// ../controllers/FuncaoController.js
 import Funcao from '../models/funcao';
 
-
-const { create, findAll, findOne, destroy } = Funcao
 export default class FuncaoController {
-    // criar uma nova função
+    // Criar uma nova função
     static async cadastrarFuncao(req, res) {
         try {
-            const { NM_FUNCAO, DS_FUNCAO } = req.body
-            await create({ NM_FUNCAO, DS_FUNCAO })
-            res.status(201).json({ mensagem: 'Função cadastrada com sucesso!' })
+            const { NM_FUNCAO, DS_FUNCAO } = req.body;
+
+            if (!NM_FUNCAO) {
+                return res.status(422).json({ message: 'O nome da função é obrigatório!' });
+            }
+
+            const novaFuncao = await Funcao.create({ NM_FUNCAO, DS_FUNCAO });
+            res.status(201).json({ message: 'Função cadastrada com sucesso!', novaFuncao });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    };
+    }
 
-    // listar todas as funções
+    // Listar todas as funções
     static async listarFuncoes(req, res) {
         try {
-
             const funcoes = await Funcao.findAll();
 
             if (funcoes.length === 0) {
-                return res.status(404).json({ mensagem: 'Não há nenhuma função cadastrada' });
+                return res.status(404).json({ message: 'Não há nenhuma função cadastrada' });
             }
 
-            const funcaoFormatada = funcoes.map(funcao => ({
+            const funcoesFormatadas = funcoes.map(funcao => ({
                 CD_FUNCAO: funcao.CD_FUNCAO,
                 NM_FUNCAO: funcao.NM_FUNCAO
             }));
 
-            res.status(200).json({ funcoes: funcaoFormatada });
+            res.status(200).json({ funcoes: funcoesFormatadas });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    };
+    }
 
-    // obter uma função específica por ID
+    // Obter uma função específica por ID
     static async obterFuncao(req, res) {
-        const { CD_FUNCAO } = req.params
+        const { CD_FUNCAO } = req.params;
 
         try {
+            const funcao = await Funcao.findOne({ where: { CD_FUNCAO } });
 
-            const funcoes = await findOne({ where: { CD_FUNCAO: CD_FUNCAO } });
-    
-            if (!funcoes) {
-                return res.status(404).json({ mensagem: 'Função não encontrada' });
+            if (!funcao) {
+                return res.status(404).json({ message: 'Função não encontrada' });
             }
-    
+
             const funcaoFormatada = {
-                CD_FUNCAO: funcoes.CD_FUNCAO,
-                NM_FUNCAO: funcoes.NM_FUNCAO
+                CD_FUNCAO: funcao.CD_FUNCAO,
+                NM_FUNCAO: funcao.NM_FUNCAO,
+                DS_FUNCAO: funcao.DS_FUNCAO
             };
-    
-            res.status(200).json({ funcoes: funcaoFormatada });
+
+            res.status(200).json({ funcao: funcaoFormatada });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    };
+    }
 
-    // atualizar uma função por ID
+    // Atualizar uma função por ID
     static async atualizarFuncao(req, res) {
         const { CD_FUNCAO } = req.params;
         const { NM_FUNCAO, DS_FUNCAO } = req.body;
-        const updateData = {};
-    
+
         try {
-            // Validação
             if (!NM_FUNCAO) {
-                return res.status(422).json({ message: 'Função é obrigatório!' });
+                return res.status(422).json({ message: 'O nome da função é obrigatório!' });
             }
-    
-            // Atualizando os campos apenas se forem fornecidos
-            updateData.NM_FUNCAO = NM_FUNCAO;
-            if (DS_FUNCAO) {
-                updateData.DS_FUNCAO = DS_FUNCAO;
-            }
-    
-            // Encontrar a deficiência para atualizar
-            const funcao = await findOne({ where: { CD_FUNCAO: CD_FUNCAO } });
-    
+
+            const funcao = await Funcao.findOne({ where: { CD_FUNCAO } });
+
             if (!funcao) {
                 return res.status(404).json({ message: 'Função não encontrada!' });
             }
-    
-            // Atualizar a deficiência
-            await funcao.update(updateData);
-    
-            return res.status(200).json({message: 'Função atualizada com sucesso!' });
+
+            await funcao.update({ NM_FUNCAO, DS_FUNCAO });
+
+            res.status(200).json({ message: 'Função atualizada com sucesso!', funcao });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    };
+    }
 
-    // deletar uma função por ID
+    // Deletar uma função por ID
     static async deletarFuncao(req, res) {
         const { CD_FUNCAO } = req.params;
 
         try {
-            // Verificação se a Deficiência existe
-            const funcaoExiste = await findOne({ where: { CD_FUNCAO: CD_FUNCAO } })
-            if (!funcaoExiste) {
-                return res.status(404).json({ message: 'Função não encontrado' })
+            const funcao = await Funcao.findOne({ where: { CD_FUNCAO } });
+
+            if (!funcao) {
+                return res.status(404).json({ message: 'Função não encontrada' });
             }
 
-            // Deletando Deficiência
-            await destroy({ where: { CD_FUNCAO: CD_FUNCAO } })
+            await Funcao.destroy({ where: { CD_FUNCAO } });
 
-            return res.status(200).json({ message: 'Função deletada com sucesso' })
+            res.status(200).json({ message: 'Função deletada com sucesso' });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    };
+    }
 }

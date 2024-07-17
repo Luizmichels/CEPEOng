@@ -1,10 +1,10 @@
-const PessoaFisica = require("../models/pessoa_fisica");
+const PessoaFisica = require("../models/pessoa_fisica").default;
 const ExcelJS = require('exceljs');
 const fs = require('fs');
 const { mkdir } = require('fs/promises');
-const Deficiencia = require("../models/deficiencia");
-const DeficienciaPessoa = require("../models/DeficienciaPessoa");
-const AtletaModalidade = require("../models/AtletaModalidade");
+const Deficiencia = require("../models/deficiencia").default;
+const DeficienciaPessoa = require("../models/DeficienciaPessoa").default;
+const AtletaModalidade = require("../models/AtletaModalidade").default;
 
 const db = require("../db/conn").default;
 const { existsSync, copyFileSync, realpathSync } = fs;
@@ -202,73 +202,73 @@ module.exports = class PessoaFisicaController {
 
   static async TodosCadastratos(req, res) {
 
-const { nome } = req.query;
-const { modalidade } = req.query;
-const { deficiencia } = req.query;
-const { funcao } = req.query;
+    const { nome } = req.query;
+    const { modalidade } = req.query;
+    const { deficiencia } = req.query;
+    const { funcao } = req.query;
 
-try {
-  let sql_nome = '';
-  let sql_modalidade = '';
-  let sql_deficiencia = '';
-  let sql_funcao = '';
+    try {
+      let sql_nome = '';
+      let sql_modalidade = '';
+      let sql_deficiencia = '';
+      let sql_funcao = '';
+    
+      if (nome != null) {
+        sql_nome = `AND NM_PESSOA LIKE '%${nome}%'`;
+      }
+      if (modalidade != null) {
+        sql_modalidade = `AND m.NM_MODALIDADE LIKE '%${modalidade}%'`;
+      }
+      if (deficiencia != null) {
+        sql_deficiencia = `AND d.TP_DEFICIENCIA LIKE '%${deficiencia}%'`;
+      }
+      if (funcao != null) {
+        sql_funcao = `AND f.NM_FUNCAO LIKE '%${funcao}%'`;
+      }
 
-  if (nome != null) {
-    sql_nome = `AND NM_PESSOA LIKE '%${nome}%'`;
-  }
-  if (modalidade != null) {
-    sql_modalidade = `AND m.NM_MODALIDADE LIKE '%${modalidade}%'`;
-  }
-  if (deficiencia != null) {
-    sql_deficiencia = `AND d.TP_DEFICIENCIA LIKE '%${deficiencia}%'`;
-  }
-  if (funcao != null) {
-    sql_funcao = `AND f.NM_FUNCAO LIKE '%${funcao}%'`;
-  }
-      
-      const pessoas = await db.query(
-                 `SELECT pf.CD_PESSOA_FISICA,
-                       pf.FOTO_ATLETA,
-                       pf.NM_PESSOA,
-                       pf.CPF,
-                       GROUP_CONCAT(d.TP_DEFICIENCIA ORDER BY d.TP_DEFICIENCIA SEPARATOR ',') AS Deficiencia,
-                       m.NM_MODALIDADE as Modalidade,
-                       f.NM_FUNCAO as Funcao
-                FROM pessoa_fisicas pf
-                LEFT JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
-                LEFT JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
-                LEFT JOIN modalidades m ON pf.CD_MODALIDADE = m.CD_MODALIDADE
-                LEFT JOIN funcaos f ON pf.CD_FUNCAO = f.CD_FUNCAO
-                WHERE 1 = 1
-                ${sql_nome}
-                ${sql_modalidade}
-                ${sql_deficiencia}
-                ${sql_funcao}
-                GROUP BY pf.CD_PESSOA_FISICA
-                `,
-        { type: db.QueryTypes.SELECT }
-      );
-
-      const dadosFormatados = pessoas.map((pessoa) => ({
-        id: pessoa.CD_PESSOA_FISICA,
-        Foto: pessoa.FOTO_ATLETA,
-        CPF: formatarCPF(pessoa.CPF),
-        Nome: pessoa.NM_PESSOA,
-        Deficiencia: pessoa.deficiencia,
-        Modalidade: pessoa.Modalidade,
-        Função: pessoa.Funcao,
-      }));
-
-      res.status(200).json({ pessoas: dadosFormatados });
-    } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Erro ao buscar os associados.",
-          erro: error.message,
-        });
-    }
-  }
+          const pessoas = await db.query(
+                     `SELECT pf.CD_PESSOA_FISICA,
+                           pf.FOTO_ATLETA,
+                           pf.NM_PESSOA,
+                           pf.CPF,
+                           GROUP_CONCAT(d.TP_DEFICIENCIA ORDER BY d.TP_DEFICIENCIA SEPARATOR ',') AS Deficiencia,
+                           m.NM_MODALIDADE as Modalidade,
+                           f.NM_FUNCAO as Funcao
+                    FROM pessoa_fisicas pf
+                    LEFT JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
+                    LEFT JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
+                    LEFT JOIN modalidades m ON pf.CD_MODALIDADE = m.CD_MODALIDADE
+                    LEFT JOIN funcaos f ON pf.CD_FUNCAO = f.CD_FUNCAO
+                    WHERE 1 = 1
+                    ${sql_nome}
+                    ${sql_modalidade}
+                    ${sql_deficiencia}
+                    ${sql_funcao}
+                    GROUP BY pf.CD_PESSOA_FISICA
+                    `,
+            { type: db.QueryTypes.SELECT }
+          );
+        
+          const dadosFormatados = pessoas.map((pessoa) => ({
+            id: pessoa.CD_PESSOA_FISICA,
+            Foto: pessoa.FOTO_ATLETA,
+            CPF: formatarCPF(pessoa.CPF),
+            Nome: pessoa.NM_PESSOA,
+            Deficiencia: pessoa.deficiencia,
+            Modalidade: pessoa.Modalidade,
+            Função: pessoa.Funcao,
+          }));
+        
+          res.status(200).json({ pessoas: dadosFormatados });
+        } catch (error) {
+          res
+            .status(500)
+            .json({
+              message: "Erro ao buscar os associados.",
+              erro: error.message,
+            });
+        }
+      }
 
   static async editarPessoaFisica(req, res) {
     const { CD_PESSOA_FISICA } = req.params;
@@ -1577,6 +1577,26 @@ try {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Erro ao buscar Usuário" });
+    }
+  }
+
+  static async TodasAssociados(req, res) {
+    try {
+        const associados = await PessoaFisica.findAll();
+
+        if (associados.length === 0) {
+            return res.status(404).json({ mensagem: 'Não há nenhum associado cadastrado' });
+        }
+
+        const associadoFormatada = associados.map(associado => ({
+            CD_PESSOA_FISICA: associado.CD_PESSOA_FISICA,
+            NM_PESSOA: associado.NM_PESSOA
+        }));
+
+        res.status(200).json({ associados: associadoFormatada });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ mensagem: 'Erro ao buscar associado' });
     }
   }
 };

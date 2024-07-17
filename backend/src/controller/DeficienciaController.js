@@ -1,4 +1,4 @@
-const Deficiencia = require('../models/deficiencia');
+const Deficiencia = require('../models/deficiencia').default;
 
 module.exports = class DeficienciaController {
 

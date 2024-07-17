@@ -65,4 +65,6 @@ routes.post(
   PessoaFisicaController.CadastImagens
 );
 
+routes.get('/listar/associados', ChecarToken, verificarNivelAcesso(3), PessoaFisicaController.TodasAssociados)
+
 module.exports = routes;
