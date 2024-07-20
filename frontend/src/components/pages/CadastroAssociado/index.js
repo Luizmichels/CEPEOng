@@ -1,7 +1,7 @@
-import React, { useState, useEffect, startTransition } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Row, Col, Form, FormGroup, Label, Input } from "reactstrap";
-import { useDropzone } from "react-dropzone";
+// import { useDropzone } from "react-dropzone";
 import DropzoneComponent from "react-dropzone-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./CadastroAssociado.scss";
@@ -9,10 +9,10 @@ import api from "../../../utlis/api";
 import "dropzone/dist/min/dropzone.min.css";
 
 import { NotificacaoManager } from "../../notificacao";
-import { getToken } from "../../../utlis";
+import { getToken, getNivel } from "../../../utlis";
 import Select from "react-select";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-var ReactDOMServer = require("react-dom/server");
+import ReactDOMServer from "react-dom/server";
 
 const componentConfig = {
   iconFiletypes: [".jpg", ".png", ".gif"],
@@ -149,12 +149,6 @@ const djsConfig = {
   },
 };
 
-// var componentConfig = {
-//   iconFiletypes: ['.jpg', '.png', '.gif'],
-//   showFiletypeIcon: true,
-//   postUrl: 'http://localhost:5000/uploadHandler'
-// };
-
 const CadastroNovoAtleta = () => {
   const [NM_PESSOA, setNmPessoa] = useState("");
   const [NR_CELULAR, setNrCelular] = useState("");
@@ -219,9 +213,16 @@ const CadastroNovoAtleta = () => {
     navigate("/cadastros");
   };
 
-  const onDrop = (acceptedFiles, setFile) => {
-    setFile(acceptedFiles[0]);
-  };
+  const handleCadastrar = async () => {
+    const nivelAcesso = getNivel();    
+        if (nivelAcesso === '3') {
+            navigate('/cadastros');
+        } else if (nivelAcesso === '2') {
+            navigate('/menu-tecnico');
+        } else if (nivelAcesso === '1') {
+            navigate('/check-cadastro');
+        }
+    }
 
   const options = deficiencia.map((def) => ({
     value: def.CD_DEFICIENCIA,
@@ -293,10 +294,6 @@ const CadastroNovoAtleta = () => {
       );
 
       NotificacaoManager.success("Cadastrado com sucesso!", "", 1000, "filled");
-
-      startTransition(() => {
-        navigate("/cadastros");
-      });
     } catch (error) {
       console.error("Erro ao criar associado:", error);
       NotificacaoManager.error(
@@ -1233,8 +1230,9 @@ const CadastroNovoAtleta = () => {
           className="btn-cad-ass"
           id="botaoCadastrar"
           type="submit"
+          onClick={handleCadastrar}
         >
-          Cadastrar Associado
+          Cadastrar-se
         </Button>
       </Form>
     </Container>

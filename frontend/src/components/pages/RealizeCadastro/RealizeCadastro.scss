@@ -5,6 +5,30 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+  position: relative; /* Adicionado para posicionar a seta */
+}
+
+.back-arrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+
+.arrow-icon {
+  color: #ED5600;
+  font-size: 24px;
+}
+
+.input-cadastro {
+  background-color: #ED5600;
+  height: 45px;
+  color: white;
+  font-family: "Inter", sans-serif;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  padding-left: 10px;
 }
 
 .logo-container {
@@ -53,4 +77,8 @@
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+.c-disabled {
+  cursor: not-allowed;
 }

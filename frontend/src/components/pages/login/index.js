@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Col, Form, Input, Label, Row } from "reactstrap";
 import { useNavigate } from "react-router-dom"; // Importar o hook useNavigate
-import { setToken } from "../../../utlis";
+import { setToken, setNivel, setId } from "../../../utlis";
 import { post } from "../../../utlis/api";
 import "./login.scss";
 import "./inputs.css";
@@ -18,11 +18,13 @@ function Login() {
       const { data } = await post('/usuario/login', { NM_USUARIO: user, SENHA: password });
       console.debug("Login bem-sucedido:", data);
       setToken(data.token);
+      setNivel(data.nivelAcesso);
+      setId(data.usuarioId)
 
       if(data.nivelAcesso === 3){
         navigate('/menu');
       } else if (data.nivelAcesso === 2){
-        navigate('/menu');
+        navigate('/menu-tecnico');
       } else if (data.nivelAcesso === 1){
         navigate('/check-cadastro');
       }
@@ -78,8 +80,8 @@ function Login() {
                 </Col>
               </Row>
             </div>
-            <div className="esqueci">
-              <a href="/esqueci-senha">Esqueceu a senha?</a>
+            <div>
+              <a href="esqueci-senha" className="esqueci">Esqueceu a senha?</a>
             </div>
           </div>
           {errorMessage && <div className="error-message">{errorMessage}</div>}

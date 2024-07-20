@@ -69,7 +69,7 @@
 
 #botaoVoltar {
   position: absolute;
-  bottom: 5vh;
+  bottom: 2vh;
   left: 50%;
   transform: translateX(-50%);
 }

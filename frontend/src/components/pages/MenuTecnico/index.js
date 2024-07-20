@@ -1,27 +1,24 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { Button } from "reactstrap";
-import { getToken } from "../../../utlis";
+import { getToken, getId } from "../../../utlis";
+import api from '../../../utlis/api';
 import CountUp from "react-countup";
-import api from "../../../utlis/api"; // ajuste o caminho conforme necessário
 import "./menu.scss";
 
 const ChartComponent = () => {
   const [chartData, setChartData] = useState([]);
   const [totalAssociados, setTotalAssociados] = useState(0);
+  const [usuarioCadastrado, setUsuarioCadastrado] = useState(undefined);
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    const token = getToken();
-    if (token) {
-      const decodedToken = JSON.parse(atob(token.split('.')[1]));
-      if (decodedToken.nivelAcesso === 3) {
-        navigate("/cadastros");
-      }
+    if (usuarioCadastrado) {
+      navigate(`/associado/editar/${usuarioCadastrado.CD_USUARIO}`);
     } else {
-      navigate("/login");
+      navigate('/associado');
     }
   };
 
@@ -32,7 +29,9 @@ const ChartComponent = () => {
   useEffect(() => {
     const fetchTotalAssociados = async () => {
       try {
-        const response = await api.get('/associado/totalAssociados');
+        const CD_USUARIO = getId();
+        console.log(CD_USUARIO)
+        const response = await api.get(`/associado/totalTecnico/${CD_USUARIO}`);
         setTotalAssociados(parseInt(response.data.totalAssociados, 10));
       } catch (error) {
         console.error('Erro ao buscar total de associados:', error);
@@ -41,7 +40,8 @@ const ChartComponent = () => {
 
     const fetchModalidades = async () => {
       try {
-        const response = await api.get('/associado/modalidades');
+        const CD_USUARIO = getId();
+        const response = await api.get(`/associado/modalidadeTecnico/${CD_USUARIO}`);
         setChartData(response.data); // Garante que seja um array
       } catch (error) {
         console.error('Erro ao buscar modalidades:', error);
@@ -54,6 +54,21 @@ const ChartComponent = () => {
   }, []);
 
   useEffect(() => {
+    const verificarCadastro = async () => {
+      try {
+        const token = getToken();
+        const response = await api.get(`/associado/obter/${token}`, 
+          { headers: { Authorization: `Bearer ${token.token}` } });        
+        const usuario = response.data.usuario;
+
+        setUsuarioCadastrado(usuario);
+      } catch (error) {
+        console.error('Erro ao verificar cadastro:', error);
+      }
+    };
+
+    verificarCadastro();
+
     document.body.classList.add("pagina-menu-body");
     return () => {
       document.body.classList.remove("pagina-menu-body");
@@ -112,7 +127,7 @@ const ChartComponent = () => {
         </div>
         <div className="opcoes">
           <Button color="default" className="text-button novoitem" onClick={handleNavigate}>
-            Cadastrar Novo Item
+            {usuarioCadastrado != null ? 'Alterar cadastro' : 'Realize seu cadastro'}
           </Button>
           <Button color="default" className="text-button listagem" onClick={() => navigate("/listagem ")}>
             Listagem de Atletas
@@ -127,7 +142,7 @@ const ChartComponent = () => {
 
       <div className="indicadores">
         <div className="contador">
-          <h2>Total de Associados</h2>
+          <h2>Total de Atletas</h2>
           <CountUp start={0} end={totalAssociados} duration={5} />
         </div>
         <HighchartsReact

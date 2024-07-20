@@ -20,4 +20,7 @@ routes.get('/obter/tecModali/:CD_TECNICO_MODALIDADE', ChecarToken, verificarNive
 routes.patch('/editar/tecModali/:CD_TECNICO_MODALIDADE', ChecarToken, verificarNivelAcesso(3), UsuarioController.EditarTecModali)
 routes.delete('/deletar/tecModali/:CD_TECNICO_MODALIDADE', ChecarToken, verificarNivelAcesso(3), UsuarioController.DeletarTecModali)
 
+//email
+routes.post('/mandar/email', UsuarioController.sendEmail)
+
 module.exports = routes

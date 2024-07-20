@@ -3,10 +3,7 @@ const PessoaFisicaController = require("../controller/PessoaFisicaController");
 
 // helpers
 const { imageUpload } = require("../helpers/imagem-upload");
-const {
-  ChecarToken,
-  verificarNivelAcesso,
-} = require("../helpers/VerificarToken");
+const { ChecarToken,verificarNivelAcesso } = require("../helpers/VerificarToken");
 
 // Rotas
 routes.post(
@@ -64,7 +61,13 @@ routes.post(
   imageUpload.single("file"),
   PessoaFisicaController.CadastImagens
 );
-
 routes.get('/listar/associados', ChecarToken, verificarNivelAcesso(3), PessoaFisicaController.TodasAssociados)
+routes.get('/obter/:CD_USUARIO', ChecarToken, verificarNivelAcesso(1), PessoaFisicaController.BuscarPorID)
+
+// consulta para contador e grafico
+routes.get('/totalAssociados', ChecarToken, verificarNivelAcesso(3), PessoaFisicaController.getTotalAssociados)
+routes.get('/modalidades', ChecarToken, verificarNivelAcesso(3), PessoaFisicaController.getModalidades)
+routes.get('/totalTecnico/:CD_USUARIO', ChecarToken, verificarNivelAcesso(2), PessoaFisicaController.getTotalTecnico)
+routes.get('/modalidadeTecnico/:CD_USUARIO', ChecarToken, verificarNivelAcesso(2), PessoaFisicaController.getModalidadesTecnico)
 
 module.exports = routes;

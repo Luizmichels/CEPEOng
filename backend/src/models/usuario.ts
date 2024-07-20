@@ -43,10 +43,10 @@ Usuario.belongsToMany(Modalidade, {
   constraints: true,
 });
 
-// belongsToMany(Usuario, {
-//   through: TecnicoModalidade,
-//   foreignKey: "CD_MODALIDADE",
-//   constraints: true,
-// });
+Modalidade.belongsToMany(Usuario, {
+  through: TecnicoModalidade,
+  foreignKey: "CD_MODALIDADE",
+  constraints: true,
+});
 
 export default Usuario;

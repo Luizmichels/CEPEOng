@@ -2,6 +2,7 @@ const Usuario = require("../models/usuario").default;
 const TecnicoModalidade = require('../models/TecnicoModalidade').default
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const sendMail = require("../helpers/mail").default;
 
 const db = require("../db/conn").default;
 
@@ -281,11 +282,11 @@ module.exports = class UsuarioController {
     try {
       const usuarios = await db.query(
         `
-                      select u.CD_USUARIO, pf.NM_PESSOA 
-                      from usuarios u 
-                      inner join pessoa_fisicas pf on u.CD_USUARIO = pf.CD_USUARIO 
-                      where 1 = 1
-                        and u.NIVEL_ACESSO = 2
+          select u."CD_USUARIO", pf."NM_PESSOA"
+          from cepe.public."USUARIO"  u 
+          inner join cepe.public."PESSOA_FISICA" pf on u."CD_USUARIO" = pf."CD_USUARIO" 
+          where 1 = 1
+            and u."NIVEL_ACESSO" = 2
                   `,
         { type: db.QueryTypes.SELECT }
       );
@@ -312,14 +313,14 @@ module.exports = class UsuarioController {
     try {
       const usuarios = await db.query(
         `
-                select tm.CD_TECNICO_MODALIDADE, 
-                        concat(pf.NM_PESSOA,' - ', M.NM_MODALIDADE) as NM_PESSOA
-                from usuarios u 
-                inner join tecnico_modalidades tm on u.CD_USUARIO = tm.CD_USUARIO
-                inner join modalidades m on m.CD_MODALIDADE = tm.CD_MODALIDADE
-                inner join pessoa_fisicas pf on u.CD_USUARIO = pf.CD_USUARIO 
-                where 1 = 1
-                  and U.NIVEL_ACESSO = 2
+          select tm."CD_TECNICO_MODALIDADE", 
+                 concat(pf."NM_PESSOA", ' - ', m."NM_MODALIDADE") as "NM_PESSOA"
+          from cepe.public."USUARIO" u
+          inner join cepe.public."TECNICO_MODALIDADE" tm on u."CD_USUARIO" = tm."CD_USUARIO"
+          inner join cepe.public."MODALIDADE" m on m."CD_MODALIDADE" = tm."CD_MODALIDADE"
+          inner join cepe.public."PESSOA_FISICA" pf on u."CD_USUARIO" = pf."CD_USUARIO"
+          where 1 = 1
+            and u."NIVEL_ACESSO" = 2
             `,
         { type: db.QueryTypes.SELECT }
       );
@@ -424,6 +425,27 @@ module.exports = class UsuarioController {
               message: "Erro ao buscar os técnicos.",
               erro: error.message,
             });
+        }
+      }
+
+      static async sendEmail(req, res) {
+        const { nome, telefone, email } = req.body;
+    
+        const htmlContent = `
+          <h2>Dados do solicitante</h2>
+          <p><strong>Nome:</strong> ${nome}</p>
+          <p><strong>Telefone:</strong> ${telefone}</p>
+          <p><strong>Email:</strong> ${email}</p>
+        `;
+    
+        const recipientEmail = 'andreluizmichels11@gmail.com';
+    
+        try {
+          await sendMail(recipientEmail, 'Solicitação de Cadastro', htmlContent);
+          res.status(200).send('Email enviado com sucesso!');
+        } catch (error) {
+          console.error(error); // Para ajudar na depuração
+          res.status(500).send('Erro ao enviar o email.');
         }
       }
 };

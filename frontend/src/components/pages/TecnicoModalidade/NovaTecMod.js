@@ -32,7 +32,6 @@ const ViewNovaUsuarios = () => {
         NotificacaoManager.error('Erro ao buscar dados!', '', 1000, 'filled');
       }
     };
-
     fetchData();
   }, []);
 

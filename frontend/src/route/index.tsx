@@ -33,7 +33,8 @@ const ViewNovoTecnico = lazy(() => import("../components/pages/TecnicoModalidade
 const ViewEditarTecnico = lazy(() => import("../components/pages/TecnicoModalidade/EditarTecMod"));
 const ViewAlterarCadastro = lazy(() => import("../components/pages/AlterarCadastro"))
 const ViewEsqueciSenha = lazy(() => import("../components/pages/esqueciSenha/esqueciSenha"));
-const ViewRealizeCadastro = lazy(() => import("../components/pages/RealizeCadastro/RealizeCadastro.js"))
+const ViewRealizeCadastro = lazy(() => import("../components/pages/RealizeCadastro/RealizeCadastro"))
+const ViewMenuTecico = lazy(() => import("../components/pages/MenuTecnico"))
 
 interface Permissao {
   ok: boolean;
@@ -94,6 +95,7 @@ export default function Rotas() {
         <Route path="esqueci-senha" element={<ViewEsqueciSenha />} /> {/* Rota para Esqueci Minha Senha */}
         <Route path="check-cadastro" element={<ViewCheckCadastro />} />
         <Route path="menu" element={<ValidaSessao tela={ViewMenu} nivel={3} />} />
+        <Route path="menu-tecnico" element={<ValidaSessao tela={ViewMenuTecico} nivel={2} />} />
         <Route path="listagem" element={<ValidaSessao tela={ViewListagem} nivel={3} />} />
         <Route path="cadastros" element={<ValidaSessao tela={ViewCadGeral} nivel={3} />} />
         <Route path="associado" element={<ValidaSessao tela={ViewNovoAssociado} nivel={1} />} />
