@@ -1,7 +1,7 @@
 const PessoaFisica = require("../models/pessoa_fisica").default;
-const ExcelJS = require('exceljs');
-const fs = require('fs');
-const { mkdir } = require('fs/promises');
+const ExcelJS = require("exceljs");
+const fs = require("fs");
+const { mkdir } = require("fs/promises");
 const Deficiencia = require("../models/deficiencia").default;
 const DeficienciaPessoa = require("../models/DeficienciaPessoa").default;
 const AtletaModalidade = require("../models/AtletaModalidade").default;
@@ -10,31 +10,36 @@ const db = require("../db/conn").default;
 const { existsSync, copyFileSync, realpathSync } = fs;
 
 // helpers
-const { formatarData, formatarTelefone, formatarCPF, formatarRG, formatarCEP } = require("../helpers/FormatarDadosPessoa");
-const { EmailValido, cpfValido, diferencaAnos } = require("../helpers/Validacoes");
+const {
+  formatarData,
+  formatarTelefone,
+  formatarCPF,
+  formatarRG,
+  formatarCEP,
+} = require("../helpers/FormatarDadosPessoa");
+const {
+  EmailValido,
+  cpfValido,
+  diferencaAnos,
+} = require("../helpers/Validacoes");
 const ObterToken = require("../helpers/ObterToken");
 const ObterUsuarioToken = require("../helpers/ObterUsuarioToken");
 const { Console } = require("console");
 
 module.exports = class PessoaFisicaController {
-
   static async CadastImagens(req, res) {
-
     const file = req.file;
     const { tipo, nome } = req.body;
 
     if (!existsSync(`../uploads/${tipo}`)) {
       await mkdir(`../uploads/${tipo}`, {
-        recursive: true
+        recursive: true,
       });
     }
-  
-    copyFileSync(
-      file.path,
-      `../uploads/${tipo}/${nome}.jpg`
-    );
 
-    res.send('jose')
+    copyFileSync(file.path, `../uploads/${tipo}/${nome}.jpg`);
+
+    res.send("jose");
   }
 
   // Criando o Cadastro da pessoa fisica no banco
@@ -47,14 +52,61 @@ module.exports = class PessoaFisicaController {
         where: { CD_USUARIO: user.CD_USUARIO },
       });
 
-    //   if (usuario) return res.status(422).json({ message: "Você já está cadastrado" });
+      //   if (usuario) return res.status(422).json({ message: "Você já está cadastrado" });
 
-      const { NM_PESSOA, NR_CELULAR, NR_TELEFONE, SEXO, DT_NASCIMENTO, ESTADO_CIVIL, NATURALIDADE, EMAIL, CD_EQUIPA_LOCOMOCAO, CD_DEFICIENCIA, 
-               CD_MEIO_LOCOMOCAO, CD_FUNCAO, ASSISTENCIA, NM_PAI, CELULAR_PAI, NM_MAE, CELULAR_MAE, EMAIL_RESPONS, NATURALIDADE_RESPONS, PESO,
-              ALTURA, GP_SANGUE, RENDA, ESCOLARIDADE, INSTITUICAO, MATRICULA, TELEFONE_ESCOLA, CPF, RG, UF_RG, DT_EMISSAO_RG, NR_PASSAPORTE, 
-              CPF_RESPONS, RG_RESPONS, UF_RG_RESPONS, DT_EMISSAO_RG_RESPONS, NR_PASSAPORTE_RESPONS, CEP, ENDERECO, NR_ENDERECO, DS_ENDERECO, 
-              CD_MODALIDADE, CLASSIF_FUNC, PROVA, TAMANHO_CAMISA, TAMANHO_AGASALHO, TAMANHO_BERM_CAL, NR_CALCADO, FOTO_ATLETA, FOTO_RG, FOTO_RG_RESPONS
-            } = req.body;
+      const {
+        NM_PESSOA,
+        NR_CELULAR,
+        NR_TELEFONE,
+        SEXO,
+        DT_NASCIMENTO,
+        ESTADO_CIVIL,
+        NATURALIDADE,
+        EMAIL,
+        CD_EQUIPA_LOCOMOCAO,
+        CD_DEFICIENCIA,
+        CD_MEIO_LOCOMOCAO,
+        CD_FUNCAO,
+        ASSISTENCIA,
+        NM_PAI,
+        CELULAR_PAI,
+        NM_MAE,
+        CELULAR_MAE,
+        EMAIL_RESPONS,
+        NATURALIDADE_RESPONS,
+        PESO,
+        ALTURA,
+        GP_SANGUE,
+        RENDA,
+        ESCOLARIDADE,
+        INSTITUICAO,
+        MATRICULA,
+        TELEFONE_ESCOLA,
+        CPF,
+        RG,
+        UF_RG,
+        DT_EMISSAO_RG,
+        NR_PASSAPORTE,
+        CPF_RESPONS,
+        RG_RESPONS,
+        UF_RG_RESPONS,
+        DT_EMISSAO_RG_RESPONS,
+        NR_PASSAPORTE_RESPONS,
+        CEP,
+        ENDERECO,
+        NR_ENDERECO,
+        DS_ENDERECO,
+        CD_MODALIDADE,
+        CLASSIF_FUNC,
+        PROVA,
+        TAMANHO_CAMISA,
+        TAMANHO_AGASALHO,
+        TAMANHO_BERM_CAL,
+        NR_CALCADO,
+        FOTO_ATLETA,
+        FOTO_RG,
+        FOTO_RG_RESPONS,
+      } = req.body;
 
       await Deficiencia.findAll({ where: { CD_DEFICIENCIA: CD_DEFICIENCIA } });
 
@@ -63,55 +115,178 @@ module.exports = class PessoaFisicaController {
       // Calculando a idade
       const idade = diferencaAnos(req.body.DT_NASCIMENTO);
 
-      if (!NM_PESSOA) return res.status(422).json({ message: "O seu nome é obrigatório" });
-      if (!NR_CELULAR) return res.status(422).json({ message: "O número de celular é obrigatório" });
-      if (!SEXO) return res.status(422).json({ message: "O sexo é obrigatório" });
-      if (!DT_NASCIMENTO) return res.status(422).json({ message: "A data de nascimento é obrigatória" });
-      if (!ESTADO_CIVIL) return res.status(422).json({ message: "O estado civil é obrigatório" });
-      if (!NATURALIDADE) return res.status(422).json({ message: "A naturalidade é obrigatória" });
-      if (!EMAIL) return res.status(422).json({ message: "O email é obrigatório" });
-      if (!CD_EQUIPA_LOCOMOCAO) return res.status(422).json({ message: "O equipamento de locomoção é obrigatório" });
-      if (!CD_DEFICIENCIA) return res.status(422).json({ message: "A escolha de uma deficiencia é obrigatória" });
-      if (!CD_MEIO_LOCOMOCAO) return res.status(422).json({ message: "O meio de locomoção é obrigatório" });
-      if (!CD_FUNCAO) return res.status(422).json({ message: "A função é obrigatória" });
-      if (!ASSISTENCIA) return res.status(422).json({ message: "A opção de assistencia é obrigatória" });
-      if (!NM_PAI) return res.status(422).json({ message: "O nome do pai é obrigatório" });
-      if (!NM_MAE) return res.status(422).json({ message: "O nome do mãe é obrigatório" });
-      if (idade < 18 && !CELULAR_PAI) return res.status(422).json({ message: "O número de celular do pai é obrigatório" });
-      if (idade < 18 && !CELULAR_MAE) return res.status(422).json({ message: "O número do celular da mãe é obrigatório" });
-      if (idade < 18 && !EMAIL_RESPONS) return res.status(422).json({ message: "O e-mail do responsável é obrigatório" });
-      if (idade < 18 && !NATURALIDADE_RESPONS) return res.status(422).json({ message: "A naturalidade do responsável é obrigatório" });
-      if (idade < 18 && !CPF_RESPONS) return res.status(422).json({ message: "O número do CPF do responsável é obrigatório" });
-      if (idade < 18 && !RG_RESPONS) return res.status(422).json({ message: "O número do RG do responsável é obrigatório" });
-      if (idade < 18 && !UF_RG_RESPONS) return res.status(422).json({ message:"O estado em que o RG do responsável foi emitido é obrigatório" });
-      if (idade < 18 && !DT_EMISSAO_RG_RESPONS) return res.status(422).json({ message: "A data de emissão do RG do responsável é obrigatória" });
-      if (!PESO) return res.status(422).json({ message: "O peso é obrigatório" });
-      if (!ALTURA) return res.status(422).json({ message: "A altura é obrigatória" });
-      if (!GP_SANGUE) return res.status(422).json({ message: "O grupo sanguíneo é obrigatório" });
-      if (!RENDA) return res.status(422).json({ message: "A renda é obrigatória" });
-      if (!ESCOLARIDADE) return res.status(422).json({ message: "A sua escolaridade é obrigatória" });
-      if (!INSTITUICAO) return res.status(422).json({ message: "A instituição em que você estuda ou estudou é obrigatória" });
-      if (idade < 18 && !TELEFONE_ESCOLA) return res.status(422).json({ message: "O telefone da instituição é obrigatório" });
-      if (!CPF) return res.status(422).json({ message: "O seu numero de CPF é obrigatório" });
-      if (!RG) return res.status(422).json({ message: "O seu numero de RG é obrigatório" });
-      if (!UF_RG) return res.status(422).json({ message: "O estado em que o RG foi emitido é obrigatório" });
-      if (!DT_EMISSAO_RG) return res.status(422).json({ message: "A data de emissão do RG é obrigatória" });
-      if (!CEP) return res.status(422).json({ message: "O número do cep é obrigatório" });
-      if (!ENDERECO) return res.status(422).json({ message: "O endereço é obrigatório" });
-      if (!NR_ENDERECO) return res.status(422).json({ message: "O número do endereço é obrigatório" });
-      if (!CLASSIF_FUNC) return res.status(422).json({ message: "A classificação funcional é obrigatória" });
-      if (!CD_MODALIDADE) return res.status(422).json({ message: "A modalidade é obrigatória" });
-      if (!PROVA) return res.status(422).json({ message: "A prova é obrigatória" });
-      if (!TAMANHO_CAMISA) return res.status(422).json({ message: "O tamanho da camisa é obrigatória" });
-      if (!TAMANHO_AGASALHO) return res.status(422).json({ message: "O tamanho do agasalho é obrigatório" });
-      if (!TAMANHO_BERM_CAL) return res.status(422).json({ message: "O tamanho da bermuda/calça é obrigatório" });
-      if (!NR_CALCADO) return res.status(422).json({ message: "O número do calçado é obrigatório" });
-      if (!FOTO_ATLETA) return res.status(422).json({ message: "A foto do associado é obrigatória" });
-      if (!FOTO_RG) return  res.status(422).json({ message: "A foto do RG é obrigatória" });
-      if (idade < 18 && !FOTO_RG_RESPONS) return res.status(422).json({ message: "A foto do RG do responsável é obrigatória" });
-      if (!EmailValido(EMAIL)) return res.status(422).json({ message: "Esta e-mail não é válido" });
-      if (!EmailValido(EMAIL_RESPONS)) return res.status(422).json({ message: "Esta e-mail não é válido" });
-      if (!cpfValido(CPF)) return res.status(422).json({ message: "Este CPF não é válido" });
+      if (!NM_PESSOA)
+        return res.status(422).json({ message: "O seu nome é obrigatório" });
+      if (!NR_CELULAR)
+        return res
+          .status(422)
+          .json({ message: "O número de celular é obrigatório" });
+      if (!SEXO)
+        return res.status(422).json({ message: "O sexo é obrigatório" });
+      if (!DT_NASCIMENTO)
+        return res
+          .status(422)
+          .json({ message: "A data de nascimento é obrigatória" });
+      if (!ESTADO_CIVIL)
+        return res
+          .status(422)
+          .json({ message: "O estado civil é obrigatório" });
+      if (!NATURALIDADE)
+        return res
+          .status(422)
+          .json({ message: "A naturalidade é obrigatória" });
+      if (!EMAIL)
+        return res.status(422).json({ message: "O email é obrigatório" });
+      if (!CD_EQUIPA_LOCOMOCAO)
+        return res
+          .status(422)
+          .json({ message: "O equipamento de locomoção é obrigatório" });
+      if (!CD_DEFICIENCIA)
+        return res
+          .status(422)
+          .json({ message: "A escolha de uma deficiencia é obrigatória" });
+      if (!CD_MEIO_LOCOMOCAO)
+        return res
+          .status(422)
+          .json({ message: "O meio de locomoção é obrigatório" });
+      if (!CD_FUNCAO)
+        return res.status(422).json({ message: "A função é obrigatória" });
+      if (!ASSISTENCIA)
+        return res
+          .status(422)
+          .json({ message: "A opção de assistencia é obrigatória" });
+      if (!NM_PAI)
+        return res.status(422).json({ message: "O nome do pai é obrigatório" });
+      if (!NM_MAE)
+        return res.status(422).json({ message: "O nome do mãe é obrigatório" });
+      if (idade < 18 && !CELULAR_PAI)
+        return res
+          .status(422)
+          .json({ message: "O número de celular do pai é obrigatório" });
+      if (idade < 18 && !CELULAR_MAE)
+        return res
+          .status(422)
+          .json({ message: "O número do celular da mãe é obrigatório" });
+      if (idade < 18 && !EMAIL_RESPONS)
+        return res
+          .status(422)
+          .json({ message: "O e-mail do responsável é obrigatório" });
+      if (idade < 18 && !NATURALIDADE_RESPONS)
+        return res
+          .status(422)
+          .json({ message: "A naturalidade do responsável é obrigatório" });
+      if (idade < 18 && !CPF_RESPONS)
+        return res
+          .status(422)
+          .json({ message: "O número do CPF do responsável é obrigatório" });
+      if (idade < 18 && !RG_RESPONS)
+        return res
+          .status(422)
+          .json({ message: "O número do RG do responsável é obrigatório" });
+      if (idade < 18 && !UF_RG_RESPONS)
+        return res
+          .status(422)
+          .json({
+            message:
+              "O estado em que o RG do responsável foi emitido é obrigatório",
+          });
+      if (idade < 18 && !DT_EMISSAO_RG_RESPONS)
+        return res
+          .status(422)
+          .json({
+            message: "A data de emissão do RG do responsável é obrigatória",
+          });
+      if (!PESO)
+        return res.status(422).json({ message: "O peso é obrigatório" });
+      if (!ALTURA)
+        return res.status(422).json({ message: "A altura é obrigatória" });
+      if (!GP_SANGUE)
+        return res
+          .status(422)
+          .json({ message: "O grupo sanguíneo é obrigatório" });
+      if (!RENDA)
+        return res.status(422).json({ message: "A renda é obrigatória" });
+      if (!ESCOLARIDADE)
+        return res
+          .status(422)
+          .json({ message: "A sua escolaridade é obrigatória" });
+      if (!INSTITUICAO)
+        return res
+          .status(422)
+          .json({
+            message:
+              "A instituição em que você estuda ou estudou é obrigatória",
+          });
+      if (idade < 18 && !TELEFONE_ESCOLA)
+        return res
+          .status(422)
+          .json({ message: "O telefone da instituição é obrigatório" });
+      if (!CPF)
+        return res
+          .status(422)
+          .json({ message: "O seu numero de CPF é obrigatório" });
+      if (!RG)
+        return res
+          .status(422)
+          .json({ message: "O seu numero de RG é obrigatório" });
+      if (!UF_RG)
+        return res
+          .status(422)
+          .json({ message: "O estado em que o RG foi emitido é obrigatório" });
+      if (!DT_EMISSAO_RG)
+        return res
+          .status(422)
+          .json({ message: "A data de emissão do RG é obrigatória" });
+      if (!CEP)
+        return res
+          .status(422)
+          .json({ message: "O número do cep é obrigatório" });
+      if (!ENDERECO)
+        return res.status(422).json({ message: "O endereço é obrigatório" });
+      if (!NR_ENDERECO)
+        return res
+          .status(422)
+          .json({ message: "O número do endereço é obrigatório" });
+      if (!CLASSIF_FUNC)
+        return res
+          .status(422)
+          .json({ message: "A classificação funcional é obrigatória" });
+      if (!CD_MODALIDADE)
+        return res.status(422).json({ message: "A modalidade é obrigatória" });
+      if (!PROVA)
+        return res.status(422).json({ message: "A prova é obrigatória" });
+      if (!TAMANHO_CAMISA)
+        return res
+          .status(422)
+          .json({ message: "O tamanho da camisa é obrigatória" });
+      if (!TAMANHO_AGASALHO)
+        return res
+          .status(422)
+          .json({ message: "O tamanho do agasalho é obrigatório" });
+      if (!TAMANHO_BERM_CAL)
+        return res
+          .status(422)
+          .json({ message: "O tamanho da bermuda/calça é obrigatório" });
+      if (!NR_CALCADO)
+        return res
+          .status(422)
+          .json({ message: "O número do calçado é obrigatório" });
+      if (!FOTO_ATLETA)
+        return res
+          .status(422)
+          .json({ message: "A foto do associado é obrigatória" });
+      if (!FOTO_RG)
+        return res.status(422).json({ message: "A foto do RG é obrigatória" });
+      if (idade < 18 && !FOTO_RG_RESPONS)
+        return res
+          .status(422)
+          .json({ message: "A foto do RG do responsável é obrigatória" });
+      if (!EmailValido(EMAIL))
+        return res.status(422).json({ message: "Esta e-mail não é válido" });
+      if (!EmailValido(EMAIL_RESPONS))
+        return res.status(422).json({ message: "Esta e-mail não é válido" });
+      if (!cpfValido(CPF))
+        return res.status(422).json({ message: "Este CPF não é válido" });
 
       // //Consulta se o CPF já está cadastrado no banco de dados
       // const cpfSemPontuacao = req.body.CPF.replace(/\D/g, '')
@@ -126,7 +301,9 @@ module.exports = class PessoaFisicaController {
       // Inserindo os dados
       const pessoaFisica = await PessoaFisica.create({
         NM_PESSOA,
-        NR_CELULAR: NR_CELULAR ? NR_CELULAR.toString().match(/\d/g).join("") : null,
+        NR_CELULAR: NR_CELULAR
+          ? NR_CELULAR.toString().match(/\d/g).join("")
+          : null,
         NR_TELEFONE,
         SEXO,
         DT_NASCIMENTO,
@@ -139,9 +316,13 @@ module.exports = class PessoaFisicaController {
         CD_FUNCAO,
         ASSISTENCIA,
         NM_PAI,
-        CELULAR_PAI: CELULAR_PAI ? CELULAR_PAI.toString().match(/\d/g).join("") : null,
+        CELULAR_PAI: CELULAR_PAI
+          ? CELULAR_PAI.toString().match(/\d/g).join("")
+          : null,
         NM_MAE,
-        CELULAR_MAE: CELULAR_MAE ? CELULAR_MAE.toString().match(/\d/g).join("") : null,
+        CELULAR_MAE: CELULAR_MAE
+          ? CELULAR_MAE.toString().match(/\d/g).join("")
+          : null,
         EMAIL_RESPONS,
         NATURALIDADE_RESPONS,
         PESO,
@@ -151,17 +332,27 @@ module.exports = class PessoaFisicaController {
         ESCOLARIDADE,
         INSTITUICAO,
         MATRICULA,
-        TELEFONE_ESCOLA: TELEFONE_ESCOLA ? TELEFONE_ESCOLA.toString().match(/\d/g).join("") : null,
+        TELEFONE_ESCOLA: TELEFONE_ESCOLA
+          ? TELEFONE_ESCOLA.toString().match(/\d/g).join("")
+          : null,
         CPF: CPF ? CPF.toString().match(/\d/g).join("") : null,
         RG: RG ? RG.toString().match(/\d/g).join("") : null,
         UF_RG,
         DT_EMISSAO_RG,
-        NR_PASSAPORTE: NR_PASSAPORTE ? NR_PASSAPORTE.toString().match(/\d/g).join("") : null,
-        CPF_RESPONS: CPF_RESPONS ? CPF_RESPONS.toString().match(/\d/g).join("") : null,
-        RG_RESPONS: RG_RESPONS ? RG_RESPONS.toString().match(/\d/g).join("") : null,
+        NR_PASSAPORTE: NR_PASSAPORTE
+          ? NR_PASSAPORTE.toString().match(/\d/g).join("")
+          : null,
+        CPF_RESPONS: CPF_RESPONS
+          ? CPF_RESPONS.toString().match(/\d/g).join("")
+          : null,
+        RG_RESPONS: RG_RESPONS
+          ? RG_RESPONS.toString().match(/\d/g).join("")
+          : null,
         UF_RG_RESPONS,
         DT_EMISSAO_RG_RESPONS,
-        NR_PASSAPORTE_RESPONS: NR_PASSAPORTE_RESPONS ? NR_PASSAPORTE_RESPONS.toString().match(/\d/g).join("") : null,
+        NR_PASSAPORTE_RESPONS: NR_PASSAPORTE_RESPONS
+          ? NR_PASSAPORTE_RESPONS.toString().match(/\d/g).join("")
+          : null,
         CEP: CEP ? CEP.toString().match(/\d/g).join("") : null,
         ENDERECO,
         NR_ENDERECO,
@@ -195,81 +386,160 @@ module.exports = class PessoaFisicaController {
         });
       }
 
-      return res.status(201).json({ message: "Pessoa física cadastrada com sucesso" });
+      return res
+        .status(201)
+        .json({ message: "Pessoa física cadastrada com sucesso" });
     } catch (error) {
-      return res.status(500).json({ message: "Erro ao cadastrar pessoa física", erro: error.message });
+      return res
+        .status(500)
+        .json({
+          message: "Erro ao cadastrar pessoa física",
+          erro: error.message,
+        });
     }
   }
 
   static async TodosCadastratos(req, res) {
-
     const { nome } = req.query;
-    const { modalidade } = req.query;
-    const { deficiencia } = req.query;
-    const { funcao } = req.query;
+    const { Modalidade } = req.query;
+    const { Deficiencia } = req.query;
+    const { Funcao } = req.query;
+    console.log(Modalidade, Deficiencia, Funcao);
 
     try {
-      let sql_nome = '';
-      let sql_modalidade = '';
-      let sql_deficiencia = '';
-      let sql_funcao = '';
-    
+      let sql_nome = "";
+      let sql_modalidade = "";
+      let sql_deficiencia = "";
+      let sql_funcao = "";
+
       if (nome != null) {
-        sql_nome = `AND NM_PESSOA LIKE '%${nome}%'`;
+        sql_nome = `AND "NM_PESSOA" LIKE '%${nome}%'`;
       }
-      if (modalidade != null) {
-        sql_modalidade = `AND m.NM_MODALIDADE LIKE '%${modalidade}%'`;
+      if (Modalidade != null) {
+        sql_modalidade = `AND m."NM_MODALIDADE" LIKE '%${Modalidade}%'`;
       }
-      if (deficiencia != null) {
-        sql_deficiencia = `AND d.TP_DEFICIENCIA LIKE '%${deficiencia}%'`;
+      if (Deficiencia != null) {
+        sql_deficiencia = `AND d."TP_DEFICIENCIA" LIKE '%${Deficiencia}%'`;
       }
-      if (funcao != null) {
-        sql_funcao = `AND f.NM_FUNCAO LIKE '%${funcao}%'`;
+      if (Funcao != null) {
+        sql_funcao = `AND f."NM_FUNCAO" LIKE '%${Funcao}%'`;
       }
 
-          const pessoas = await db.query(
-                     `SELECT pf.CD_PESSOA_FISICA,
-                           pf.FOTO_ATLETA,
-                           pf.NM_PESSOA,
-                           pf.CPF,
-                           GROUP_CONCAT(d.TP_DEFICIENCIA ORDER BY d.TP_DEFICIENCIA SEPARATOR ',') AS Deficiencia,
-                           m.NM_MODALIDADE as Modalidade,
-                           f.NM_FUNCAO as Funcao
-                    FROM pessoa_fisicas pf
-                    LEFT JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
-                    LEFT JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
-                    LEFT JOIN modalidades m ON pf.CD_MODALIDADE = m.CD_MODALIDADE
-                    LEFT JOIN funcaos f ON pf.CD_FUNCAO = f.CD_FUNCAO
-                    WHERE 1 = 1
-                    ${sql_nome}
-                    ${sql_modalidade}
-                    ${sql_deficiencia}
-                    ${sql_funcao}
-                    GROUP BY pf.CD_PESSOA_FISICA
+      const pessoas = await db.query(
+        `SELECT pf."CD_PESSOA_FISICA",
+                             pf."FOTO_ATLETA",
+                             pf."NM_PESSOA",
+                             pf."CPF",
+                             STRING_AGG(d."TP_DEFICIENCIA", ',' ORDER BY d."TP_DEFICIENCIA") AS Deficiencia,
+                             m."NM_MODALIDADE" as Modalidade,
+                             f."NM_FUNCAO" as Funcao
+                      FROM cepe.public."PESSOA_FISICA" pf
+                      LEFT JOIN cepe.public."DEFICIENCIA_PESSOA" dp ON pf."CD_PESSOA_FISICA" = dp."CD_PESSOA_FISICA"
+                      LEFT JOIN cepe.public."DEFICIENCIA" d ON dp."CD_DEFICIENCIA" = d."CD_DEFICIENCIA"
+                      LEFT JOIN cepe.public."MODALIDADE" m ON pf."CD_MODALIDADE" = m."CD_MODALIDADE"
+                      LEFT JOIN cepe.public."FUNCAO" f ON pf."CD_FUNCAO" = f."CD_FUNCAO"
+                      WHERE 1 = 1
+                        ${sql_nome}
+                        ${sql_modalidade}
+                        ${sql_deficiencia}
+                        ${sql_funcao}
+                      GROUP BY pf."CD_PESSOA_FISICA", pf."FOTO_ATLETA", pf."NM_PESSOA", pf."CPF", m."NM_MODALIDADE", f."NM_FUNCAO"
+                      order by pf."NM_PESSOA"
                     `,
-            { type: db.QueryTypes.SELECT }
-          );
-        
-          const dadosFormatados = pessoas.map((pessoa) => ({
-            id: pessoa.CD_PESSOA_FISICA,
-            Foto: pessoa.FOTO_ATLETA,
-            CPF: formatarCPF(pessoa.CPF),
-            Nome: pessoa.NM_PESSOA,
-            Deficiencia: pessoa.deficiencia,
-            Modalidade: pessoa.Modalidade,
-            Função: pessoa.Funcao,
-          }));
-        
-          res.status(200).json({ pessoas: dadosFormatados });
-        } catch (error) {
-          res
-            .status(500)
-            .json({
-              message: "Erro ao buscar os associados.",
-              erro: error.message,
-            });
-        }
+        { type: db.QueryTypes.SELECT }
+      );
+
+      const dadosFormatados = pessoas.map((pessoa) => ({
+        id: pessoa.CD_PESSOA_FISICA,
+        Foto: pessoa.FOTO_ATLETA,
+        CPF: formatarCPF(pessoa.CPF),
+        Nome: pessoa.NM_PESSOA,
+        Deficiencia: pessoa.deficiencia,
+        Modalidade: pessoa.modalidade,
+        Função: pessoa.funcao,
+      }));
+
+      res.status(200).json({ pessoas: dadosFormatados });
+    } catch (error) {
+      res.status(500).json({
+        message: "Erro ao buscar os associados.",
+        erro: error.message,
+      });
+    }
+  }
+
+  static async TodosCadastratosTec(req, res) {
+    const { nome, Modalidade, userId, Deficiencia, Funcao } = req.query;
+    console.log(userId);
+
+    try {
+      let sql_nome = "";
+      let sql_modalidade = "";
+      let sql_deficiencia = "";
+      let sql_funcao = "";
+
+      if (nome != null) {
+        sql_nome = `AND "NM_PESSOA" LIKE '%${nome}%'`;
       }
+      if (Modalidade != null) {
+        sql_modalidade = `AND m."NM_MODALIDADE" LIKE '%${Modalidade}%'`;
+      }
+      if (Deficiencia != null) {
+        sql_deficiencia = `AND d."TP_DEFICIENCIA" LIKE '%${Deficiencia}%'`;
+      }
+      if (Funcao != null) {
+        sql_funcao = `AND f."NM_FUNCAO" LIKE '%${Funcao}%'`;
+      }
+
+      console.log()
+
+      const pessoas = await db.query(
+        `SELECT pf."CD_PESSOA_FISICA",
+                pf."FOTO_ATLETA",
+                pf."NM_PESSOA",
+                pf."CPF",
+                STRING_AGG(d."TP_DEFICIENCIA", ',' ORDER BY d."TP_DEFICIENCIA") AS Deficiencia,
+                m."NM_MODALIDADE" as Modalidade,
+                f."NM_FUNCAO" as Funcao
+         FROM cepe.public."PESSOA_FISICA" pf
+         LEFT JOIN cepe.public."DEFICIENCIA_PESSOA" dp ON pf."CD_PESSOA_FISICA" = dp."CD_PESSOA_FISICA"
+         LEFT JOIN cepe.public."DEFICIENCIA" d ON dp."CD_DEFICIENCIA" = d."CD_DEFICIENCIA"
+         LEFT JOIN cepe.public."MODALIDADE" m ON pf."CD_MODALIDADE" = m."CD_MODALIDADE"
+         LEFT JOIN cepe.public."FUNCAO" f ON pf."CD_FUNCAO" = f."CD_FUNCAO"
+         left join cepe.public."TECNICO_MODALIDADE" tm on tm."CD_MODALIDADE" = m."CD_MODALIDADE"
+         WHERE 1 = 1
+           and tm."CD_USUARIO" = ${userId}
+           ${sql_nome}
+           ${sql_modalidade}
+           ${sql_deficiencia}
+           ${sql_funcao}
+         GROUP BY pf."CD_PESSOA_FISICA", pf."FOTO_ATLETA", pf."NM_PESSOA", pf."CPF", m."NM_MODALIDADE", f."NM_FUNCAO"
+         order by pf."NM_PESSOA"
+                        `,
+        { type: db.QueryTypes.SELECT }
+      );
+
+      console.log(pessoas)
+
+      const dadosFormatados = pessoas.map((pessoa) => ({
+        id: pessoa.CD_PESSOA_FISICA,
+        Foto: pessoa.FOTO_ATLETA,
+        CPF: formatarCPF(pessoa.CPF),
+        Nome: pessoa.NM_PESSOA,
+        Deficiencia: pessoa.deficiencia,
+        Modalidade: pessoa.modalidade,
+        Função: pessoa.funcao,
+      }));
+
+      res.status(200).json({ pessoas: dadosFormatados });
+    } catch (error) {
+      console.log(error)
+      res.status(500).json({
+        message: "Erro ao buscar os associados.",
+        erro: error.message,
+      });
+    }
+  }
 
   static async editarPessoaFisica(req, res) {
     const { CD_PESSOA_FISICA } = req.params;
@@ -342,7 +612,9 @@ module.exports = class PessoaFisicaController {
         TAMANHO_AGASALHO,
         TAMANHO_BERM_CAL,
         NR_CALCADO,
-        FOTO_ATLETA, FOTO_RG, FOTO_RG_RESPONS
+        FOTO_ATLETA,
+        FOTO_RG,
+        FOTO_RG_RESPONS,
       } = req.body;
 
       // Validações
@@ -372,9 +644,7 @@ module.exports = class PessoaFisicaController {
       pessoaFisica.SEXO = SEXO;
 
       if (!DT_NASCIMENTO) {
-        res
-          .status(422)
-          .json({ message: "A data de nascimento é obrigatória" });
+        res.status(422).json({ message: "A data de nascimento é obrigatória" });
         return;
       }
 
@@ -511,23 +781,19 @@ module.exports = class PessoaFisicaController {
       pessoaFisica.RG_RESPONS = RG_RESPONS;
 
       if (idade < 18 && !UF_RG_RESPONS) {
-        res
-          .status(422)
-          .json({
-            message:
-              "O estado em que o RG do responsável foi emitido é obrigatório",
-          });
+        res.status(422).json({
+          message:
+            "O estado em que o RG do responsável foi emitido é obrigatório",
+        });
         return;
       }
 
       pessoaFisica.UF_RG_RESPONS = UF_RG_RESPONS;
 
       if (idade < 18 && !DT_EMISSAO_RG_RESPONS) {
-        res
-          .status(422)
-          .json({
-            message: "A data de emissão do RG do responsável é obrigatória",
-          });
+        res.status(422).json({
+          message: "A data de emissão do RG do responsável é obrigatória",
+        });
         return;
       }
 
@@ -569,12 +835,9 @@ module.exports = class PessoaFisicaController {
       pessoaFisica.ESCOLARIDADE = ESCOLARIDADE;
 
       if (!INSTITUICAO) {
-        res
-          .status(422)
-          .json({
-            message:
-              "A instituição em que você estuda ou estudou é obrigatória",
-          });
+        res.status(422).json({
+          message: "A instituição em que você estuda ou estudou é obrigatória",
+        });
         return;
       }
 
@@ -636,9 +899,7 @@ module.exports = class PessoaFisicaController {
       pessoaFisica.ENDERECO = ENDERECO;
 
       if (!NR_ENDERECO) {
-        res
-          .status(422)
-          .json({ message: "O número do endereço é obrigatório" });
+        res.status(422).json({ message: "O número do endereço é obrigatório" });
         return;
       }
 
@@ -836,12 +1097,10 @@ module.exports = class PessoaFisicaController {
         .status(200)
         .json({ message: "Pessoa física atualizada com sucesso" });
     } catch (error) {
-      return res
-        .status(500)
-        .json({
-          message: "Erro ao atualizar pessoa física",
-          erro: error.message,
-        });
+      return res.status(500).json({
+        message: "Erro ao atualizar pessoa física",
+        erro: error.message,
+      });
     }
   }
 
@@ -938,9 +1197,7 @@ module.exports = class PessoaFisicaController {
       pessoaFisica.SEXO = SEXO;
 
       if (!DT_NASCIMENTO) {
-        res
-          .status(422)
-          .json({ message: "A data de nascimento é obrigatória" });
+        res.status(422).json({ message: "A data de nascimento é obrigatória" });
         return;
       }
 
@@ -1077,23 +1334,19 @@ module.exports = class PessoaFisicaController {
       pessoaFisica.RG_RESPONS = RG_RESPONS;
 
       if (idade < 18 && !UF_RG_RESPONS) {
-        res
-          .status(422)
-          .json({
-            message:
-              "O estado em que o RG do responsável foi emitido é obrigatório",
-          });
+        res.status(422).json({
+          message:
+            "O estado em que o RG do responsável foi emitido é obrigatório",
+        });
         return;
       }
 
       pessoaFisica.UF_RG_RESPONS = UF_RG_RESPONS;
 
       if (idade < 18 && !DT_EMISSAO_RG_RESPONS) {
-        res
-          .status(422)
-          .json({
-            message: "A data de emissão do RG do responsável é obrigatória",
-          });
+        res.status(422).json({
+          message: "A data de emissão do RG do responsável é obrigatória",
+        });
         return;
       }
 
@@ -1135,12 +1388,9 @@ module.exports = class PessoaFisicaController {
       pessoaFisica.ESCOLARIDADE = ESCOLARIDADE;
 
       if (!INSTITUICAO) {
-        res
-          .status(422)
-          .json({
-            message:
-              "A instituição em que você estuda ou estudou é obrigatória",
-          });
+        res.status(422).json({
+          message: "A instituição em que você estuda ou estudou é obrigatória",
+        });
         return;
       }
 
@@ -1202,9 +1452,7 @@ module.exports = class PessoaFisicaController {
       pessoaFisica.ENDERECO = ENDERECO;
 
       if (!NR_ENDERECO) {
-        res
-          .status(422)
-          .json({ message: "O número do endereço é obrigatório" });
+        res.status(422).json({ message: "O número do endereço é obrigatório" });
         return;
       }
 
@@ -1402,12 +1650,10 @@ module.exports = class PessoaFisicaController {
         .status(200)
         .json({ message: "Pessoa física atualizada com sucesso" });
     } catch (error) {
-      return res
-        .status(500)
-        .json({
-          message: "Erro ao atualizar pessoa física",
-          erro: error.message,
-        });
+      return res.status(500).json({
+        message: "Erro ao atualizar pessoa física",
+        erro: error.message,
+      });
     }
   }
 
@@ -1432,12 +1678,10 @@ module.exports = class PessoaFisicaController {
         .status(200)
         .json({ message: "Pessoa física excluída com sucesso" });
     } catch (error) {
-      return res
-        .status(500)
-        .json({
-          message: "Erro ao excluir pessoa física",
-          erro: error.message,
-        });
+      return res.status(500).json({
+        message: "Erro ao excluir pessoa física",
+        erro: error.message,
+      });
     }
   }
 
@@ -1445,36 +1689,36 @@ module.exports = class PessoaFisicaController {
     const { CD_PESSOA_FISICA } = req.params;
 
     try {
-      // if (!CD_PESSOA_FISICA) {
-      //   return res.status(404).json({ message: "Usuário não encontrada" });
-      // }
-
-      const {nome} = req.query
-      let sql_nome = '';
-
-      if(nome != null){
-        sql_nome = `AND NM_PESSOA LIKE '%${nome}%'`
+      if (!CD_PESSOA_FISICA) {
+        return res.status(404).send("Usuário não encontrado");
       }
 
       const pessoas = await db.query(
-              `SELECT 
-              	pf.*,
-                  GROUP_CONCAT(d.TP_DEFICIENCIA ORDER BY d.TP_DEFICIENCIA SEPARATOR ',') AS Deficiencia,
-                  m.NM_MODALIDADE as Modalidade,
-              	f.NM_FUNCAO as Funcao
-              FROM pessoa_fisicas pf
-              left JOIN deficiencia_pessoas dp ON pf.CD_PESSOA_FISICA = dp.CD_PESSOA_FISICA
-              left JOIN deficiencia d ON dp.CD_DEFICIENCIA = d.CD_DEFICIENCIA
-              LEFT JOIN modalidades m ON pf.CD_MODALIDADE = m.CD_MODALIDADE
-              LEFT JOIN funcaos f ON pf.CD_FUNCAO = f.CD_FUNCAO
-              WHERE 1 = 1
-              ${sql_nome}
-              GROUP BY pf.CD_PESSOA_FISICA
-                `,
+        `SELECT pf.*,
+                STRING_AGG(d."TP_DEFICIENCIA", ',' ORDER BY d."TP_DEFICIENCIA") AS Deficiencia,
+                m."NM_MODALIDADE" as Modalidade,
+                f."NM_FUNCAO" as Funcao
+         FROM cepe.public."PESSOA_FISICA" pf
+         LEFT JOIN cepe.public."DEFICIENCIA_PESSOA" dp ON pf."CD_PESSOA_FISICA" = dp."CD_PESSOA_FISICA"
+         LEFT JOIN cepe.public."DEFICIENCIA" d ON dp."CD_DEFICIENCIA" = d."CD_DEFICIENCIA"
+         LEFT JOIN cepe.public."MODALIDADE" m ON pf."CD_MODALIDADE" = m."CD_MODALIDADE"
+         LEFT JOIN cepe.public."FUNCAO" f ON pf."CD_FUNCAO" = f."CD_FUNCAO"
+         WHERE pf."CD_PESSOA_FISICA" in (${CD_PESSOA_FISICA})
+         GROUP BY pf."CD_PESSOA_FISICA", pf."NM_PESSOA", pf."NR_CELULAR", pf."NR_TELEFONE", 
+                  pf."SEXO", pf."DT_NASCIMENTO", pf."ESTADO_CIVIL", pf."NATURALIDADE", pf."EMAIL",
+                  pf."MEIO_LOCOMOCAO", pf."ASSISTENCIA", pf."NM_PAI", pf."CELULAR_PAI", pf."NM_MAE", 
+                  pf."CELULAR_MAE", pf."EMAIL_RESPONS", pf."NATURALIDADE_RESPONS", pf."PESO", pf."ALTURA", 
+                  pf."GP_SANGUE", pf."RENDA", pf."ESCOLARIDADE", pf."INSTITUICAO", pf."MATRICULA", pf."TELEFONE_ESCOLA", 
+                  pf."CPF", pf."RG", pf."UF_RG", pf."DT_EMISSAO_RG", pf."NR_PASSAPORTE", pf."CPF_RESPONS", pf."RG_RESPONS",
+                  pf."UF_RG_RESPONS", pf."DT_EMISSAO_RG_RESPONS", pf."NR_PASSAPORTE_RESPONS", pf."CEP", pf."ENDERECO", pf."NR_ENDERECO",
+                  pf."DS_ENDERECO", pf."CLASSIF_FUNC", pf."PROVA", pf."TAMANHO_CAMISA", pf."TAMANHO_AGASALHO", pf."TAMANHO_BERM_CAL", 
+                  pf."NR_CALCADO", m."NM_MODALIDADE", f."NM_FUNCAO"
+        `,
         { replacements: { CD_PESSOA_FISICA }, type: db.QueryTypes.SELECT }
       );
 
       const dadosFormatados = pessoas.map((pessoa) => ({
+        CD_PESSOA_FISICA: pessoa.CD_PESSOA_FISICA,
         NM_PESSOA: pessoa.NM_PESSOA,
         NR_CELULAR: formatarTelefone(pessoa.NR_CELULAR),
         NR_TELEFONE: formatarTelefone(pessoa.NR_TELEFONE),
@@ -1527,26 +1771,8 @@ module.exports = class PessoaFisicaController {
         FOTO_RG_RESPONS: pessoa.FOTO_RG_RESPONS,
       }));
 
-      const workbook = new ExcelJS.Workbook();
-      const worksheet = workbook.addWorksheet('Pessoas');
-    
-      worksheet.columns = Object.keys(dadosFormatados[0]).map((key) => ({
-        header: key,
-        key: key,
-        width: 20,
-      }));
-    
-      dadosFormatados.forEach((dado) => {
-        worksheet.addRow(dado);
-      });
-    
-      await workbook.xlsx.writeFile("../exports/export.xlsx");
-      const path = fs.realpathSync("../exports/export.xlsx");
-      console.log(path);
-    
-      res.download(path);
-
-      // res.status(200).json({ pessoas: dadosFormatados });
+      // Enviar os dados formatados como JSON
+      res.status(200).json(dadosFormatados);
     } catch (error) {
       return res
         .status(500)
@@ -1583,21 +1809,23 @@ module.exports = class PessoaFisicaController {
 
   static async TodasAssociados(req, res) {
     try {
-        const associados = await PessoaFisica.findAll();
+      const associados = await PessoaFisica.findAll();
 
-        if (associados.length === 0) {
-            return res.status(404).json({ mensagem: 'Não há nenhum associado cadastrado' });
-        }
+      if (associados.length === 0) {
+        return res
+          .status(404)
+          .json({ mensagem: "Não há nenhum associado cadastrado" });
+      }
 
-        const associadoFormatada = associados.map(associado => ({
-            CD_PESSOA_FISICA: associado.CD_PESSOA_FISICA,
-            NM_PESSOA: associado.NM_PESSOA
-        }));
+      const associadoFormatada = associados.map((associado) => ({
+        CD_PESSOA_FISICA: associado.CD_PESSOA_FISICA,
+        NM_PESSOA: associado.NM_PESSOA,
+      }));
 
-        res.status(200).json({ associados: associadoFormatada });
+      res.status(200).json({ associados: associadoFormatada });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ mensagem: 'Erro ao buscar associado' });
+      console.error(error);
+      res.status(500).json({ mensagem: "Erro ao buscar associado" });
     }
   }
 
@@ -1605,7 +1833,7 @@ module.exports = class PessoaFisicaController {
     try {
       const token = ObterToken(req);
       const user = await ObterUsuarioToken(token);
-      
+
       const usuario = await PessoaFisica.findOne({
         where: { CD_USUARIO: user.CD_USUARIO },
       });
@@ -1634,8 +1862,8 @@ module.exports = class PessoaFisicaController {
 
       res.status(200).json({ totalAssociados: totalAssociadosResult[0].total });
     } catch (error) {
-      console.error('Erro ao buscar total de associados:', error);
-      res.status(500).json({ error: 'Erro ao buscar total de associados' });
+      console.error("Erro ao buscar total de associados:", error);
+      res.status(500).json({ error: "Erro ao buscar total de associados" });
     }
   }
 
@@ -1649,7 +1877,7 @@ module.exports = class PessoaFisicaController {
          WHERE 1 = 1 
          GROUP BY m."NM_MODALIDADE" 
          ORDER BY TOTAL DESC`,
-         { type: db.QueryTypes.SELECT }
+        { type: db.QueryTypes.SELECT }
       );
 
       const modalidades = modalidadesResult.map((modalidade) => ({
@@ -1659,8 +1887,8 @@ module.exports = class PessoaFisicaController {
 
       res.status(200).json(modalidades);
     } catch (error) {
-      console.error('Erro ao buscar modalidades:', error);
-      res.status(500).json({ error: 'Erro ao buscar modalidades' });
+      console.error("Erro ao buscar modalidades:", error);
+      res.status(500).json({ error: "Erro ao buscar modalidades" });
     }
   }
 
@@ -1668,7 +1896,6 @@ module.exports = class PessoaFisicaController {
     const { CD_USUARIO } = req.params;
 
     try {
-
       const totalAssociadosResult = await db.query(
         `SELECT COUNT(am."CD_PESSOA_FISICA") AS TOTAL
          FROM cepe.public."TECNICO_MODALIDADE" tm
@@ -1681,8 +1908,8 @@ module.exports = class PessoaFisicaController {
 
       res.status(200).json({ totalAssociados: totalAssociadosResult[0].total });
     } catch (error) {
-      console.error('Erro ao buscar total de associados:', error);
-      res.status(500).json({ error: 'Erro ao buscar total de associados' });
+      console.error("Erro ao buscar total de associados:", error);
+      res.status(500).json({ error: "Erro ao buscar total de associados" });
     }
   }
 
@@ -1700,7 +1927,7 @@ module.exports = class PessoaFisicaController {
            AND tm."CD_USUARIO" = ${CD_USUARIO}
          GROUP BY m."NM_MODALIDADE"
          ORDER BY TOTAL DESC`,
-         { type: db.QueryTypes.SELECT }
+        { type: db.QueryTypes.SELECT }
       );
 
       const modalidades = modalidadesResult.map((modalidade) => ({
@@ -1710,8 +1937,8 @@ module.exports = class PessoaFisicaController {
 
       res.status(200).json(modalidades);
     } catch (error) {
-      console.error('Erro ao buscar modalidades:', error);
-      res.status(500).json({ error: 'Erro ao buscar modalidades' });
+      console.error("Erro ao buscar modalidades:", error);
+      res.status(500).json({ error: "Erro ao buscar modalidades" });
     }
   }
 };

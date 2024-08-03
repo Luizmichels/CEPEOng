@@ -8,6 +8,7 @@ import { post, get } from "../utlis/api";
 const ViewLogin = lazy(() => import("../components/pages/login"));
 const ViewMenu = lazy(() => import("../components/pages/menu"));
 const ViewListagem = lazy(() => import("../components/pages/listagem"));
+const ViewListagemTec = lazy(() => import("../components/pages/listagemTecnico"));
 const ViewCadGeral = lazy(() => import("../components/pages/cadastros_gerais"));
 const ViewCadTec = lazy(() => import("../components/pages/CadastroTecnico"));
 const ViewFuncoes = lazy(() => import("../components/pages/funcao"));
@@ -35,6 +36,7 @@ const ViewAlterarCadastro = lazy(() => import("../components/pages/AlterarCadast
 const ViewEsqueciSenha = lazy(() => import("../components/pages/esqueciSenha/esqueciSenha"));
 const ViewRealizeCadastro = lazy(() => import("../components/pages/RealizeCadastro/RealizeCadastro"))
 const ViewMenuTecico = lazy(() => import("../components/pages/MenuTecnico"))
+const ViewAlterarSenha = lazy(() => import("../components/pages/AlterarSenha"))
 
 interface Permissao {
   ok: boolean;
@@ -97,9 +99,11 @@ export default function Rotas() {
         <Route path="menu" element={<ValidaSessao tela={ViewMenu} nivel={3} />} />
         <Route path="menu-tecnico" element={<ValidaSessao tela={ViewMenuTecico} nivel={2} />} />
         <Route path="listagem" element={<ValidaSessao tela={ViewListagem} nivel={3} />} />
+        <Route path="listagem-tec" element={<ValidaSessao tela={ViewListagemTec} nivel={2} />} />
         <Route path="cadastros" element={<ValidaSessao tela={ViewCadGeral} nivel={3} />} />
         <Route path="associado" element={<ValidaSessao tela={ViewNovoAssociado} nivel={1} />} />
         <Route path="cadastro" element={<ValidaSessao tela={ViewCadTec} nivel={2} />} />
+        <Route path="alterar-senha" element={<ValidaSessao tela={ViewAlterarSenha} nivel={1} />} />
         
         <Route path="funcoes" >
           <Route index element={<ValidaSessao tela={ViewFuncoes} nivel={3} />} />

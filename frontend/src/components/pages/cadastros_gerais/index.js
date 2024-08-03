@@ -7,14 +7,14 @@ import "./inputs.scss";
 import "./cadastros_geral.scss";
 
 const teste = [
-  { link: "/usuario", tela: "Novo Usuário" },
+  { link: "/usuario", tela: "Usuário" },
   { link: "/associado", tela: "Novo Associado" },
   { link: "/alterar", tela: "Alterar Cadastros" },
   { link: "/tecnico", tela: "Técnico" },
-  { link: "/modalidade", tela: "Nova Modalidade" },
+  { link: "/modalidade", tela: "Modalidade" },
   { link: "/equipamento", tela: "Equipamento de Locomoção" },
-  { link: "/funcoes", tela: "Nova Função" },
-  { link: "/deficiencia", tela: "Nova Deficiencia" },
+  { link: "/funcoes", tela: "Função" },
+  { link: "/deficiencia", tela: "Deficiencia" },
 ];
 
 function App() {

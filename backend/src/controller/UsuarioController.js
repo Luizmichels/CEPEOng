@@ -1,9 +1,9 @@
 const Usuario = require("../models/usuario").default;
-const TecnicoModalidade = require('../models/TecnicoModalidade').default
+const TecnicoModalidade = require("../models/TecnicoModalidade").default;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const sendMail = require("../helpers/mail").default;
-
+const { sendMail, sendMailTo } = require("../helpers/mail");
+const {EmailValido} = require("../helpers/Validacoes")
 const db = require("../db/conn").default;
 
 // helpers
@@ -14,15 +14,17 @@ const ObterUsuarioToken = require("../helpers/ObterUsuarioToken");
 module.exports = class UsuarioController {
   // Função para cadastrar o usuário
   static async CadastroUsuario(req, res) {
-    const { NM_USUARIO, SENHA } = req.body;
+    const { NM_USUARIO, SENHA, EMAIL } = req.body;
 
     // Validações
     if (!NM_USUARIO) {
       return res.status(422).json({ message: "O nome é obrigatório" });
     }
-
     if (!SENHA) {
       return res.status(422).json({ message: "A senha é obrigatória" });
+    }
+    if (!EMAIL) {
+      return res.status(422).json({ message: "O e-mail é obrigatório" });
     }
 
     try {
@@ -34,6 +36,18 @@ module.exports = class UsuarioController {
         return res
           .status(422)
           .json({ message: "Nome de usuário já está em uso" });
+      }
+      const emailExiste = await Usuario.findOne({
+        where: { EMAIL: EMAIL },
+      });
+      if (emailExiste) {
+        return res
+          .status(422)
+          .json({ message: "Nome de usuário já está em uso" });
+      }
+      if (!EmailValido(EMAIL)) {
+        res.status(422).json({ message: "Este e-mail não é válido" });
+        return;
       }
 
       // Criando a senha e criptografando a senha
@@ -146,41 +160,55 @@ module.exports = class UsuarioController {
 
   static async EditarUsuario(req, res) {
     const { CD_USUARIO } = req.params;
-    const { SENHA } = req.body;
+    const { SENHA, CONFIRMASENHA } = req.body;
     const updateData = {};
 
     try {
-      // Pegando o token do usuário logado
-      const token = ObterToken(req);
+        // Pegando o token do usuário logado
+        const token = ObterToken(req);
+        const user = await ObterUsuarioToken(token);
 
-      /*// Verificando se o usuário logado é o mesmo que está sendo editado
-            if (usuario.CD_USUARIO !== CD_USUARIO) {
-                return res.status(403).json({ message: 'Você não tem permissão para editar este usuário' })
-            }*/
+        console.log(CD_USUARIO, 'CD_USUARIO')
+        console.log(user.CD_USUARIO, 'user.CD_USUARIO')
 
-      if (!SENHA) {
-        return res.status(422).json({ message: "A Senha é obrigatória!" });
-      } else {
-        const salt = await bcrypt.genSalt(12);
-        const senhaHash = await bcrypt.hash(SENHA, salt);
-        updateData.SENHA = senhaHash;
-      }
+        const CD_USUARIO_str = String(CD_USUARIO).trim();
+        const user_CD_USUARIO_str = String(user.CD_USUARIO).trim();
+            
+        if (CD_USUARIO_str !== user_CD_USUARIO_str) {
+            return res.status(403).json({ message: 'Você não tem permissão para editar este usuário' });
+        }
 
-      // Atualizando o usuário com a nova senha
-      const usu = await Usuario.findOne({ where: { CD_USUARIO: CD_USUARIO } });
+        // Validações
+        if (!CONFIRMASENHA) {
+            return res.status(422).json({ message: 'Confirmar a senha é obrigatório' });
+        }
 
-      if (!usu) {
-        return res.status(404).json({ message: "Usuário não encontrado!" });
-      }
+        // Verificação se a senha e a confirmação de senha são iguais
+        if (SENHA !== CONFIRMASENHA) {
+            return res.status(422).json({ message: 'A senha e a confirmação de senha precisam ser iguais!' });
+        }
 
-      await usu.update(updateData);
+        if (!SENHA) {
+            return res.status(422).json({ message: 'A Senha é obrigatória!' });
+        } else {
+            const salt = await bcrypt.genSalt(12);
+            const senhaHash = await bcrypt.hash(SENHA, salt);
+            updateData.SENHA = senhaHash;
+        }
 
-      return res
-        .status(200)
-        .json({ message: "Usuário atualizado com sucesso!" });
+        // Atualizando o usuário com a nova senha
+        const usu = await Usuario.findOne({ where: { CD_USUARIO: CD_USUARIO } });
+
+        if (!usu) {
+            return res.status(404).json({ message: 'Usuário não encontrado!' });
+        }
+
+        await usu.update(updateData);
+
+        return res.status(200).json({ usu: usu, message: 'Usuário atualizado com sucesso!' });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Erro ao editar Usuário" });
+        console.error(error);
+        return res.status(500).json({ error: 'Erro ao editar Usuário' });
     }
   }
 
@@ -256,12 +284,10 @@ module.exports = class UsuarioController {
         .status(200)
         .json({ message: "Nível de acesso atualizado com sucesso" });
     } catch (error) {
-      return res
-        .status(500)
-        .json({
-          message: "Erro ao atualizar o nível de acesso",
-          error: error.message,
-        });
+      return res.status(500).json({
+        message: "Erro ao atualizar o nível de acesso",
+        error: error.message,
+      });
     }
   }
 
@@ -270,11 +296,15 @@ module.exports = class UsuarioController {
 
     try {
       // Deletando meio de locomoção
-      await TecnicoModalidade.destroy({ where: { CD_TECNICO_MODALIDADE: CD_TECNICO_MODALIDADE } });
+      await TecnicoModalidade.destroy({
+        where: { CD_TECNICO_MODALIDADE: CD_TECNICO_MODALIDADE },
+      });
 
       return res.status(200).json({ message: "Técnico deletado com sucesso" });
     } catch (error) {
-      return res.status(500).json({ message: "Erro ao deletar o Técnico", error: error.message });
+      return res
+        .status(500)
+        .json({ message: "Erro ao deletar o Técnico", error: error.message });
     }
   }
 
@@ -326,70 +356,75 @@ module.exports = class UsuarioController {
       );
 
       const dadosFormatados = usuarios.map((usuario) => ({
-          CD_TECNICO_MODALIDADE: usuario.CD_TECNICO_MODALIDADE,
-          NM_PESSOA: usuario.NM_PESSOA,
+        CD_TECNICO_MODALIDADE: usuario.CD_TECNICO_MODALIDADE,
+        NM_PESSOA: usuario.NM_PESSOA,
       }));
 
       res.status(200).json({ usuarios: dadosFormatados });
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          message: "Erro ao buscar os técnicos.",
-          erro: error.message,
-        });
+      res.status(500).json({
+        message: "Erro ao buscar os técnicos.",
+        erro: error.message,
+      });
     }
   }
 
   static async CadastroTecModali(req, res) {
-        const { CD_USUARIO, CD_MODALIDADE } = req.body
+    const { CD_USUARIO, CD_MODALIDADE } = req.body;
 
-        // Validações
-        if (!CD_USUARIO) {
-            return res.status(422).json({ message: 'O nome é obrigatório' })
-        }
-
-        if (!CD_MODALIDADE) {
-            return res.status(422).json({ message: 'A modalidade é obrigatória' })
-        }
-
-        try {
-
-            const novoUsuario = await TecnicoModalidade.create({CD_USUARIO,
-                CD_MODALIDADE})
-            return res.status(201).json({ message: 'Técnico cadastrado com sucesso'})
-        } catch (error) {
-            return res.status(500).json({ message: 'Erro ao cadastrar o técnico', error: error.message })
-        }
+    // Validações
+    if (!CD_USUARIO) {
+      return res.status(422).json({ message: "O nome é obrigatório" });
     }
 
-    static async EditarTecModali(req, res) {
-        const { CD_TECNICO_MODALIDADE } = req.params;
-        const { CD_USUARIO, CD_MODALIDADE } = req.body;
-    
-        try {
-          // Atualizando o usuário com a nova senha
-        //   const usu = await TecnicoModalidade.findOne({ where: { CD_TECNICO_MODALIDADE: CD_TECNICO_MODALIDADE } });
-          const usu = await TecnicoModalidade.findByPk(CD_TECNICO_MODALIDADE);
-    
-          if (!usu) {
-            return res.status(404).json({ message: "Técnico não encontrado!" });
-          }
-    
-          await usu.update({ CD_USUARIO, CD_MODALIDADE });
-    
-          return res.status(200).json({ message: "Técnico atualizado com sucesso!" });
-        } catch (error) {
-          console.error(error);
-          return res.status(500).json({ error: "Erro ao editar técnico" });
-        }
+    if (!CD_MODALIDADE) {
+      return res.status(422).json({ message: "A modalidade é obrigatória" });
+    }
+
+    try {
+      const novoUsuario = await TecnicoModalidade.create({
+        CD_USUARIO,
+        CD_MODALIDADE,
+      });
+      return res
+        .status(201)
+        .json({ message: "Técnico cadastrado com sucesso" });
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ message: "Erro ao cadastrar o técnico", error: error.message });
+    }
+  }
+
+  static async EditarTecModali(req, res) {
+    const { CD_TECNICO_MODALIDADE } = req.params;
+    const { CD_USUARIO, CD_MODALIDADE } = req.body;
+
+    try {
+      // Atualizando o usuário com a nova senha
+      //   const usu = await TecnicoModalidade.findOne({ where: { CD_TECNICO_MODALIDADE: CD_TECNICO_MODALIDADE } });
+      const usu = await TecnicoModalidade.findByPk(CD_TECNICO_MODALIDADE);
+
+      if (!usu) {
+        return res.status(404).json({ message: "Técnico não encontrado!" });
       }
 
-      static async ObterTecnicoModalidade(req, res) {
-        const { CD_TECNICO_MODALIDADE } = req.params;
-        try {
-          const usuarios = await db.query(
-            `
+      await usu.update({ CD_USUARIO, CD_MODALIDADE });
+
+      return res
+        .status(200)
+        .json({ message: "Técnico atualizado com sucesso!" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Erro ao editar técnico" });
+    }
+  }
+
+  static async ObterTecnicoModalidade(req, res) {
+    const { CD_TECNICO_MODALIDADE } = req.params;
+    try {
+      const usuarios = await db.query(
+        `
                     select tm.CD_TECNICO_MODALIDADE, 
                            pf.NM_PESSOA,
                            M.NM_MODALIDADE
@@ -401,51 +436,112 @@ module.exports = class UsuarioController {
                       and U.NIVEL_ACESSO = 2
                       and tm.CD_TECNICO_MODALIDADE = :CD_TECNICO_MODALIDADE
                 `,
-            { 
-                type: db.QueryTypes.SELECT,
-                replacements: { CD_TECNICO_MODALIDADE: CD_TECNICO_MODALIDADE}
-            }
-          );
-
-          if (!usuarios.length) {
-            return res.status(404).json({ message: "Técnico não encontrado" });
-          }
-    
-          const dadosFormatados = usuarios.map((usuario) => ({
-              CD_TECNICO_MODALIDADE: usuario.CD_TECNICO_MODALIDADE,
-              NM_PESSOA: usuario.NM_PESSOA,
-              NM_MODALIDADE: usuario.NM_MODALIDADE,
-          }));
-    
-          res.status(200).json({ usuarios: dadosFormatados });
-        } catch (error) {
-          res
-            .status(500)
-            .json({
-              message: "Erro ao buscar os técnicos.",
-              erro: error.message,
-            });
+        {
+          type: db.QueryTypes.SELECT,
+          replacements: { CD_TECNICO_MODALIDADE: CD_TECNICO_MODALIDADE },
         }
+      );
+
+      if (!usuarios.length) {
+        return res.status(404).json({ message: "Técnico não encontrado" });
       }
 
-      static async sendEmail(req, res) {
-        const { nome, telefone, email } = req.body;
-    
-        const htmlContent = `
-          <h2>Dados do solicitante</h2>
-          <p><strong>Nome:</strong> ${nome}</p>
-          <p><strong>Telefone:</strong> ${telefone}</p>
-          <p><strong>Email:</strong> ${email}</p>
+      const dadosFormatados = usuarios.map((usuario) => ({
+        CD_TECNICO_MODALIDADE: usuario.CD_TECNICO_MODALIDADE,
+        NM_PESSOA: usuario.NM_PESSOA,
+        NM_MODALIDADE: usuario.NM_MODALIDADE,
+      }));
+
+      res.status(200).json({ usuarios: dadosFormatados });
+    } catch (error) {
+      res.status(500).json({
+        message: "Erro ao buscar os técnicos.",
+        erro: error.message,
+      });
+    }
+  }
+
+  static async sendEmail(req, res) {
+    const { nome, telefone, email } = req.body;
+
+    const htmlContent = `
+          <div style="font-family: Arial, sans-serif; color: #333;">
+            <div style="padding: 10px; background-color: #f8f9fa;">
+              <h2 style="color: #ED5600;">Solicitação de Associamento</h2>
+              <p>Você recebeu uma nova solicitação de associamento com os seguintes dados:</p>
+            </div>
+            <div style="padding: 10px; background-color: #ffffff; border: 1px solid #ddd;">
+              <p><strong>Nome:</strong> ${nome}</p>
+              <p><strong>Telefone:</strong> ${telefone}</p>
+              <p><strong>Email:</strong> ${email}</p>
+            </div>
+          </div>
         `;
-    
-        const recipientEmail = 'andreluizmichels11@gmail.com';
-    
-        try {
-          await sendMail(recipientEmail, 'Solicitação de Cadastro', htmlContent);
-          res.status(200).send('Email enviado com sucesso!');
-        } catch (error) {
-          console.error(error); // Para ajudar na depuração
-          res.status(500).send('Erro ao enviar o email.');
-        }
+
+    try {
+      await sendMail("Solicitação de Associamento", htmlContent);
+      res.status(200).send("Email enviado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao enviar o email:", error);
+      res.status(500).send("Erro ao enviar o email.");
+    }
+  }
+
+  static async SolicitarSenhaTemporaria(req, res) {
+    const { email } = req.body;
+
+    // Validações
+    if (!email) {
+      return res.status(422).json({ message: "O e-mail é obrigatório" });
+    }
+
+    try {
+      // Encontrar o usuário pelo e-mail
+      const usuario = await Usuario.findOne({ where: { EMAIL: email } });
+
+      if (!usuario) {
+        return res.status(404).json({ message: "Usuário não encontrado!" });
       }
+
+      // Gerar uma senha temporária
+      const senhaTemporaria = Math.random().toString(36).slice(-8); // Exemplo de geração de senha
+
+      // Criptografar a senha temporária
+      const salt = await bcrypt.genSalt(12);
+      const senhaHash = await bcrypt.hash(senhaTemporaria, salt);
+
+      console.log(senhaTemporaria, "senhaTemporaria");
+
+      // Atualizar a senha do usuário no banco de dados
+      usuario.SENHA = senhaHash;
+      await usuario.save();
+
+      // Enviar a senha temporária por e-mail
+      const htmlContent = `
+        <div style="font-family: Arial, sans-serif; color: #333; position: relative;">
+          <div style="padding: 10px; background-color: #f8f9fa; position: relative;">
+            <h2 style="color: #ED5600;">Nova senha</h2>
+            <p>Você solicitou uma nova senha. Use a senha abaixo para acessar sua conta:</p>
+          </div>
+          <div style="padding: 10px; background-color: #ffffff; border: 1px solid #ddd;">
+            <p><strong>Senha:</strong> ${senhaTemporaria}</p>
+          </div>
+        </div>
+      `;
+
+      await sendMailTo("Senha Temporária", htmlContent, email);
+
+      res
+        .status(200)
+        .json({ message: "Senha temporária enviada para o e-mail!" });
+    } catch (error) {
+      console.error("Erro ao solicitar a senha temporária:", error);
+      res
+        .status(500)
+        .json({
+          message: "Erro ao solicitar a senha temporária",
+          error: error.message,
+        });
+    }
+  }
 };

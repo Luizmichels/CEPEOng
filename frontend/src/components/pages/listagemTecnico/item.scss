@@ -1,0 +1,14 @@
+button.editar svg,
+button.deletar svg {
+  font-size: 2vh; // Aumenta o tamanho dos ícones para melhor visualização
+  color: #000; 
+}
+
+.acoes {
+  display: flex;
+  flex-direction: column; // Coloca os ícones um sobre o outro
+  justify-content: center;
+  align-items: center;
+  gap: 10px; // Espaço entre os botões
+  height: 100%; // Garante que os ícones estejam centralizados verticalmente
+}

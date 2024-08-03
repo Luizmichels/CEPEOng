@@ -5,6 +5,7 @@ async function createDefaultAdminUser() {
     const NM_USUARIO = 'admin';
     const SENHA = '123';
     const NIVEL_ACESSO = 3;
+    const EMAIL = 'cepeapp@gmail.com';
 
     try {
         // Verificação se o usuario já existe
@@ -18,7 +19,8 @@ async function createDefaultAdminUser() {
             await Usuario.create({
                 NM_USUARIO,
                 SENHA: senhaHash,
-                NIVEL_ACESSO
+                NIVEL_ACESSO,
+                EMAIL,
             });
 
             console.log('Usuário admin criado com sucesso.');

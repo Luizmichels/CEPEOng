@@ -1,7 +1,6 @@
 import { createTransport } from 'nodemailer';
-// Configurar o transporte do nodemailer
-const { EMAIL_USER: user,
-  EMAIL_PASS: pass } = process.env;
+
+const { EMAIL_USER: user, EMAIL_PASS: pass, recipientEmail: to } = process.env;
 
 const transporter = createTransport({
   service: 'gmail',
@@ -12,11 +11,19 @@ const transporter = createTransport({
   }
 });
 
-// Função para enviar e-mail
-export default function sendMail(to: string, subject: string, html: string) {
+export function sendMail(subject: string, html: string) {
   return transporter.sendMail({
     from: user,
-    to,
+    to: to,
+    subject,
+    html
+  });
+};
+
+export function sendMailTo(subject: string, html: string, to: string) {
+  return transporter.sendMail({
+    from: user,
+    to: to,
     subject,
     html
   });

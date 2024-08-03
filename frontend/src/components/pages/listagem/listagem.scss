@@ -1,120 +1,130 @@
 body {
-    margin: 0 auto;
-    font-family: "Inter", sans-serif;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
 }
 
 header {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .divisao {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 p {
-    left: 4vh;
-    position: relative;
+  left: 4vh;
+  position: relative;
 }
 
 h1 {
-    left: 4vh;
-    position: relative;
-    text-align: center;
+  left: 4vh;
+  position: relative;
+  text-align: center;
 }
 
 input[type="search"] {
-    background-color: #D9D9D9;
-    width: 25vh;
-    height: 8vh;
-    text-align: center;
-    line-height: 9vh;
-    vertical-align: middle;
-    border-radius: 10px;
-    font-size: 3.5vh !important;
-    border-color: #ED5600;
-    border-width: 1px;
-    border-style: solid;
-    margin-left: 3vh;
-    cursor: pointer;
+  background-color: #D9D9D9;
+  width: 25vh;
+  height: 8vh;
+  text-align: center;
+  line-height: 9vh;
+  vertical-align: middle;
+  border-radius: 10px;
+  font-size: 3.5vh !important;
+  border-color: #ED5600;
+  border-width: 1px;
+  border-style: solid;
+  margin-left: 3vh;
+  cursor: pointer;
 }
 
 .logo {
-    width: 23vh;
-    height: 23vh;
-    margin-left: 20px;
-    padding: 10px;
+  width: 23vh;
+  height: 23vh;
+  margin-left: 20px;
+  padding: 10px;
 }
 
-img{
-    width: 100px;
-    height: 100px;
+img {
+  width: 100px;
+  height: 100px;
 }
 
 button {
-    background-color: #ED5600;
-    margin-top: 5vh;
-    width: 35vh;
-    height: 8vh;
-    margin-left: 10vh;
-    text-align: center;
-    line-height: 7vh;
-    vertical-align: middle;
-    border-radius: 50px;
-    font-size: 3.5vh !important;
-    border-color: white;
-    color: white;
-    border-width: 1px;
-    border-style: solid;
-    cursor: pointer;
+  background-color: #ED5600;
+  margin-top: 5vh;
+  width: 35vh;
+  height: 8vh;
+  margin-left: 10vh;
+  text-align: center;
+  line-height: 7vh;
+  vertical-align: middle;
+  border-radius: 50px;
+  font-size: 3.5vh !important;
+  border-color: white;
+  color: white;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
 }
 
 .grid {
-    font-family: "Inter", sans-serif;
-    align-self: auto;
-    width: 90%;
-    margin: 0 auto;
-    border-collapse: collapse;
-    font-size: 18px;
-    text-align: left;
+  font-family: "Inter", sans-serif;
+  align-self: auto;
+  width: 90%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 18px;
+  text-align: left;
 
-    thead {
-        tr {
-            background-color: #ED5600;
-            color: #ffffff;
-            text-align: left;
-            font-weight: bold;
-        }
+  thead {
+    tr {
+      background-color: #ED5600; // Altera o fundo do cabeçalho para branco
+      color: white; // Define a cor do texto do cabeçalho para laranja
+      text-align: center; // Centraliza os textos dos cabeçalhos das colunas
+      font-weight: bold;
     }
+  }
+  
+  th, td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+    text-align: center; // Centraliza os textos das células da tabela
 
-    th, td {
-        padding: 12px 15px;
-        border: 1px solid #dddddd;
+    &:last-child {
+      border: none; // Remove a borda da última coluna
+      background-color: white;
     }
-
-    tbody {
-        tr:nth-child(odd) {
-            background-color: #f3f3f3;
-        }
-
-        tr:nth-child(even) {
-            background-color: #ffffff;
-        }
+  }
+  
+  tbody {
+    tr:nth-child(odd) {
+      background-color: #f3f3f3;
     }
-
-    .editar, .deletar {
-        background: none;
-        border: none;
-        cursor: pointer;
-
-        img {
-            width: 20px;
-            height: 20px;
-
-            &:hover {
-                filter: brightness(0.8);
-            }
-        }
+  
+    tr:nth-child(even) {
+      background-color: #ffffff;
     }
+  }
+  
+  .editar, .deletar {
+    background: none;
+    border: none;
+    cursor: pointer;
+  
+    img {
+      width: 20px;
+      height: 20px;
+  
+      &:hover {
+        filter: brightness(0.8);
+      }
+    }
+  }
 }
+
+.deletar, .editar {
+  cursor: pointer;
+} 

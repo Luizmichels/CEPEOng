@@ -1,0 +1,178 @@
+body {
+    margin: 0 auto;
+    font-family: "Inter", sans-serif;
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+}
+
+.divisao {
+    display: flex;
+    flex-direction: column;
+}
+
+p {
+    left: 4vh;
+    position: relative;
+}
+
+h1 {
+    left: 4vh;
+    position: relative;
+    text-align: center;
+}
+
+input[type="search"] {
+    background-color: #D9D9D9;
+    width: 25vh;
+    height: 8vh;
+    text-align: center;
+    line-height: 9vh;
+    vertical-align: middle;
+    border-radius: 10px;
+    font-size: 3.5vh !important;
+    border-color: #ED5600;
+    border-width: 1px;
+    border-style: solid;
+    margin-left: 3vh;
+    cursor: pointer;
+}
+
+.logo {
+    width: 23vh;
+    height: 23vh;
+    margin-left: 20px;
+    padding: 10px;
+}
+
+img{
+    width: 100px;
+    height: 100px;
+}
+
+button {
+    background-color: #ED5600;
+    margin-top: 5vh;
+    width: 35vh;
+    height: 8vh;
+    margin-left: 10vh;
+    text-align: center;
+    line-height: 7vh;
+    vertical-align: middle;
+    border-radius: 50px;
+    font-size: 3.5vh !important;
+    border-color: white;
+    color: white;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+}
+
+.grid {
+    font-family: "Inter", sans-serif;
+    align-self: auto;
+    width: 90%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    font-size: 18px;
+    text-align: left;
+  
+    thead {
+      tr {
+        background-color: #ED5600;
+        color: #ffffff;
+        text-align: center; // Centraliza os textos dos cabeçalhos das colunas
+        font-weight: bold;
+      }
+    }
+  
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #dddddd;
+      text-align: center; // Centraliza os textos das células da tabela
+    }
+  
+    tbody {
+      tr:nth-child(odd) {
+        background-color: #f3f3f3;
+      }
+  
+      tr:nth-child(even) {
+        background-color: #ffffff;
+      }
+    }
+  
+    .editar, .deletar {
+      background: none;
+      border: none;
+      cursor: pointer;
+  
+      img {
+        width: 20px;
+        height: 20px;
+  
+        &:hover {
+          filter: brightness(0.8);
+        }
+      }
+    }
+  }
+  
+  .grid th:nth-child(2), .grid td:nth-child(3) {
+    width: 20%; // Aumenta a largura da coluna Função
+  }
+
+  .grid th:nth-child(3), .grid td:nth-child(3) {
+    width: 11%; // Aumenta a largura da coluna Função
+  }
+
+  .grid th:nth-child(4), .grid td:nth-child(4) {
+    width: 15%; // Aumenta a largura da coluna Deficiência
+  }
+  
+  .grid th:nth-child(6), .grid td:nth-child(6) {
+    width: 11%; // Aumenta a largura da coluna Função
+  }
+
+  
+  .grid td {
+    text-align: center; // Alinha os textos das células à esquerda, exceto a coluna de ações
+  }
+  
+  .grid .acoes {
+    display: flex;
+    flex-direction: column; // Coloca os ícones um sobre o outro
+    justify-content: center;
+    align-items: center;
+    gap: 10px; // Espaço entre os botões
+    height: 100%; // Garante que os ícones estejam centralizados verticalmente
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 10px;
+  
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-bottom: 5px;
+  
+        svg {
+          font-size: 1.5em;
+          color: #000;
+        }
+      }
+    }
+  }
+  

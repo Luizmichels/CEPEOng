@@ -8,6 +8,7 @@ import "./NovaUsuario.scss";
 const ViewNovaUsuario = () => {
   const [NM_USUARIO, setNome] = useState("");
   const [SENHA, setSenha] = useState("");
+  const [EMAIL, setEmail] = useState("");
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -21,16 +22,15 @@ const ViewNovaUsuario = () => {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      await api.post("/usuario/cadastro", { NM_USUARIO, SENHA }, config);
+      await api.post("/usuario/cadastro", { NM_USUARIO, SENHA, EMAIL }, config)
 
-      NotificacaoManager.success('Cadastrado com sucesso!', '', 1000, 'filled');
+      NotificacaoManager.success('Usuário criado com sucesso', '', 1000, 'filled');
 
       startTransition(() => {
         navigate("/usuario");
       });
     } catch (error) {
-      console.error("Erro ao criar Usuário:", error);
-      NotificacaoManager.error('Erro ao cadastrar Usuário!', '', 1000, 'filled');
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 
@@ -64,6 +64,15 @@ const ViewNovaUsuario = () => {
               id="senha"
               value={SENHA}
               onChange={(e) => setSenha(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="email">E-mail</label>
+            <input
+              type="text"
+              id="email"
+              value={EMAIL}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>

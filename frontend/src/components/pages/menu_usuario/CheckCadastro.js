@@ -60,6 +60,9 @@ function CheckCadastro() {
           <Button color="default" className="text-button sair" onClick={handleLogout}>
             Sair
           </Button>
+          <Button color="default" className="text-button alterar-senha" onClick={() => navigate("/alterar-senha")}>
+            Alterar senha
+          </Button>
         </div>
     </div>
     

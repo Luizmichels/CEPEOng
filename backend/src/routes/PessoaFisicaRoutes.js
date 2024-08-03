@@ -19,15 +19,28 @@ routes.patch(
   PessoaFisicaController.editarPessoaFisica
 );
 routes.get(
+  "/cadastrato",
+  ChecarToken,
+  verificarNivelAcesso(1),
+  PessoaFisicaController.BuscarPorID
+);
+//grid
+routes.get(
   "/cadastratos/grid",
   ChecarToken,
-  verificarNivelAcesso(2),
+  verificarNivelAcesso(3),
   PessoaFisicaController.TodosCadastratos
 );
 routes.get(
-  "/cadastratos/grid/exportar",
+  "/cadastratos/grid/tecnico",
   ChecarToken,
-  verificarNivelAcesso(3),
+  verificarNivelAcesso(2),
+  PessoaFisicaController.TodosCadastratosTec
+);
+routes.get(
+  "/cadastratos/grid/exportar/:CD_PESSOA_FISICA",
+  ChecarToken,
+  verificarNivelAcesso(2),
   PessoaFisicaController.DadosFormatados
 );
 routes.patch(
@@ -46,12 +59,6 @@ routes.delete(
   ChecarToken,
   verificarNivelAcesso(3),
   PessoaFisicaController.excluirPessoaId
-);
-routes.get(
-  "/cadastrato",
-  ChecarToken,
-  verificarNivelAcesso(1),
-  PessoaFisicaController.BuscarPorID
 );
 
 routes.post(

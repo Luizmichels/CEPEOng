@@ -129,13 +129,16 @@ const ChartComponent = () => {
           <Button color="default" className="text-button novoitem" onClick={handleNavigate}>
             {usuarioCadastrado != null ? 'Alterar cadastro' : 'Realize seu cadastro'}
           </Button>
-          <Button color="default" className="text-button listagem" onClick={() => navigate("/listagem ")}>
+          <Button color="default" className="text-button listagem" onClick={() => navigate("/listagem-tec ")}>
             Listagem de Atletas
           </Button>
         </div>
         <div className="logout-button">
           <Button color="default" className="text-button sair" onClick={handleLogout}>
             Sair
+          </Button>
+          <Button color="default" className="text-button alterar-senha" onClick={() => navigate("/alterar-senha")}>
+            Alterar senha
           </Button>
         </div>
       </div>

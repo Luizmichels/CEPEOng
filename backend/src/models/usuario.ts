@@ -27,6 +27,10 @@ Usuario.init({
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  EMAIL: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
   NIVEL_ACESSO: {
     type: DataTypes.INTEGER,
     allowNull: false,

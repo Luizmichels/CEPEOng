@@ -85,3 +85,9 @@ body {
 .imagemzona img {
   max-width: 100%;
 }
+
+.tamanho_button {
+  cursor: pointer;
+  width: 30vh;
+  height: 5vh;
+}

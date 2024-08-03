@@ -1,114 +1,102 @@
-import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-import "./listagem.scss";
-import Item from "./item";
-import { get } from "../../../utlis/api";
-import {Input, Button} from "reactstrap";
-import { NotificacaoManager } from "../../notificacao";
+import { useState, useEffect } from 'react';
+import { get } from '../../../utlis/api';
+import { Input, Button } from 'reactstrap';
+import { NotificacaoManager } from '../../notificacao';
+import Item from './item';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ExportPDF from './ExportPDF';
+import './listagem.scss';
 
 const Listagem = () => {
-  // const navigate = useNavigate();
-  const [nome, setNome] = useState('')
-  const [Modalidade, setModalidade] = useState('')
-  const [Deficiencia, setDeficiencia] = useState('')
-  const [Funcao, setFuncao] = useState('')
-  const [itens, setItens] = useState([])
-  const [update, setUpdate] = useState(false)
+  const [nome, setNome] = useState('');
+  const [Modalidade, setModalidade] = useState('');
+  const [Deficiencia, setDeficiencia] = useState('');
+  const [Funcao, setFuncao] = useState('');
+  const [itens, setItens] = useState([]);
+  const [update, setUpdate] = useState(false);
+  const [exportData, setExportData] = useState([]);
+
   const editarUsuario = (id) => {
-    // lógica para editar o usuário com o ID fornecido
-    // window.location.href = `editar_usuario.html?id=${id}`;
-    // navigate(`editar_usuario.html?id=${id}`);
-    NotificacaoManager.warning('Em Dev', undefined, 2000)
+    NotificacaoManager.warning('Em Dev', undefined, 2000);
   };
 
   const deletarUsuario = (id) => {
-    // lógica para deletar o usuário com o ID fornecido
     if (window.confirm('Tem certeza que deseja deletar este usuário?')) {
-      // Lógica de exclusão
       alert(`Usuário ${id} deletado.`);
-      get('/deletar/:CD_PESSOA_FISICA'+id).then(() => {
+      get('/deletar/' + id).then(() => {
         setUpdate((c) => !c);
       });
     }
   };
 
-  useEffect(()=> {
-    get('/associado/cadastratos/grid', {nome, Modalidade, Deficiencia, Funcao}).then(({data})=>{
-      setItens(data.pessoas);
-    })
-  }, [nome, Modalidade, Deficiencia, Funcao, update])
+  useEffect(() => {
+    get('/associado/cadastratos/grid', { nome, Modalidade, Deficiencia, Funcao }).then(({ data }) => {
+      setItens(Array.isArray(data.pessoas) ? data.pessoas : []);
+    });
+  }, [nome, Modalidade, Deficiencia, Funcao, update]);
+
+  const ExportarDados = async () => {
+    try {
+      const CD_PESSOA_FISICA = itens.map(item => item.id);
+      const associado = await get(`/associado/cadastratos/grid/exportar/${CD_PESSOA_FISICA}`)
+      console.log(associado.data, 'aquiii')
+      setExportData(associado.data);
+    } catch (error) {
+      console.error('Erro ao exportar dados:', error);
+    }
+  };
 
   return (
     <div className="tela">
       <header>
         <a href="/menu">
-          <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" className="logo"/>
+          <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" className="logo" />
         </a>
         <div className="divisao">
           <p>Nome</p>
-          <Input  type="search" className="buscar" id="busca_nome" onChange={(e) => {
-            setNome(e.target.value)
-          }} />
+          <Input type="search" className="buscar" id="busca_nome" onChange={(e) => setNome(e.target.value)} />
         </div>
         <div className="divisao">
           <p>Modalidade</p>
-          <Input type="search" className="buscar" id="busca_nome" onChange={(e) => {
-            setModalidade(e.target.value)
-          }} />        
-          </div>
+          <Input type="search" className="buscar" id="busca_modalidade" onChange={(e) => setModalidade(e.target.value)} />
+        </div>
         <div className="divisao">
           <p>Deficiência</p>
-          <Input type="search" className="buscar" id="busca_nome" onChange={(e) => {
-            setDeficiencia(e.target.value)
-          }} />        
-          </div>
+          <Input type="search" className="buscar" id="busca_deficiencia" onChange={(e) => setDeficiencia(e.target.value)} />
+        </div>
         <div className="divisao">
           <p>Função</p>
-          <Input type="search" className="buscar" id="busca_nome" onChange={(e) => {
-            setFuncao(e.target.value)
-          }} />        
-          </div>
-        <Button color="default" onClick={async ()=>{
-
-          try {
-            const response = await get('/associado/cadastratos/grid/exportar' ,{nome}, {
-              responseType: 'blob'
-            });
-            // commit test
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'pessoas.xlsx');
-            document.body.appendChild(link);
-            link.click();
-            link.parentNode.removeChild(link);
-          } catch (error) {
-            console.error('Erro ao fazer o download do arquivo', error);
-          }
-        }}>Exportar</Button>
+          <Input type="search" className="buscar" id="busca_funcao" onChange={(e) => setFuncao(e.target.value)} />
+        </div>
+        <Button color="default" onClick={ExportarDados}>
+          <PDFDownloadLink
+            document={<ExportPDF data={exportData} />}
+            fileName="associados.pdf"
+          >
+            {({ loading }) => (loading ? 'Gerando PDF...' : 'Exportar PDF')}
+          </PDFDownloadLink>
+        </Button>
       </header>
       <h1>Listagem</h1>
-      <table className="grid">
-        <thead>
-          <tr>
-            <th>Foto</th>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Deficiência</th>
-            <th>Modalidade <br /> Esportiva</th>
-            <th>Função</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {itens.map((item)=>{
-            return <Item key={`item_${item.id}`} item={item}
-              deletarUsuario={deletarUsuario}
-              editarUsuario={editarUsuario} />
-          })}
-        </tbody>
-      </table>
-      <div className="voltar">Voltar</div>
+      <div className="actions-container d-flex">
+        <table className="grid">
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Deficiência</th>
+              <th>Modalidade <br /> Esportiva</th>
+              <th>Função</th>
+              <th className="tchau"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.isArray(itens) && itens.map((item) => <Item key={`item_${item.id}`} item={item} />)}
+          </tbody>
+        </table>
+      </div>
+      <Button color="default" className="voltar">Voltar</Button>
     </div>
   );
 };

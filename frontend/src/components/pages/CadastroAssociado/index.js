@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Row, Col, Form, FormGroup, Label, Input } from "reactstrap";
-// import { useDropzone } from "react-dropzone";
 import DropzoneComponent from "react-dropzone-component";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./CadastroAssociado.scss";
@@ -11,7 +10,6 @@ import "dropzone/dist/min/dropzone.min.css";
 import { NotificacaoManager } from "../../notificacao";
 import { getToken, getNivel } from "../../../utlis";
 import Select from "react-select";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 import ReactDOMServer from "react-dom/server";
 
 const componentConfig = {
