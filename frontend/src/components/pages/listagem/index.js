@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { get } from '../../../utlis/api';
-import { Input, Button } from 'reactstrap';
+import { Input, Button, Row } from 'reactstrap';
 import { NotificacaoManager } from '../../notificacao';
 import Item from './item';
 import { PDFDownloadLink } from '@react-pdf/renderer';
+import { useNavigate } from 'react-router-dom';
 import ExportPDF from './ExportPDF';
 import './listagem.scss';
 
@@ -15,6 +16,8 @@ const Listagem = () => {
   const [itens, setItens] = useState([]);
   const [update, setUpdate] = useState(false);
   const [exportData, setExportData] = useState([]);
+  const navigate = useNavigate();
+  const [loaded, setLoaded] = useState(false)
 
   const editarUsuario = (id) => {
     NotificacaoManager.warning('Em Dev', undefined, 2000);
@@ -35,14 +38,17 @@ const Listagem = () => {
     });
   }, [nome, Modalidade, Deficiencia, Funcao, update]);
 
-  const ExportarDados = async () => {
-    try {
-      const CD_PESSOA_FISICA = itens.map(item => item.id);
-      const associado = await get(`/associado/cadastratos/grid/exportar/${CD_PESSOA_FISICA}`)
-      console.log(associado.data, 'aquiii')
-      setExportData(associado.data);
-    } catch (error) {
-      console.error('Erro ao exportar dados:', error);
+  const ExportarDados = () => {
+    const CD_PESSOA_FISICA = itens.length > 0 ? itens.map(item => item.id) : [];
+    if (CD_PESSOA_FISICA.length > 0) {
+      get(`/associado/cadastratos/grid/exportar/${CD_PESSOA_FISICA}`)
+      .then(({ data }) => {
+        setExportData(data);
+        setLoaded(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      })
     }
   };
 
@@ -70,7 +76,7 @@ const Listagem = () => {
         </div>
         <Button color="default" onClick={ExportarDados}>
           <PDFDownloadLink
-            document={<ExportPDF data={exportData} />}
+            document={loaded && (<ExportPDF data={exportData} />)}
             fileName="associados.pdf"
           >
             {({ loading }) => (loading ? 'Gerando PDF...' : 'Exportar PDF')}
@@ -78,25 +84,27 @@ const Listagem = () => {
         </Button>
       </header>
       <h1>Listagem</h1>
-      <div className="actions-container d-flex">
-        <table className="grid">
-          <thead>
-            <tr>
-              <th>Foto</th>
-              <th>Nome</th>
-              <th>CPF</th>
-              <th>Deficiência</th>
-              <th>Modalidade <br /> Esportiva</th>
-              <th>Função</th>
-              <th className="tchau"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {Array.isArray(itens) && itens.map((item) => <Item key={`item_${item.id}`} item={item} />)}
-          </tbody>
-        </table>
-      </div>
-      <Button color="default" className="voltar">Voltar</Button>
+      <Row className="main-content">
+        <div className="actions-container d-flex">
+          <table className="grid">
+            <thead className="tituloFixo">
+              <tr>
+                <th>Foto</th>
+                <th>Nome</th>
+                <th>CPF</th>
+                <th>Deficiência</th>
+                <th>Modalidade <br /> Esportiva</th>
+                <th>Função</th>
+                <th className="tchau"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(itens) && itens.map((item) => <Item key={`item_${item.id}`} item={item} />)}
+            </tbody>
+          </table>
+        </div>
+      </Row>
+      <Button color="default" className="voltar" onClick={() => navigate('/menu')}>Voltar</Button>
     </div>
   );
 };

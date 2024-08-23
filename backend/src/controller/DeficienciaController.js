@@ -9,7 +9,7 @@ module.exports = class DeficienciaController {
 
         // Validação
         if (!TP_DEFICIENCIA) {
-            res.status(422).json({ mensagem: 'O tipo de deficiência é obrigatório' });
+            res.status(422).json({ message: 'O tipo de deficiência é obrigatório' });
             return;
         }
 
@@ -20,9 +20,9 @@ module.exports = class DeficienciaController {
                 NOMENCLATURA: NOMENCLATURA
             });
 
-            res.status(201).json({ mensagem: 'Deficiência cadastrada com sucesso!' });
+            res.status(201).json({ message: 'Deficiência cadastrada com sucesso!' });
         } catch (error) {
-            res.status(500).json({ mensagem: 'Erro ao cadastrar a deficiência', erro: error.message });
+            res.status(500).json({ message: 'Erro ao cadastrar a deficiência', erro: error.message });
         }
     }
 
@@ -31,7 +31,7 @@ module.exports = class DeficienciaController {
             const deficiencias = await Deficiencia.findAll();
 
             if (deficiencias.length === 0) {
-                return res.status(404).json({ mensagem: 'Não há nenhuma deficiência cadastrada' });
+                return res.status(404).json({ message: 'Não há nenhuma deficiência cadastrada' });
             }
 
             const deficienciaFormatada = deficiencias.map(deficiencia => ({
@@ -42,7 +42,7 @@ module.exports = class DeficienciaController {
             res.status(200).json({ deficiencias: deficienciaFormatada });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ mensagem: 'Erro ao buscar deficiências' });
+            res.status(500).json({ message: 'Erro ao buscar deficiências' });
         }
     }
 
@@ -107,7 +107,7 @@ module.exports = class DeficienciaController {
             const deficiencia = await Deficiencia.findOne({ where: { CD_DEFICIENCIA: CD_DEFICIENCIA } });
     
             if (!deficiencia) {
-                return res.status(404).json({ mensagem: 'Deficiência não encontrada' });
+                return res.status(404).json({ message: 'Deficiência não encontrada' });
             }
     
             const deficienciaFormatada = {
@@ -119,7 +119,7 @@ module.exports = class DeficienciaController {
             res.status(200).json({ deficiencia: deficienciaFormatada });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ mensagem: 'Erro ao buscar deficiência' });
+            res.status(500).json({ message: 'Erro ao buscar deficiência' });
         }
     }
 }

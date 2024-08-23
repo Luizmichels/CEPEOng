@@ -29,7 +29,7 @@ const ViewNovaUsuarios = () => {
         setModalidades(modalidadesResponse.data.modalidades);
       } catch (error) {
         console.error("Erro ao buscar dados:", error);
-        NotificacaoManager.error('Erro ao buscar dados!', '', 1000, 'filled');
+        NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
       }
     };
     fetchData();

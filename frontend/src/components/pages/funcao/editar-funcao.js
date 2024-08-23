@@ -54,7 +54,7 @@ const ViewEditarFuncao = () => {
 
       navigate("/funcoes");
     } catch (error) {
-      console.error("Erro ao atualizar função:", error);
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

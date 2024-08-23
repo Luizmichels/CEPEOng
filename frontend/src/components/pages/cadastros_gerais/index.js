@@ -23,7 +23,7 @@ function App() {
 
   const handleClick = (link = "/menu") => {
     if (usuarioCadastrado && link === '/associado') {
-      navigate(`/associado/editar/${usuarioCadastrado.CD_USUARIO}`);
+      navigate(`/associado?id=${usuarioCadastrado.CD_USUARIO}`);
     } else {
       navigate(link);
     }

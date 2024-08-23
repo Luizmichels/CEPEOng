@@ -30,7 +30,7 @@ const ViewNovaDeficiencia = () => {
       });
     } catch (error) {
       console.error("Erro ao criar deficiencia:", error);
-      NotificacaoManager.error('Erro ao cadastrar Deficiência!', '', 1000, 'filled');
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

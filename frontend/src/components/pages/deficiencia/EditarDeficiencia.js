@@ -57,7 +57,7 @@ const ViewEditarDeficiencia = () => {
 
       navigate("/deficiencia");
     } catch (error) {
-      console.error("Erro ao atualizar Deficiência:", error);
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

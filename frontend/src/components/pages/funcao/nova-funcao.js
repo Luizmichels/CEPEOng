@@ -29,8 +29,7 @@ const ViewNovaFuncao = () => {
         navigate("/funcoes");
       });
     } catch (error) {
-      console.error("Erro ao criar função:", error);
-      NotificacaoManager.error('Erro ao cadastrar função!', '', 1000, 'filled');
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

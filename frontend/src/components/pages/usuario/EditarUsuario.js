@@ -53,11 +53,11 @@ const ViewEditarUsuario = () => {
         config
       );
 
-      NotificacaoManager.primary('Alterado com sucesso!', '', 500, 'filled')
+      NotificacaoManager.success('Alterado com sucesso!', '', 500, 'filled')
 
       navigate("/usuario");
     } catch (error) {
-      console.error("Erro ao atualizar Deficiência:", error);
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

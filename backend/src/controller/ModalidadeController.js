@@ -61,7 +61,7 @@ module.exports = class ModalidadeController {
             const modalidades = await Modalidade.findAll();
 
             if (modalidades.length === 0) {
-                return res.status(404).json({ mensagem: 'Não há nenhuma modalidade cadastrada' });
+                return res.status(404).json({ message: 'Não há nenhuma modalidade cadastrada' });
             }
 
             const modalidadesFormatada = modalidades.map(modalidade => ({
@@ -83,7 +83,7 @@ module.exports = class ModalidadeController {
             const modalidade = await Modalidade.findOne({ where: { CD_MODALIDADE: CD_MODALIDADE } });
     
             if (!modalidade) {
-                return res.status(404).json({ mensagem: 'Modalidade não encontrada' });
+                return res.status(404).json({ message: 'Modalidade não encontrada' });
             }
     
             const modalidadeFormatada = {

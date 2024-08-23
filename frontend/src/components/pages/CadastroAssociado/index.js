@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button, Container, Row, Col, Form, FormGroup, Label, Input } from "reactstrap";
 import DropzoneComponent from "react-dropzone-component";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,7 +8,7 @@ import api from "../../../utlis/api";
 import "dropzone/dist/min/dropzone.min.css";
 
 import { NotificacaoManager } from "../../notificacao";
-import { getToken, getNivel } from "../../../utlis";
+import { getToken, getNivel, getId } from "../../../utlis";
 import Select from "react-select";
 import ReactDOMServer from "react-dom/server";
 
@@ -193,7 +193,7 @@ const CadastroNovoAtleta = () => {
   const [FOTO_ATLETA] = useState(`img_atleta_${Date.now()}`);
   const [FOTO_RG] = useState(`img_rg_${Date.now()}`);
   const [FOTO_RG_RESPONS] = useState(`img_resp_${Date.now()}`);
-  const [CD_EQUIPA_LOCOMOCAO, setEquipaLocomocao] = useState("");
+  const [MEIO_LOCOMOCAO, setMeioLocomocao] = useState("");
   const [meio, setMeios] = useState([]);
   const [selectedMeios, setSelectedMeios] = useState("");
   const [deficiencia, setDeficiencias] = useState([]);
@@ -203,16 +203,92 @@ const CadastroNovoAtleta = () => {
   const [funcao, setFuncaos] = useState([]);
   const [selectedFuncaos, setSelectedFuncaos] = useState("");
 
-  console.log(CadastroNovoAtleta);
-
-  const navigate = useNavigate();
+  // const cd_usuario = getId();
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const id = queryParams.get('id');
+    const navigate = useNavigate();
+    const nivelAcesso = getNivel(); // Obtém o nível de acesso do usuário
+    
+    useEffect(() => {
+      if (nivelAcesso === '1' || nivelAcesso === '2') {
+        if (id !== getId()) { // Compara o ID da URL com o ID do usuário logado
+          NotificacaoManager.error("Acesso negado: você só pode alterar seu próprio cadastro.", '', 2500, 'filled');
+          navigate('/login'); // Redireciona para outra página, se necessário
+        }
+      }
+    }, [id, nivelAcesso, navigate]);
 
   const handleLogoClick = () => {
     navigate("/cadastros");
   };
 
+  useEffect(() => {
+    if (id) {
+      api
+        .get(`/associado/associados/dados/${id}`)
+        .then((response) => {
+          console.log('response', response);
+          const dados = response.data[0];
+
+          console.log('dados', dados);
+          setNmPessoa(dados.NM_PESSOA);
+          setNrCelular(dados.NR_CELULAR);
+          setNrTelefone(dados.NR_TELEFONE);
+          setSexo(dados.SEXO);
+          setDtNascimento(dados.DT_NASCIMENTO);
+          setEstadoCivil(dados.ESTADO_CIVIL);
+          setNaturalidade(dados.NATURALIDADE);
+          setEmail(dados.EMAIL);
+          setAssistencia(dados.ASSISTENCIA);
+          setNmPai(dados.NM_PAI);
+          setCelularPai(dados.CELULAR_PAI);
+          setNmMae(dados.NM_MAE);
+          setCelularMae(dados.CELULAR_MAE);
+          setEmailRespons(dados.EMAIL_RESPONS);
+          setNaturalidadeRespons(dados.NATURALIDADE_RESPONS);
+          setPeso(dados.PESO);
+          setAltura(dados.ALTURA);
+          setGpSangue(dados.GP_SANGUE);
+          setRenda(dados.RENDA);
+          setEscolaridade(dados.ESCOLARIDADE);
+          setInstituicao(dados.INSTITUICAO);
+          setTelefoneEscola(dados.TELEFONE_ESCOLA);
+          setCpf(dados.CPF);
+          setRg(dados.RG);
+          setUfRg(dados.UF_RG);
+          setDtEmissaoRg(dados.DT_EMISSAO_RG);
+          setNrPassaporte(dados.NR_PASSAPORTE);
+          setCpfRespons(dados.CPF_RESPONS);
+          setRgRespons(dados.RG_RESPONS);
+          setUfRgRespons(dados.UF_RG_RESPONS);
+          setDtEmissaoRgRespons(dados.DT_EMISSAO_RG_RESPONS);
+          setNrPassaporteRespons(dados.NR_PASSAPORTE_RESPONS);
+          setCep(dados.CEP);
+          setEndereco(dados.ENDERECO);
+          setNrEndereco(dados.NR_ENDERECO);
+          setDsEndereco(dados.DS_ENDERECO);
+          setClassifFunc(dados.CLASSIF_FUNC);
+          setProva(dados.PROVA);
+          setTamanhoCamisa(dados.TAMANHO_CAMISA);
+          setTamanhoAgasalho(dados.TAMANHO_AGASALHO);
+          setTamanhoBermCal(dados.TAMANHO_BERM_CAL);
+          setNrCalcado(dados.NR_CALCADO);
+          setSelectedModalidades(dados.CD_MODALIDADE);
+          setSelectedMeios(dados.CD_MEIO_LOCOMOCAO);
+          setMeioLocomocao(dados.MEIO_LOCOMOCAO);
+          setSelectedFuncaos(dados.CD_FUNCAO);
+          setSelectedDeficiencias(dados.defcad);
+        })
+        .catch((error) => {
+          console.log(error)
+          NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
+        });
+    }
+  }, [id]);
+
   const handleCadastrar = async () => {
-    const nivelAcesso = getNivel();    
+    const nivelAcesso = getNivel();
         if (nivelAcesso === '3') {
             navigate('/cadastros');
         } else if (nivelAcesso === '2') {
@@ -221,8 +297,8 @@ const CadastroNovoAtleta = () => {
             navigate('/check-cadastro');
         }
     }
-
-  const options = deficiencia.map((def) => ({
+    
+  const options = (deficiencia??[])?.map((def) => ({
     value: def.CD_DEFICIENCIA,
     label: def.TP_DEFICIENCIA
   }));
@@ -234,74 +310,75 @@ const CadastroNovoAtleta = () => {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      await api.post(
-        "/associado/cadastro",
-        {
-          NM_PESSOA,
-          NR_CELULAR,
-          NR_TELEFONE,
-          NATURALIDADE,
-          SEXO,
-          DT_NASCIMENTO,
-          ESTADO_CIVIL,
-          EMAIL,
-          CD_EQUIPA_LOCOMOCAO,
-          CD_DEFICIENCIA: selectedDeficiencias,
-          CD_MEIO_LOCOMOCAO: selectedMeios,
-          CD_FUNCAO: selectedFuncaos,
-          ASSISTENCIA,
-          NM_PAI,
-          CELULAR_PAI,
-          NM_MAE,
-          CELULAR_MAE,
-          EMAIL_RESPONS,
-          NATURALIDADE_RESPONS,
-          PESO,
-          ALTURA,
-          GP_SANGUE,
-          RENDA,
-          ESCOLARIDADE,
-          INSTITUICAO,
-          TELEFONE_ESCOLA,
-          CPF,
-          RG,
-          UF_RG,
-          DT_EMISSAO_RG,
-          NR_PASSAPORTE,
-          CPF_RESPONS,
-          RG_RESPONS,
-          UF_RG_RESPONS,
-          DT_EMISSAO_RG_RESPONS,
-          NR_PASSAPORTE_RESPONS,
-          ENDERECO,
-          NR_ENDERECO,
-          DS_ENDERECO,
-          CEP,
-          CD_MODALIDADE: selectedModalidades,
-          CLASSIF_FUNC,
-          PROVA,
-          TAMANHO_CAMISA,
-          TAMANHO_AGASALHO,
-          TAMANHO_BERM_CAL,
-          NR_CALCADO,
-          FOTO_ATLETA,
-          FOTO_RG,
-          FOTO_RG_RESPONS,
-        },
-        config
-      );
-
-      NotificacaoManager.success("Cadastrado com sucesso!", "", 1000, "filled");
+  
+      const data = {
+        NM_PESSOA,
+        NR_CELULAR,
+        NR_TELEFONE,
+        NATURALIDADE,
+        SEXO,
+        DT_NASCIMENTO,
+        ESTADO_CIVIL,
+        EMAIL,
+        CD_EQUIPA_LOCOMOCAO: selectedMeios,
+        CD_DEFICIENCIA: selectedDeficiencias,
+        MEIO_LOCOMOCAO,
+        CD_FUNCAO: selectedFuncaos,
+        ASSISTENCIA,
+        NM_PAI,
+        CELULAR_PAI,
+        NM_MAE,
+        CELULAR_MAE,
+        EMAIL_RESPONS,
+        NATURALIDADE_RESPONS,
+        PESO,
+        ALTURA,
+        GP_SANGUE,
+        RENDA,
+        ESCOLARIDADE,
+        INSTITUICAO,
+        TELEFONE_ESCOLA,
+        CPF,
+        RG,
+        UF_RG,
+        DT_EMISSAO_RG,
+        NR_PASSAPORTE,
+        CPF_RESPONS,
+        RG_RESPONS,
+        UF_RG_RESPONS,
+        DT_EMISSAO_RG_RESPONS,
+        NR_PASSAPORTE_RESPONS,
+        ENDERECO,
+        NR_ENDERECO,
+        DS_ENDERECO,
+        CEP,
+        CD_MODALIDADE: selectedModalidades,
+        CLASSIF_FUNC,
+        PROVA,
+        TAMANHO_CAMISA,
+        TAMANHO_AGASALHO,
+        TAMANHO_BERM_CAL,
+        NR_CALCADO,
+        FOTO_ATLETA,
+        FOTO_RG,
+        FOTO_RG_RESPONS,
+      };
+  
+      if (id) {
+        // Edição
+        await api.patch(`/associado/cadastro/editar/${id}`, data, config);
+        NotificacaoManager.success("Cadastro atualizado com sucesso!", "", 1500, "filled");
+      } else {
+        // Novo Cadastro
+        await api.post("/associado/cadastro", data, config);
+        NotificacaoManager.success("Cadastrado com sucesso!", "", 1500, "filled");
+      }
+  
+      handleCadastrar();
     } catch (error) {
-      console.error("Erro ao criar associado:", error);
-      NotificacaoManager.error(
-        "Erro ao cadastrar associado!",
-        "",
-        1000,
-        "filled"
-      );
+      NotificacaoManager.error(error.response?.data?.message || "Erro ao salvar cadastro.", '', 1500, 'filled');
     }
-  };
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -415,7 +492,7 @@ const CadastroNovoAtleta = () => {
             type="text"
             id="NM_PESSOA"
             name="NM_PESSOA"
-            value={NM_PESSOA}
+            defaultValue={NM_PESSOA}
             onChange={(e) => setNmPessoa(e.target.value)}
           />
         </FormGroup>
@@ -527,21 +604,19 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="CD_EQUIPA_LOCOMOCAO">Meio de Locomoção:</Label>
+              <Label for="MEIO_LOCOMOCAO">Meio de Locomoção:</Label>
               <Input
                 type="select"
-                name="CD_EQUIPA_LOCOMOCAO"
-                id="CD_EQUIPA_LOCOMOCAO"
-                value={CD_EQUIPA_LOCOMOCAO}
-                onChange={(e) => setEquipaLocomocao(e.target.value)}
+                name="MEIO_LOCOMOCAO"
+                id="MEIO_LOCOMOCAO"
+                value={MEIO_LOCOMOCAO}
+                onChange={(e) => setMeioLocomocao(e.target.value)}
                 className="custom-select"
               >
                 <option value=" ">Selecione o Meio de Locomoção</option>
                 <option value="Carro">Carro</option>
                 <option value="Ônibus">Ônibus</option>
-                <option value="Trasnporte Eficiente">
-                  Trasnporte Eficiente
-                </option>
+                <option value="Trasnporte Eficiente">Trasnporte Eficiente</option>
                 <option value="Outros">Outros</option>
               </Input>
             </FormGroup>
@@ -553,9 +628,11 @@ const CadastroNovoAtleta = () => {
                 options={options}
                 placeholder="Selecione a defiência"
                 isMulti
+                value={options.filter(({value}) => {
+                  return selectedDeficiencias.includes(value)})}
                 styles={customStyles}
                 onChange={(vl) => {
-                  const newList = vl.map(({value})=> value)
+                  const newList = vl?.map(({value})=> value)
                   setSelectedDeficiencias(newList)
                 }}
                 // className="custom-select"
@@ -572,11 +649,12 @@ const CadastroNovoAtleta = () => {
                 type="select"
                 name="CD_MEIO_LOCOMOCAO"
                 id="CD_MEIO_LOCOMOCAO"
+                value={selectedMeios}
                 onChange={(e) => setSelectedMeios(e.target.value)}
                 className="custom-select"
               >
                 <option value=" ">Selecione o Equipamento</option>
-                {meio.map((meio) => (
+                {meio?.map((meio) => (
                   <option
                     key={meio.CD_MEIO_LOCOMOCAO}
                     value={meio.CD_MEIO_LOCOMOCAO}
@@ -594,11 +672,12 @@ const CadastroNovoAtleta = () => {
                 type="select"
                 name="CD_FUNCAO"
                 id="CD_FUNCAO"
+                value={selectedFuncaos}
                 onChange={(e) => setSelectedFuncaos(e.target.value)}
                 className="custom-select"
               >
                 <option value=" ">Selecione a Função</option>
-                {funcao.map((funcao) => (
+                {funcao?.map((funcao) => (
                   <option key={funcao.CD_FUNCAO} value={funcao.CD_FUNCAO}>
                     {funcao.NM_FUNCAO}
                   </option>
@@ -1018,11 +1097,12 @@ const CadastroNovoAtleta = () => {
                 type="select"
                 name="CD_MODALIDADE"
                 id="CD_MODALIDADE"
+                value={selectedModalidades}
                 onChange={(e) => setSelectedModalidades(e.target.value)}
                 className="custom-select"
               >
                 <option value=" ">Selecione a Modalidade</option>
-                {modalidade.map((modalidade) => (
+                {modalidade?.map((modalidade) => (
                   <option
                     key={modalidade.CD_MODALIDADE}
                     value={modalidade.CD_MODALIDADE}
@@ -1179,7 +1259,6 @@ const CadastroNovoAtleta = () => {
           <Col md={4}>
             <FormGroup>
               <DropzoneComponent
-                // onDrop={(files) => onDrop(files, setFotoAtleta)}
                 config={componentConfig}
                 djsConfig={{
                   ...djsConfig,
@@ -1188,6 +1267,15 @@ const CadastroNovoAtleta = () => {
                     nome: FOTO_ATLETA,
                   },
                   dictDefaultMessage: "Foto 3x4 Atual",
+                }}
+                eventHandlers={{
+                  init: (dropzone) => {
+                    if (FOTO_ATLETA) {
+                      dropzone.emit("addedfile", { name: FOTO_ATLETA, size: 12345 });
+                      dropzone.emit("thumbnail", { name: FOTO_ATLETA }, `../uploads/atleta/${FOTO_ATLETA}`);
+                      dropzone.emit("complete", { name: FOTO_ATLETA });
+                    }
+                  },
                 }}
               />
             </FormGroup>
@@ -1204,6 +1292,15 @@ const CadastroNovoAtleta = () => {
                   },
                   dictDefaultMessage: "Foto do RG do associado",
                 }}
+                eventHandlers={{
+                  init: (dropzone) => {
+                    if (FOTO_RG) {
+                      dropzone.emit("addedfile", { name: FOTO_RG, size: 12345 });
+                      dropzone.emit("thumbnail", { name: FOTO_RG }, `../uploads/rg/${FOTO_RG}`);
+                      dropzone.emit("complete", { name: FOTO_RG });
+                    }
+                  },
+                }}
               />
             </FormGroup>
           </Col>
@@ -1219,6 +1316,15 @@ const CadastroNovoAtleta = () => {
                   },
                   dictDefaultMessage: "Foto do RG do responsável",
                 }}
+                eventHandlers={{
+                  init: (dropzone) => {
+                    if (FOTO_RG_RESPONS) {
+                      dropzone.emit("addedfile", { name: FOTO_RG_RESPONS, size: 12345 });
+                      dropzone.emit("thumbnail", { name: FOTO_RG_RESPONS }, `../uploads/resp/${FOTO_RG_RESPONS}`);
+                      dropzone.emit("complete", { name: FOTO_RG_RESPONS });
+                    }
+                  },
+                }}
               />
             </FormGroup>
           </Col>
@@ -1228,7 +1334,6 @@ const CadastroNovoAtleta = () => {
           className="btn-cad-ass"
           id="botaoCadastrar"
           type="submit"
-          onClick={handleCadastrar}
         >
           Cadastrar-se
         </Button>

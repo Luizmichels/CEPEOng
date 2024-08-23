@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button, Col, Form, Input, Label, Row, FormGroup, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { post } from "../../../utlis/api"; // Certifique-se de que a função 'post' está corretamente definida
+import { post } from "../../../utlis/api";
+import { NotificacaoManager } from "../../notificacao";
 import "./esqueciSenha.css";
 import "./inputs.css";
 
@@ -13,7 +14,6 @@ function EsqueciSenha() {
     setValue,
     formState: { errors },
   } = useForm();
-  const [errorMessage, setErrorMessage] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
   const [modal, setModal] = useState(false);
@@ -24,14 +24,11 @@ function EsqueciSenha() {
   console.debug(getValues())
 
   const handleResetPassword = async (data) => {
-    console.log("Dados recebidos:", data); // Verifique se os dados estão corretos
     setEnviando(true);
     try {
       setModal(true);
       const { email } = data;
-      console.log("Enviando solicitação para:", `/usuario/editar/senha/${email}`);
-      const response = await post(`/usuario/editar/senha/${email}`, {email});
-      console.debug("Código de recuperação enviado para:", response.data);
+      await post(`/usuario/editar/senha/${email}`, {email});
       setTeste(true);
       setTimeout(() => {
         setModal(false);
@@ -39,11 +36,10 @@ function EsqueciSenha() {
         window.location.href = '/login';
       }, 3000);
     } catch (error) {
-      console.error("Erro ao recuperar a senha:", error);
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
       setModal(false);
       setEnviando(false);
       setTeste(false)
-      alert('Erro ao enviar o email.');
     }
   };
 
@@ -96,7 +92,6 @@ function EsqueciSenha() {
             </Row>
           </div>
         </div>
-        {errorMessage && <div className="error-message">{errorMessage}</div>}
         <div className="d-flex justify-content-between rodapes">
           <Button color="default" onClick={handleBack} className="button tamanho_button">Voltar</Button>
           <Button color="default" disabled={enviando} type="submit" className={`button tamanho_button ${enviando ? 'c-disabled' : ""}`}>Enviar Senha</Button>

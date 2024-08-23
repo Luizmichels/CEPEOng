@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Input, FormGroup, Label, Col, Modal, ModalHeader, ModalBody } from "reactstrap";
 import { post } from "../../../utlis/api";
 import { FaArrowLeft } from 'react-icons/fa';
+import { NotificacaoManager } from "../../notificacao";
 import "./RealizeCadastro.scss";
 
 function RealizeCadastro() {
@@ -29,7 +30,7 @@ function RealizeCadastro() {
       setModal(false);
       setEnviando(false);
       setTeste(false)
-      alert('Erro ao enviar o email.');
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

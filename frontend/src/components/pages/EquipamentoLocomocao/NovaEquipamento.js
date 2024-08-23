@@ -30,8 +30,7 @@ const ViewNovaEquipamento
         navigate("/equipamento");
       });
     } catch (error) {
-      console.error("Erro ao criar equipamento:", error);
-      NotificacaoManager.error('Erro ao cadastrar Equipamento Locomoção!', '', 1000, 'filled');
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

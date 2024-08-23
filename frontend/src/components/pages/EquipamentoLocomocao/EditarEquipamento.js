@@ -56,7 +56,7 @@ const ViewEditarEquipamento = () => {
 
       navigate("/equipamento");
     } catch (error) {
-      console.error("Erro ao atualizar Equipamento Locomoção:", error);
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

@@ -3,9 +3,17 @@ body {
   font-family: "Inter", sans-serif;
 }
 
+.tela {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 header {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .divisao {
@@ -19,8 +27,6 @@ p {
 }
 
 h1 {
-  left: 4vh;
-  position: relative;
   text-align: center;
 }
 
@@ -78,23 +84,27 @@ button {
   border-collapse: collapse;
   font-size: 18px;
   text-align: left;
+  max-height: calc(100vh - 300px); /* Ajuste conforme necessário */
+  overflow-y: auto;
 
   thead {
     tr {
-      background-color: #ED5600; // Altera o fundo do cabeçalho para branco
-      color: white; // Define a cor do texto do cabeçalho para laranja
-      text-align: center; // Centraliza os textos dos cabeçalhos das colunas
+      background-color: #ED5600;
+      color: white;
+      text-align: center;
       font-weight: bold;
+      position: sticky;
+      top: 0;
     }
   }
-  
+
   th, td {
     padding: 12px 15px;
     border: 1px solid #dddddd;
-    text-align: center; // Centraliza os textos das células da tabela
+    text-align: center;
 
     &:last-child {
-      border: none; // Remove a borda da última coluna
+      border: none;
       background-color: white;
     }
   }
@@ -128,3 +138,17 @@ button {
 .deletar, .editar {
   cursor: pointer;
 } 
+
+.main-content {
+  flex-grow: 1;
+  width: 100%;
+}
+
+.voltar {
+  margin: 20px auto;
+}
+
+.tituloFixo {
+  position: sticky;
+  top: 0;
+}

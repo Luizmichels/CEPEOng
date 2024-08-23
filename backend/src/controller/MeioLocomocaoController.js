@@ -73,7 +73,7 @@ export default class MeioLocomocaoController {
             const meioLocomocao = await MeioLocomocao.findOne({ where: { CD_MEIO_LOCOMOCAO } });
     
             if (!meioLocomocao) {
-                return res.status(404).json({ mensagem: 'Meio de Locomoção não encontrado!' });
+                return res.status(404).json({ message: 'Meio de Locomoção não encontrado!' });
             }
     
             const meioLocomocaoFormatada = {
@@ -85,7 +85,7 @@ export default class MeioLocomocaoController {
             res.status(200).json({ meioLocomocao: meioLocomocaoFormatada });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ mensagem: 'Erro ao buscar Meio de Locomoção' });
+            res.status(500).json({ message: 'Erro ao buscar Meio de Locomoção' });
         }
     }
 
@@ -94,7 +94,7 @@ export default class MeioLocomocaoController {
             const meioLocomocaos = await MeioLocomocao.findAll();
     
             if (meioLocomocaos.length === 0) {
-                return res.status(404).json({ mensagem: 'Não há nenhum Meio de Locomoção cadastrado' });
+                return res.status(404).json({ message: 'Não há nenhum Meio de Locomoção cadastrado' });
             }
     
             const meioLocomocaosFormatada = meioLocomocaos.map(meio => ({
@@ -106,7 +106,7 @@ export default class MeioLocomocaoController {
             res.status(200).json({ meioLocomocaos: meioLocomocaosFormatada });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ mensagem: 'Erro ao buscar Meio de Locomoção' });
+            res.status(500).json({ message: 'Erro ao buscar Meio de Locomoção' });
         }
     }
 };

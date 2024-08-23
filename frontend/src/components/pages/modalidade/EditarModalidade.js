@@ -53,11 +53,11 @@ const ViewEditarModalidade = () => {
         config
       );
 
-      NotificacaoManager.primary('Alterado com sucesso!', '', 500, 'filled')
+      NotificacaoManager.success('Alterado com sucesso!', '', 500, 'filled')
 
       navigate("/modalidade");
     } catch (error) {
-      console.error("Erro ao atualizar Modalidade:", error);
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

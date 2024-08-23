@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody } 
 import { useNavigate } from 'react-router-dom';
 import { getNivel, getId } from '../../../utlis';
 import { patch } from "../../../utlis/api";
+import { NotificacaoManager } from "../../notificacao";
 import './AlterarSenha.scss';
 
 const ChangePassword = () => {
@@ -32,8 +33,7 @@ const ChangePassword = () => {
         handleBack();
       }, 3000);
     } catch (error) {
-      console.error("Erro ao alterar a senha:", error);
-      setErrorMessage(error.response?.data?.message || 'Erro ao alterar a senha');
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
       setModal(false);
       setEnviando(false);
       setTeste(false);

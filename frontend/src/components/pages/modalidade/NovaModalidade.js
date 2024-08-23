@@ -29,8 +29,7 @@ const ViewNovaModalidade = () => {
         navigate("/modalidade");
       });
     } catch (error) {
-      console.error("Erro ao criar modalidade:", error);
-      NotificacaoManager.error('Erro ao cadastrar modalidade!', '', 1000, 'filled');
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

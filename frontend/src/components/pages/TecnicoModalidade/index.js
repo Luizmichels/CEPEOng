@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Row, Col, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './TecMod.scss';
+import { NotificacaoManager } from "../../notificacao";
 import { get, remove } from '../../../utlis/api';
 
 const Usuarios = () => {
@@ -25,7 +26,7 @@ const Usuarios = () => {
         console.error('A resposta da API não é um array:', response.data);
       }
     } catch (error) {
-      console.error('Erro ao buscar Tecnico', error);
+      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
     }
   };
 

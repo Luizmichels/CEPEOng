@@ -221,7 +221,7 @@ module.exports = class UsuarioController {
       });
 
       if (!usuario) {
-        return res.status(404).json({ mensagem: "Usuário não encontrado" });
+        return res.status(404).json({ message: "Usuário não encontrado" });
       }
 
       const usuarioFormatado = {
@@ -232,7 +232,7 @@ module.exports = class UsuarioController {
       res.status(200).json({ usuario: usuarioFormatado });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ mensagem: "Erro ao buscar Usuário" });
+      res.status(500).json({ message: "Erro ao buscar Usuário" });
     }
   }
 
@@ -243,7 +243,7 @@ module.exports = class UsuarioController {
       if (usuario.length === 0) {
         return res
           .status(404)
-          .json({ mensagem: "Não há nenhuma usuario cadastrada" });
+          .json({ message: "Não há nenhuma usuario cadastrada" });
       }
 
       const usuarioFormatados = usuario.map((usuario) => ({
@@ -255,7 +255,7 @@ module.exports = class UsuarioController {
       res.status(200).json({ usuario: usuarioFormatados });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ mensagem: "Erro ao buscar usuario" });
+      res.status(500).json({ message: "Erro ao buscar usuario" });
     }
   }
 
@@ -324,7 +324,7 @@ module.exports = class UsuarioController {
       if (usuarios.length === 0) {
         return res
           .status(404)
-          .json({ mensagem: "Não há nenhum técnico cadastrado" });
+          .json({ message: "Não há nenhum técnico cadastrado" });
       }
 
       const usuarioFormatados = usuarios.map((usuario) => ({
@@ -335,7 +335,7 @@ module.exports = class UsuarioController {
       res.status(200).json({ usuario: usuarioFormatados });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ mensagem: "Erro ao buscar técnico" });
+      res.status(500).json({ message: "Erro ao buscar técnico" });
     }
   }
 
@@ -464,6 +464,14 @@ module.exports = class UsuarioController {
   static async sendEmail(req, res) {
     const { nome, telefone, email } = req.body;
 
+    if(!nome) return res.status(404).json({ message: "Nome é obrigatório" });
+    if(!telefone) return res.status(404).json({ message: "Telefone é obrigatório" });
+    if(!email) return res.status(404).json({ message: "E-mail é obrigatório" });
+    if (!EmailValido(email)) {
+      res.status(422).json({ message: "Este e-mail não é válido" });
+      return;
+    }
+
     const htmlContent = `
           <div style="font-family: Arial, sans-serif; color: #333;">
             <div style="padding: 10px; background-color: #f8f9fa;">
@@ -494,14 +502,16 @@ module.exports = class UsuarioController {
     if (!email) {
       return res.status(422).json({ message: "O e-mail é obrigatório" });
     }
+    if (!EmailValido(email)) {
+      res.status(422).json({ message: "Este e-mail não é válido" });
+      return;
+    }
 
     try {
       // Encontrar o usuário pelo e-mail
       const usuario = await Usuario.findOne({ where: { EMAIL: email } });
 
-      if (!usuario) {
-        return res.status(404).json({ message: "Usuário não encontrado!" });
-      }
+      if (!usuario) return res.status(404).json({ message: "E-mail não cadastrato!" });
 
       // Gerar uma senha temporária
       const senhaTemporaria = Math.random().toString(36).slice(-8); // Exemplo de geração de senha

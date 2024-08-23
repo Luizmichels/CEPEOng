@@ -12,6 +12,7 @@
   "author": "André Luiz Michels da Silva, Gustavo Antonio da Costa Pereira",
   "license": "MIT",
   "dependencies": {
+    "backend": "file:",
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

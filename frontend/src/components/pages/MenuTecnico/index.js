@@ -16,7 +16,7 @@ const ChartComponent = () => {
 
   const handleNavigate = () => {
     if (usuarioCadastrado) {
-      navigate(`/associado/editar/${usuarioCadastrado.CD_USUARIO}`);
+      navigate(`/associado?id=${usuarioCadastrado.CD_USUARIO}`);
     } else {
       navigate('/associado');
     }

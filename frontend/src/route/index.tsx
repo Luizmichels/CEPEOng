@@ -3,8 +3,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { getToken } from "../utlis";
 import { post, get } from "../utlis/api";
 
-
-
 const ViewLogin = lazy(() => import("../components/pages/login"));
 const ViewMenu = lazy(() => import("../components/pages/menu"));
 const ViewListagem = lazy(() => import("../components/pages/listagem"));
