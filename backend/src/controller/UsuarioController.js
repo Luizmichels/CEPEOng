@@ -58,6 +58,7 @@ module.exports = class UsuarioController {
       const usuario = new Usuario({
         NM_USUARIO,
         SENHA: senhaHash,
+        EMAIL: EMAIL,
       });
 
       const novoUsuario = await usuario.save();

@@ -303,30 +303,32 @@ module.exports = class PessoaFisicaController {
 
       const pessoas = await db.query(
         `SELECT pf."CD_PESSOA_FISICA",
-                             pf."FOTO_ATLETA",
-                             pf."NM_PESSOA",
-                             pf."CPF",
-                             STRING_AGG(d."TP_DEFICIENCIA", ',' ORDER BY d."TP_DEFICIENCIA") AS Deficiencia,
-                             m."NM_MODALIDADE" as Modalidade,
-                             f."NM_FUNCAO" as Funcao
-                      FROM cepe.public."PESSOA_FISICA" pf
-                      LEFT JOIN cepe.public."DEFICIENCIA_PESSOA" dp ON pf."CD_PESSOA_FISICA" = dp."CD_PESSOA_FISICA"
-                      LEFT JOIN cepe.public."DEFICIENCIA" d ON dp."CD_DEFICIENCIA" = d."CD_DEFICIENCIA"
-                      LEFT JOIN cepe.public."MODALIDADE" m ON pf."CD_MODALIDADE" = m."CD_MODALIDADE"
-                      LEFT JOIN cepe.public."FUNCAO" f ON pf."CD_FUNCAO" = f."CD_FUNCAO"
-                      WHERE 1 = 1
-                        ${sql_nome}
-                        ${sql_modalidade}
-                        ${sql_deficiencia}
-                        ${sql_funcao}
-                      GROUP BY pf."CD_PESSOA_FISICA", pf."FOTO_ATLETA", pf."NM_PESSOA", pf."CPF", m."NM_MODALIDADE", f."NM_FUNCAO"
-                      order by pf."NM_PESSOA"
+                pf."CD_USUARIO",
+                pf."FOTO_ATLETA",
+                pf."NM_PESSOA",
+                pf."CPF",
+                STRING_AGG(d."TP_DEFICIENCIA", ',' ORDER BY d."TP_DEFICIENCIA") AS Deficiencia,
+                m."NM_MODALIDADE" as Modalidade,
+                f."NM_FUNCAO" as Funcao
+         FROM cepe.public."PESSOA_FISICA" pf
+         LEFT JOIN cepe.public."DEFICIENCIA_PESSOA" dp ON pf."CD_PESSOA_FISICA" = dp."CD_PESSOA_FISICA"
+         LEFT JOIN cepe.public."DEFICIENCIA" d ON dp."CD_DEFICIENCIA" = d."CD_DEFICIENCIA"
+         LEFT JOIN cepe.public."MODALIDADE" m ON pf."CD_MODALIDADE" = m."CD_MODALIDADE"
+         LEFT JOIN cepe.public."FUNCAO" f ON pf."CD_FUNCAO" = f."CD_FUNCAO"
+         WHERE 1 = 1
+           ${sql_nome}
+           ${sql_modalidade}
+           ${sql_deficiencia}
+           ${sql_funcao}
+         GROUP BY pf."CD_PESSOA_FISICA", m."NM_MODALIDADE", f."NM_FUNCAO"
+         order by pf."NM_PESSOA"
                     `,
         { type: db.QueryTypes.SELECT }
       );
 
       const dadosFormatados = pessoas.map((pessoa) => ({
         id: pessoa.CD_PESSOA_FISICA,
+        cd_usuario: pessoa.CD_USUARIO,
         Foto: pessoa.FOTO_ATLETA,
         CPF: formatarCPF(pessoa.CPF),
         Nome: pessoa.NM_PESSOA,
@@ -809,16 +811,18 @@ module.exports = class PessoaFisicaController {
       const pessoas = await db.query(
         `SELECT pf.*,
             array_agg(d."CD_DEFICIENCIA") as defcad,
-            STRING_AGG(d."TP_DEFICIENCIA", ',' ORDER BY d."TP_DEFICIENCIA") AS Deficiencia,
+            STRING_AGG(d."TP_DEFICIENCIA", ',' ORDER BY d."TP_DEFICIENCIA") AS deficiencia,
             m."NM_MODALIDADE" as Modalidade,
-            f."NM_FUNCAO" as Funcao
+            f."NM_FUNCAO" as Funcao,
+            ml."NM_MEIO_LOCOMOCAO"
          FROM cepe.public."PESSOA_FISICA" pf
          LEFT JOIN cepe.public."DEFICIENCIA_PESSOA" dp ON pf."CD_PESSOA_FISICA" = dp."CD_PESSOA_FISICA"
          LEFT JOIN cepe.public."DEFICIENCIA" d ON dp."CD_DEFICIENCIA" = d."CD_DEFICIENCIA"
          LEFT JOIN cepe.public."MODALIDADE" m ON pf."CD_MODALIDADE" = m."CD_MODALIDADE"
          LEFT JOIN cepe.public."FUNCAO" f ON pf."CD_FUNCAO" = f."CD_FUNCAO"
+         LEFT JOIN cepe.public."MEIO_LOCOMOCAO" ml ON pf."CD_EQUIPA_LOCOMOCAO" = ml."CD_MEIO_LOCOMOCAO"
          WHERE pf."CD_PESSOA_FISICA" in (${CD_PESSOA_FISICA})
-         GROUP BY pf."CD_PESSOA_FISICA", m."NM_MODALIDADE",f."NM_FUNCAO"
+         GROUP BY pf."CD_PESSOA_FISICA", m."NM_MODALIDADE",f."NM_FUNCAO", ml."NM_MEIO_LOCOMOCAO"
         `,
         { replacements: { CD_PESSOA_FISICA }, type: db.QueryTypes.SELECT }
       );
@@ -830,12 +834,14 @@ module.exports = class PessoaFisicaController {
         NR_CELULAR: formatarTelefone(pessoa.NR_CELULAR),
         NR_TELEFONE: formatarTelefone(pessoa.NR_TELEFONE),
         SEXO: pessoa.SEXO,
+        deficiencia: pessoa.deficiencia,
         defcad: pessoa.defcad,
         DT_NASCIMENTO: formatarData(pessoa.DT_NASCIMENTO),
         ESTADO_CIVIL: pessoa.ESTADO_CIVIL,
         NATURALIDADE: pessoa.NATURALIDADE,
         EMAIL: pessoa.EMAIL,
-        NM_MODALIDADE: pessoa.NM_MODALIDADE,
+        NM_MEIO_LOCOMOCAO: pessoa.NM_MEIO_LOCOMOCAO,
+        modalidade: pessoa.modalidade,
         MEIO_LOCOMOCAO: pessoa.MEIO_LOCOMOCAO,
         CD_FUNCAO: pessoa.Funcao,
         ASSISTENCIA: pessoa.ASSISTENCIA,
@@ -928,6 +934,7 @@ module.exports = class PessoaFisicaController {
       const associadoFormatada = associados.map((associado) => ({
         CD_PESSOA_FISICA: associado.CD_PESSOA_FISICA,
         NM_PESSOA: associado.NM_PESSOA,
+        CD_USUARIO: associado.CD_USUARIO,
       }));
 
       res.status(200).json({ associados: associadoFormatada });

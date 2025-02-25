@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { get } from '../../../utlis/api';
-import { Input, Button, Row } from 'reactstrap';
-import { NotificacaoManager } from '../../notificacao';
-import Item from './item';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { get, remove } from '../../../utlis/api';
+import { Input, Button, Row, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { useNavigate } from 'react-router-dom';
-import ExportPDF from './ExportPDF';
+import ExportPDF from './ExportPDF'; // Importa o componente ExportPDF
+import Item from './item'; // Certifique-se que o caminho está correto
 import './listagem.scss';
 
 const Listagem = () => {
@@ -17,38 +15,56 @@ const Listagem = () => {
   const [update, setUpdate] = useState(false);
   const [exportData, setExportData] = useState([]);
   const navigate = useNavigate();
-  const [loaded, setLoaded] = useState(false)
+  const [pessoas, setPessoas] = useState([]);
+  const [isExporting, setIsExporting] = useState(false); // Novo estado
+  const [selectedUsuario, setSelectedUsuario] = useState(null);
+  const [modal, setModal] = useState(false);
 
-  const editarUsuario = (id) => {
-    NotificacaoManager.warning('Em Dev', undefined, 2000);
+  const editarUsuario = (usuarioId) => {
+    // Corrige a lógica para editar corretamente
+    navigate(`/associado?id=${usuarioId}`);
   };
 
-  const deletarUsuario = (id) => {
-    if (window.confirm('Tem certeza que deseja deletar este usuário?')) {
-      alert(`Usuário ${id} deletado.`);
-      get('/deletar/' + id).then(() => {
-        setUpdate((c) => !c);
-      });
+  // Função que abre o modal de confirmação
+  const confirmDelete = (usuario) => {
+    setSelectedUsuario(usuario); // Armazena o usuário selecionado
+    setModal(true); // Abre o modal
+  };
+
+  // Função que faz a exclusão
+  const handleDelete = async () => {
+    if (selectedUsuario) {
+      try {
+        await remove(`/associado/cadastratos/grid/deletar/${selectedUsuario}`);
+        setModal(false); // Fecha o modal após exclusão
+        setUpdate(!update); // Força a atualização da listagem
+      } catch (error) {
+        console.error('Erro ao excluir usuário', error);
+      }
     }
   };
 
   useEffect(() => {
     get('/associado/cadastratos/grid', { nome, Modalidade, Deficiencia, Funcao }).then(({ data }) => {
+      const aux = data?.pessoas?.length > 0 ? data?.pessoas.map(item => item.id) : [];
       setItens(Array.isArray(data.pessoas) ? data.pessoas : []);
+      setPessoas(aux);
     });
   }, [nome, Modalidade, Deficiencia, Funcao, update]);
 
-  const ExportarDados = () => {
-    const CD_PESSOA_FISICA = itens.length > 0 ? itens.map(item => item.id) : [];
-    if (CD_PESSOA_FISICA.length > 0) {
-      get(`/associado/cadastratos/grid/exportar/${CD_PESSOA_FISICA}`)
-      .then(({ data }) => {
-        setExportData(data);
-        setLoaded(true);
-      })
-      .catch((e) => {
-        console.log(e);
-      })
+  const handleExport = () => {
+    if (pessoas.length > 0) {
+      setIsExporting(true); // Define como exportando
+      get(`/associado/cadastratos/grid/exportar/${pessoas}`)
+        .then(({ data }) => {
+          setExportData(data);
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+        .finally(() => {
+          setIsExporting(false); // Termina a exportação
+        });
     }
   };
 
@@ -74,13 +90,8 @@ const Listagem = () => {
           <p>Função</p>
           <Input type="search" className="buscar" id="busca_funcao" onChange={(e) => setFuncao(e.target.value)} />
         </div>
-        <Button color="default" onClick={ExportarDados}>
-          <PDFDownloadLink
-            document={loaded && (<ExportPDF data={exportData} />)}
-            fileName="associados.pdf"
-          >
-            {({ loading }) => (loading ? 'Gerando PDF...' : 'Exportar PDF')}
-          </PDFDownloadLink>
+        <Button color="default" onClick={handleExport} disabled={isExporting}>
+          {isExporting ? 'Exportando...' : 'Exportar PDF'}
         </Button>
       </header>
       <h1>Listagem</h1>
@@ -99,12 +110,30 @@ const Listagem = () => {
               </tr>
             </thead>
             <tbody>
-              {Array.isArray(itens) && itens.map((item) => <Item key={`item_${item.id}`} item={item} />)}
+              {itens.map((item) => {
+                return <Item key={`item_${item.id}`} item={item}
+                  deletarUsuario={confirmDelete} // Chama a função de exclusão
+                  editarUsuario={editarUsuario} /> // Chama a função de edição
+              })}
             </tbody>
           </table>
         </div>
       </Row>
       <Button color="default" className="voltar" onClick={() => navigate('/menu')}>Voltar</Button>
+
+      {exportData.length > 0 && <ExportPDF data={exportData} />}
+
+      {/* Modal de confirmação de exclusão */}
+      <Modal isOpen={modal} toggle={() => setModal(false)}>
+        <ModalHeader toggle={() => setModal(false)}>Confirmação de Exclusão</ModalHeader>
+        <ModalBody>
+          Tem certeza de que deseja excluir o associado {selectedUsuario?.nome}?
+        </ModalBody>
+        <ModalFooter>
+          <Button color="danger" onClick={handleDelete}>Excluir</Button>{' '}
+          <Button color="secondary" onClick={() => setModal(false)}>Cancelar</Button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 };

@@ -38,7 +38,7 @@ const AlterarCadastro = () => {
 
   const handleDelete = async () => {
     try {
-      await remove(`/cadastratos/grid/deletar/${selectedAssociados.CD_PESSOA_FISICA}`);
+      await remove(`associado/cadastratos/grid/deletar/${selectedAssociados.CD_PESSOA_FISICA}`);
       fetchCadastro();
       toggleModal();
     } catch (error) {
@@ -63,7 +63,7 @@ const AlterarCadastro = () => {
             <Col key={associados.CD_PESSOA_FISICA} xs="12" className="cadastro-item">
               <div className="cadastro-nome">{associados.NM_PESSOA}</div>
               <div className="button-group">
-                <Button className="text-button" onClick={() => navigate(`/associado/editar/${associados.CD_PESSOA_FISICA}`)}>Alterar</Button>
+                <Button className="text-button" onClick={() => navigate(`/associado?id=${associados.CD_USUARIO}`)}>Alterar</Button>
                 <Button className="text-button" onClick={() => confirmDelete(associados)}>Excluir</Button>
               </div>
             </Col>

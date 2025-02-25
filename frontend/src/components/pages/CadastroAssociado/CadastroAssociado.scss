@@ -138,12 +138,12 @@ input[type="file"] {
 
 .custom-select {
   padding: 1.2vh;
-  background-color: #ED5600; // Cor laranja para o fundo do dropdown
-  border-color: #ED5600; // Cor laranja para a borda do dropdown
-  color: white; // Cor branca para o texto do dropdown
+  background-color: #ED5600;
+  border-color: #ED5600;
+  color: white;
   &:focus {
-    background-color: #ED5600; // Cor laranja escura quando o dropdown está focado
-    border-color: #ED5600; // Cor laranja escura quando o dropdown está focado
+    background-color: #ED5600;
+    border-color: #ED5600;
   }
 }
 

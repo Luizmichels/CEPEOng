@@ -15,8 +15,10 @@ const ChartComponent = () => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    if (usuarioCadastrado) {
-      navigate(`/associado?id=${usuarioCadastrado.CD_USUARIO}`);
+    const CD_USUARIO = getId();
+        console.log(CD_USUARIO)
+    if (CD_USUARIO) {
+      navigate(`/associado?id=${CD_USUARIO}`);
     } else {
       navigate('/associado');
     }

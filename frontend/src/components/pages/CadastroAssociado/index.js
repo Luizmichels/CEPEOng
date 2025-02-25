@@ -19,61 +19,64 @@ const componentConfig = {
 };
 
 const customStyles = {
-  control: (provided, state) => ({
+  control: (provided) => ({
     ...provided,
-    backgroundColor: '#ED5600',
-    color: 'white',
-    borderColor: 'white',
-    boxShadow: state.isFocused ? '0 0 0 1px white' : 'none',
+    height: '45px',
+    // outerHeight: '10px',
+    backgroundColor: '#f05a22', // cor de fundo laranja
+    color: '#fff', // cor do texto branco
+    borderRadius: '5px', // arredondamento das bordas
+    padding: '0',
+    border: 'none', // remove a borda
+    boxShadow: 'none', // remove a sombra padrão
     '&:hover': {
-      borderColor: 'white'
+      border: 'none', // remove a borda ao passar o mouse
     },
-    ':focus': {
-      borderColor: 'white'
-    },
-    paddingLeft: '0.2vh',
-    paddingRight: '0.2vh',
-    paddingTop: '0.1vh',
-    paddingBottom: '0.1vh',
-    minHeight: '1vh',  // Ajuste a altura mínima conforme necessário
-    width: '100%'
   }),
-  menu: (provided) => ({
+  valueContainer: (provided) => ({
     ...provided,
-    backgroundColor: '#ED5600',
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected ? '#ED5600' : '#ED5600',
-    color: 'white',
-    '&:hover': {
-      backgroundColor: '#ED5600',
-      color: 'white'
-    }
-  }),
-  singleValue: (provided) => ({
-    ...provided,
-    color: 'white'
-  }),
-  input: (provided) => ({
-    ...provided,
-    color: 'white'
+    height: '100%', // ajuste a altura para corresponder ao contêiner
+    display: 'flex',
+    alignItems: 'center', // centraliza o texto verticalmente
+    padding: '0 12px', // ajusta o padding para o conteúdo não colar nas bordas
   }),
   placeholder: (provided) => ({
     ...provided,
-    color: 'white'
+    color: '#fff', // cor do placeholder branco
   }),
-  indicatorSeparator: () => ({
-    display: 'none'
+  singleValue: (provided) => ({
+    ...provided,
+    color: '#fff', // cor do texto selecionado
   }),
   dropdownIndicator: (provided) => ({
     ...provided,
-    color: 'black',
+    color: '#353A3F', // cor do ícone de seta
+    padding: '1vh', // diminui o padding para reduzir a área ao redor da seta
+    width: '4,5vh', // ajusta a largura do indicador para deixá-lo mais fino
+  }),
+  input: (provided) => ({
+    ...provided,
+    margin: '0', // remove margem para evitar deslocamento
+    padding: '0', // remove padding no input
+  }),
+  indicatorSeparator: () => ({
+    display: 'none', // remove a linha separadora do indicador
+  }),
+  menu: (provided) => ({
+    ...provided,
+    backgroundColor: '#f05a22', // fundo laranja para o menu
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#f05a22' : '#f05a22', // fundo laranja para as opções
+    color: '#fff', // texto branco
     '&:hover': {
-      color: 'black'
-    }
-  })
+      backgroundColor: '#d94b1f', // cor de fundo ao passar o mouse
+      color: '#fff', // cor do texto ao passar o mouse
+    },
+  }),
 };
+
 
 const djsConfig = {
   headers: {
@@ -203,7 +206,7 @@ const CadastroNovoAtleta = () => {
   const [funcao, setFuncaos] = useState([]);
   const [selectedFuncaos, setSelectedFuncaos] = useState("");
 
-  // const cd_usuario = getId();
+    const cd_usuario = getId();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
@@ -212,7 +215,7 @@ const CadastroNovoAtleta = () => {
     
     useEffect(() => {
       if (nivelAcesso === '1' || nivelAcesso === '2') {
-        if (id !== getId()) { // Compara o ID da URL com o ID do usuário logado
+        if (id !== cd_usuario) { // Compara o ID da URL com o ID do usuário logado
           NotificacaoManager.error("Acesso negado: você só pode alterar seu próprio cadastro.", '', 2500, 'filled');
           navigate('/login'); // Redireciona para outra página, se necessário
         }
@@ -220,7 +223,14 @@ const CadastroNovoAtleta = () => {
     }, [id, nivelAcesso, navigate]);
 
   const handleLogoClick = () => {
-    navigate("/cadastros");
+    const nivelAcesso = getNivel();
+    if (nivelAcesso === '3') {
+        navigate('/cadastros');
+    } else if (nivelAcesso === '2') {
+        navigate('/menu-tecnico');
+    } else if (nivelAcesso === '1') {
+        navigate('/check-cadastro');
+    }
   };
 
   useEffect(() => {
@@ -229,60 +239,72 @@ const CadastroNovoAtleta = () => {
         .get(`/associado/associados/dados/${id}`)
         .then((response) => {
           console.log('response', response);
-          const dados = response.data[0];
-
-          console.log('dados', dados);
-          setNmPessoa(dados.NM_PESSOA);
-          setNrCelular(dados.NR_CELULAR);
-          setNrTelefone(dados.NR_TELEFONE);
-          setSexo(dados.SEXO);
-          setDtNascimento(dados.DT_NASCIMENTO);
-          setEstadoCivil(dados.ESTADO_CIVIL);
-          setNaturalidade(dados.NATURALIDADE);
-          setEmail(dados.EMAIL);
-          setAssistencia(dados.ASSISTENCIA);
-          setNmPai(dados.NM_PAI);
-          setCelularPai(dados.CELULAR_PAI);
-          setNmMae(dados.NM_MAE);
-          setCelularMae(dados.CELULAR_MAE);
-          setEmailRespons(dados.EMAIL_RESPONS);
-          setNaturalidadeRespons(dados.NATURALIDADE_RESPONS);
-          setPeso(dados.PESO);
-          setAltura(dados.ALTURA);
-          setGpSangue(dados.GP_SANGUE);
-          setRenda(dados.RENDA);
-          setEscolaridade(dados.ESCOLARIDADE);
-          setInstituicao(dados.INSTITUICAO);
-          setTelefoneEscola(dados.TELEFONE_ESCOLA);
-          setCpf(dados.CPF);
-          setRg(dados.RG);
-          setUfRg(dados.UF_RG);
-          setDtEmissaoRg(dados.DT_EMISSAO_RG);
-          setNrPassaporte(dados.NR_PASSAPORTE);
-          setCpfRespons(dados.CPF_RESPONS);
-          setRgRespons(dados.RG_RESPONS);
-          setUfRgRespons(dados.UF_RG_RESPONS);
-          setDtEmissaoRgRespons(dados.DT_EMISSAO_RG_RESPONS);
-          setNrPassaporteRespons(dados.NR_PASSAPORTE_RESPONS);
-          setCep(dados.CEP);
-          setEndereco(dados.ENDERECO);
-          setNrEndereco(dados.NR_ENDERECO);
-          setDsEndereco(dados.DS_ENDERECO);
-          setClassifFunc(dados.CLASSIF_FUNC);
-          setProva(dados.PROVA);
-          setTamanhoCamisa(dados.TAMANHO_CAMISA);
-          setTamanhoAgasalho(dados.TAMANHO_AGASALHO);
-          setTamanhoBermCal(dados.TAMANHO_BERM_CAL);
-          setNrCalcado(dados.NR_CALCADO);
-          setSelectedModalidades(dados.CD_MODALIDADE);
-          setSelectedMeios(dados.CD_MEIO_LOCOMOCAO);
-          setMeioLocomocao(dados.MEIO_LOCOMOCAO);
-          setSelectedFuncaos(dados.CD_FUNCAO);
-          setSelectedDeficiencias(dados.defcad);
+  
+          // Verifica se a resposta contém dados
+          if (response && response.data && response.data.length > 0) {
+            const dados = response.data[0];
+  
+            // Preenche os estados apenas se os dados existirem
+            setNmPessoa(dados.NM_PESSOA);
+            setNrCelular(dados.NR_CELULAR);
+            setNrTelefone(dados.NR_TELEFONE);
+            setSexo(dados.SEXO);
+            setDtNascimento(dados.DT_NASCIMENTO);
+            setEstadoCivil(dados.ESTADO_CIVIL);
+            setNaturalidade(dados.NATURALIDADE);
+            setEmail(dados.EMAIL);
+            setAssistencia(dados.ASSISTENCIA);
+            setNmPai(dados.NM_PAI);
+            setCelularPai(dados.CELULAR_PAI);
+            setNmMae(dados.NM_MAE);
+            setCelularMae(dados.CELULAR_MAE);
+            setEmailRespons(dados.EMAIL_RESPONS);
+            setNaturalidadeRespons(dados.NATURALIDADE_RESPONS);
+            setPeso(dados.PESO);
+            setAltura(dados.ALTURA);
+            setGpSangue(dados.GP_SANGUE);
+            setRenda(dados.RENDA);
+            setEscolaridade(dados.ESCOLARIDADE);
+            setInstituicao(dados.INSTITUICAO);
+            setTelefoneEscola(dados.TELEFONE_ESCOLA);
+            setCpf(dados.CPF);
+            setRg(dados.RG);
+            setUfRg(dados.UF_RG);
+            setDtEmissaoRg(dados.DT_EMISSAO_RG);
+            setNrPassaporte(dados.NR_PASSAPORTE);
+            setCpfRespons(dados.CPF_RESPONS);
+            setRgRespons(dados.RG_RESPONS);
+            setUfRgRespons(dados.UF_RG_RESPONS);
+            setDtEmissaoRgRespons(dados.DT_EMISSAO_RG_RESPONS);
+            setNrPassaporteRespons(dados.NR_PASSAPORTE_RESPONS);
+            setCep(dados.CEP);
+            setEndereco(dados.ENDERECO);
+            setNrEndereco(dados.NR_ENDERECO);
+            setDsEndereco(dados.DS_ENDERECO);
+            setClassifFunc(dados.CLASSIF_FUNC);
+            setProva(dados.PROVA);
+            setTamanhoCamisa(dados.TAMANHO_CAMISA);
+            setTamanhoAgasalho(dados.TAMANHO_AGASALHO);
+            setTamanhoBermCal(dados.TAMANHO_BERM_CAL);
+            setNrCalcado(dados.NR_CALCADO);
+            setSelectedModalidades(dados.CD_MODALIDADE);
+            setSelectedMeios(dados.CD_MEIO_LOCOMOCAO);
+            setMeioLocomocao(dados.MEIO_LOCOMOCAO);
+            setSelectedFuncaos(dados.CD_FUNCAO);
+            setSelectedDeficiencias(dados.defcad);
+          } else {
+            // Caso não haja dados, permita o cadastro sem gerar erro
+            console.log('Nenhum dado encontrado para o ID');
+          }
         })
         .catch((error) => {
-          console.log(error)
-          NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
+          console.log(error);
+          NotificacaoManager.error(
+            error.response?.data?.message || 'Erro ao buscar os dados',
+            '',
+            1500,
+            'filled'
+          );
         });
     }
   }, [id]);
@@ -626,16 +648,15 @@ const CadastroNovoAtleta = () => {
               <Label for="CD_DEFICIENCIA">Deficiência:</Label>
               <Select
                 options={options}
-                placeholder="Selecione a defiência"
+                placeholder="Selecione a deficiência"
                 isMulti
-                value={options.filter(({value}) => {
-                  return selectedDeficiencias.includes(value)})}
+                value={options.filter(({ value }) => selectedDeficiencias.includes(value))}
                 styles={customStyles}
-                onChange={(vl) => {
-                  const newList = vl?.map(({value})=> value)
-                  setSelectedDeficiencias(newList)
-                }}
                 // className="custom-select"
+                onChange={(vl) => {
+                  const newList = vl?.map(({ value }) => value);
+                  setSelectedDeficiencias(newList);
+                }}
                 classNamePrefix="custom-select"
               />
             </FormGroup>
