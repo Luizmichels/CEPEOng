@@ -16,6 +16,7 @@ import RotaMeioLocomocao from './routes/MeioLocomocaoRoutes';
 import RotaModalidade from './routes/ModalidadeRoutes';
 import RotaFuncao from './routes/FuncaoRoutes';
 import RotaImagem from './routes/ImagemRoutes';
+import RotaDash from './routes/DashRoutes';
 
 
 const { json, urlencoded } = pkg;
@@ -29,15 +30,6 @@ dotenv.config({
 });
 
 const { origin, /* pass, */ secret, nome, debug, PORTA, limit } = process.env;
-
-
-// Models
-// import Deficiencia from "./models/deficiencia";
-// import Funcao from "./models/funcao";
-// import MeioLocomocao from "./models/meio_locomocao";
-// import Modalidade from './models/modalidade';
-// import PessoaFisica from "./models/pessoa_fisica";
-// import Usuario from "./models/usuario";
 
 // Resolve CORS
 app.use(cors({
@@ -83,6 +75,7 @@ app.use('/meioLocomocao', RotaMeioLocomocao);
 app.use('/modalidade', RotaModalidade);
 app.use('/funcao', RotaFuncao);
 app.use('/imagem', RotaImagem);
+app.use('/dash', RotaDash);
 
 
 const getTime = (): number => Date.now() / 1000;

@@ -32,7 +32,7 @@ const ChartComponent = () => {
   useEffect(() => {
     const fetchTotalAssociados = async () => {
       try {
-        const response = await api.get('/associado/totalAssociados');
+        const response = await api.get('/dash/totalAssociados');
         setTotalAssociados(parseInt(response.data.totalAssociados, 10));
       } catch (error) {
         console.error('Erro ao buscar total de associados:', error);
@@ -41,7 +41,7 @@ const ChartComponent = () => {
 
     const fetchModalidades = async () => {
       try {
-        const response = await api.get('/associado/modalidades');
+        const response = await api.get('/dash/modalidades');
         setChartData(response.data); // Garante que seja um array
       } catch (error) {
         console.error('Erro ao buscar modalidades:', error);

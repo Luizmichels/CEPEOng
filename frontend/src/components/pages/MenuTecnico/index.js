@@ -33,7 +33,7 @@ const ChartComponent = () => {
       try {
         const CD_USUARIO = getId();
         console.log(CD_USUARIO)
-        const response = await api.get(`/associado/totalTecnico/${CD_USUARIO}`);
+        const response = await api.get(`/dash/totalTecnico/${CD_USUARIO}`);
         setTotalAssociados(parseInt(response.data.totalAssociados, 10));
       } catch (error) {
         console.error('Erro ao buscar total de associados:', error);
@@ -43,7 +43,7 @@ const ChartComponent = () => {
     const fetchModalidades = async () => {
       try {
         const CD_USUARIO = getId();
-        const response = await api.get(`/associado/modalidadeTecnico/${CD_USUARIO}`);
+        const response = await api.get(`/dash/modalidadeTecnico/${CD_USUARIO}`);
         setChartData(response.data); // Garante que seja um array
       } catch (error) {
         console.error('Erro ao buscar modalidades:', error);
