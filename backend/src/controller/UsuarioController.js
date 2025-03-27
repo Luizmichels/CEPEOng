@@ -228,6 +228,7 @@ module.exports = class UsuarioController {
       const usuarioFormatado = {
         CD_USUARIO: usuario.CD_USUARIO,
         NM_USUARIO: usuario.NM_USUARIO,
+        NIVEL_ACESSO: usuario.NIVEL_ACESSO,
       };
 
       res.status(200).json({ usuario: usuarioFormatado });
