@@ -25,6 +25,9 @@ const ViewEditarAcesso = () => {
       };
       const { data } = await api.get(`/usuario/obter/${CD_USUARIO}`, config);
       const { usuario } = data;
+
+      console.log("Dados do usuário carregados:", usuario); // <-- Verifica os dados retornados
+
       setNome(usuario.NM_USUARIO ?? "");
       setAcesso(usuario.NIVEL_ACESSO ?? "");
     } catch (error) {
@@ -50,11 +53,11 @@ const ViewEditarAcesso = () => {
         config
       );
 
-      NotificacaoManager.success('Alterado com sucesso!', '', 500, 'filled')
+      NotificacaoManager.success("Alterado com sucesso!", "", 500, "filled");
 
       navigate("/usuario");
     } catch (error) {
-      NotificacaoManager.error(error.response.data.message, '', 1500, 'filled');
+      NotificacaoManager.error(error.response.data.message, "", 1500, "filled");
     }
   };
 
@@ -87,7 +90,7 @@ const ViewEditarAcesso = () => {
             <Input
               type="select"
               id="acesso"
-              value={NIVEL_ACESSO}
+              value={NIVEL_ACESSO} // <-- O valor deve ser atualizado corretamente
               onChange={(e) => setAcesso(e.target.value)}
               className="custom-select"
             >
