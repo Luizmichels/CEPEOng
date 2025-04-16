@@ -65,7 +65,7 @@ module.exports = class PessoaFisicaController {
         EMAIL,
         CD_EQUIPA_LOCOMOCAO,
         CD_DEFICIENCIA,
-        CD_MEIO_LOCOMOCAO,
+        MEIO_LOCOMOCAO,
         CD_FUNCAO,
         ASSISTENCIA,
         NM_PAI,
@@ -124,7 +124,7 @@ module.exports = class PessoaFisicaController {
       if (!EMAIL) return res.status(422).json({ message: "O email é obrigatório" });
       if (!CD_EQUIPA_LOCOMOCAO) return res.status(422).json({ message: "O equipamento de locomoção é obrigatório" });
       if (!CD_DEFICIENCIA) return res.status(422).json({ message: "A escolha de uma deficiencia é obrigatória" });
-      if (!CD_MEIO_LOCOMOCAO) return res.status(422).json({ message: "O meio de locomoção é obrigatório" });
+      if (!MEIO_LOCOMOCAO) return res.status(422).json({ message: "O meio de locomoção é obrigatório" });
       if (!CD_FUNCAO) return res.status(422).json({ message: "A função é obrigatória" });
       if (!ASSISTENCIA) return res.status(422).json({ message: "A opção de assistencia é obrigatória" });
       if (!NM_PAI) return res.status(422).json({ message: "O nome do pai é obrigatório" });
@@ -188,7 +188,7 @@ module.exports = class PessoaFisicaController {
         NATURALIDADE,
         EMAIL,
         MEIO_LOCOMOCAO,
-        CD_EQUIPA_LOCOMOCAO: CD_MEIO_LOCOMOCAO,
+        CD_EQUIPA_LOCOMOCAO,
         CD_FUNCAO,
         ASSISTENCIA,
         NM_PAI,
