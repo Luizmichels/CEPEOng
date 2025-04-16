@@ -75,26 +75,27 @@ function Login() {
   };
 
   const next = () => {
-    // if (animating) return;
-    // const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
-    // setActiveIndex(nextIndex);
+    if (animating) return;
+    const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
+    setActiveIndex(nextIndex);
   };
 
   const previous = () => {
-    // if (animating) return;
-    // const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
-    // setActiveIndex(nextIndex);
+    if (animating) return;
+    const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
+    setActiveIndex(nextIndex);
   };
 
   const goToIndex = (newIndex) => {
-    // if (animating) return;
-    // setActiveIndex(newIndex);
+    if (animating) return;
+    setActiveIndex(newIndex);
   };
 
   return (
     <div className="tela-login tela">
       <Form onSubmit={handleLogin} className="formulario">
         <div className="conteudo pe-4">
+        <br />
           <img
             src="/assets/img/cepe_joinville_laranja 2.png"
             className="logo"
@@ -151,9 +152,9 @@ function Login() {
           activeIndex={activeIndex}
           next={next}
           previous={previous}
-          // onExiting={() => setAnimating(true)}
-          // onExited={() => setAnimating(false)}
-          // interval={3800} // Define o intervalo de transição automática em milissegundos
+          onExiting={() => setAnimating(true)}
+          onExited={() => setAnimating(false)}
+          interval={3800} // Define o intervalo de transição automática em milissegundos
         >
           <CarouselIndicators
             items={items}
@@ -162,8 +163,8 @@ function Login() {
           />
           {items.map((item) => (
             <CarouselItem
-              // onExiting={() => setAnimating(true)}
-              // onExited={() => setAnimating(false)}
+              onExiting={() => setAnimating(true)}
+              onExited={() => setAnimating(false)}
               key={item.src}
             >
               <img src={item.src} alt={item.altText} className="imagemzinha"/>
