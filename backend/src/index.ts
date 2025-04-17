@@ -17,7 +17,8 @@ import RotaModalidade from './routes/ModalidadeRoutes';
 import RotaFuncao from './routes/FuncaoRoutes';
 import RotaImagem from './routes/ImagemRoutes';
 import RotaDash from './routes/DashRoutes';
-
+import RotaValorPag from './routes/ValorPagamentoRoutes';
+import RotaPix from './routes/PixRoutes'
 
 const { json, urlencoded } = pkg;
 
@@ -76,6 +77,8 @@ app.use('/modalidade', RotaModalidade);
 app.use('/funcao', RotaFuncao);
 app.use('/imagem', RotaImagem);
 app.use('/dash', RotaDash);
+app.use('/valorPag', RotaValorPag);
+app.use('/pix', RotaPix);
 
 
 const getTime = (): number => Date.now() / 1000;
