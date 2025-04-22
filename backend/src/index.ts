@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import pkg from "body-parser";
 import { readdir } from 'fs/promises';
 import path from 'path';
+import bodyParser from "body-parser";
 
 import conn from "./db/conn";
 // Rotas
@@ -67,8 +68,6 @@ app.use(
   })
 );
 
-
-
 app.use('/deficiencia', RotaDeficiencia);
 app.use('/usuario', RotaUsuario);
 app.use('/associado', RotaPessoaFisica);
@@ -80,11 +79,9 @@ app.use('/dash', RotaDash);
 app.use('/valorPag', RotaValorPag);
 app.use('/pix', RotaPix);
 
-
 const getTime = (): number => Date.now() / 1000;
 
 // Novas Rotas De Forma dinamica
-
 async function loadRoutes(): Promise<void> {
   // Adicionando anotação de tipo para indicar que a função retorna uma promessa que não resolve um valor específico
   try {

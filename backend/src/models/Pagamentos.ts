@@ -7,7 +7,10 @@ class Pagamento extends Model {
   public NUMERO_PARCELA!: number;
   public TOTAL_PARCELA!: number;
   public DT_CRIACAO!: Date;
-  public DT_PAGAMENTO!: Date;
+  public DT_PAGAMENTO!: Date | null;
+  public STATUS!: Text | null;
+  public LOC_ID_GERENCIANET!: number | null;
+  public PIX_COPIA_E_COLA!: string | null;
 }
 
 import sequelize from "../db/conn";
@@ -45,6 +48,18 @@ Pagamento.init({
     type: DataTypes.DATE,
     allowNull: true,
   },
+  STATUS: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  LOC_ID_GERENCIANET: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  PIX_COPIA_E_COLA: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+  }
 }, {
   sequelize,
   tableName: 'PAGAMENTO',

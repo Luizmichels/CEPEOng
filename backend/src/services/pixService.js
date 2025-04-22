@@ -9,7 +9,7 @@ const cert = fs.readFileSync(
 
 const agent = new https.Agent({
   pfx: cert,
-  passphrase: '' // Deixe vazio se o certificado não tiver senha
+  passphrase: ''
 });
 
 const credentials = Buffer.from(
@@ -18,8 +18,9 @@ const credentials = Buffer.from(
 
 // Cache simples em memória
 let cachedToken = null;
-let tokenExpiresAt = 0; // Timestamp Unix (segundos)
+let tokenExpiresAt = 0;
 
+// Função que gera um novo token
 async function fetchNewToken() {
   try {
     console.log("Buscando novo token PIX da Gerencianet...");
@@ -38,13 +39,12 @@ async function fetchNewToken() {
 
     const { access_token, expires_in } = response.data;
     cachedToken = access_token;
-    // Armazena o timestamp de quando o token expira (com uma pequena margem de segurança, ex: 60s)
     tokenExpiresAt = Date.now() / 1000 + expires_in - 60;
     console.log("Novo token PIX obtido e cache atualizado.");
 
     return cachedToken;
   } catch (error) {
-    cachedToken = null; // Limpa o cache em caso de erro
+    cachedToken = null;
     tokenExpiresAt = 0;
     console.error('Erro ao buscar novo token PIX:', error.response?.data || error.message);
     throw new Error(`Falha ao obter token PIX: ${error.message}`);
@@ -64,32 +64,30 @@ export async function getValidToken() {
   }
 }
 
-// --- Funções para outras operações PIX (ex: criar cobrança, gerar QR Code) ---
-
-// Exemplo: Função para criar uma cobrança imediata (necessário antes de gerar QR Code)
+// Função para criar uma cobrança imediata (necessário antes de gerar QR Code)
 export async function criarCobrancaPix(dadosCobranca) {
-    const accessToken = await getValidToken(); // Obtém token válido (do cache ou novo)
+    const accessToken = await getValidToken();
 
     try {
         const response = await axios({
-            method: 'post', // Ou 'put' dependendo do endpoint exato (verificar docs Gerencianet para /v2/cob)
-            url: `${process.env.GN_ENDPOINT_H}/v2/cob`, // Endpoint para criar cobrança imediata
+            method: 'post',
+            url: `${process.env.GN_ENDPOINT_H}/v2/cob`,
             headers: {
                 Authorization: `Bearer ${accessToken}`,
                 'Content-Type': 'application/json'
             },
             httpsAgent: agent,
-            data: dadosCobranca // Objeto com valor, chave pix, devedor, etc.
+            data: dadosCobranca
         });
         console.log("Cobrança PIX criada:", response.data);
-        return response.data; // Retorna os dados da cobrança, incluindo o 'loc' (location)
+        return response.data;
     } catch (error) {
         console.error('Erro ao criar cobrança PIX:', error.response?.data || error.message);
         throw new Error(`Falha ao criar cobrança PIX: ${error.message}`);
     }
 }
 
-// Exemplo: Função para gerar o QR Code de uma cobrança existente
+// Função para gerar o QR Code de uma cobrança existente
 export async function gerarQrCodePix(locationId) {
     const accessToken = await getValidToken();
 
@@ -99,13 +97,11 @@ export async function gerarQrCodePix(locationId) {
             url: `${process.env.GN_ENDPOINT_H}/v2/loc/${locationId}/qrcode`,
             headers: {
                 Authorization: `Bearer ${accessToken}`
-                // Content-Type não costuma ser necessário para GET sem corpo
             },
             httpsAgent: agent
-            // Sem 'data' para GET
         });
         console.log("QR Code PIX gerado:", response.data);
-        return response.data; // Contém qrcode (string) e imagemQrcode (base64)
+        return response.data;
     } catch (error) {
         console.error(`Erro ao gerar QR Code PIX para Loc ID ${locationId}:`, error.response?.data || error.message);
         throw new Error(`Falha ao gerar QR Code PIX: ${error.message}`);

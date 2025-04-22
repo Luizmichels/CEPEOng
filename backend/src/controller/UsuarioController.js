@@ -10,6 +10,7 @@ const db = require("../db/conn").default;
 const CriarUsuarioToken = require("../helpers/CriarUsuarioToken");
 const ObterToken = require("../helpers/ObterToken");
 const ObterUsuarioToken = require("../helpers/ObterUsuarioToken");
+const AnuidadeService = require("../services/AnuidadeService");
 
 module.exports = class UsuarioController {
   // Função para cadastrar o usuário
@@ -91,6 +92,8 @@ module.exports = class UsuarioController {
       // Verificação se o usuario já existe
       const usuario = await Usuario.findOne({
         where: { NM_USUARIO: NM_USUARIO },
+        // Importante: Incluir CD_USUARIO se ele não vier por padrão
+        attributes: ['CD_USUARIO', 'NM_USUARIO', 'SENHA', 'NIVEL_ACESSO', 'EMAIL'] // Liste os atributos necessários
       });
       if (!usuario) {
         return res
@@ -105,11 +108,33 @@ module.exports = class UsuarioController {
         return res.status(422).json({ message: "Senha inválida!" });
       }
 
+      // **** INÍCIO DA INTEGRAÇÃO DA VERIFICAÇÃO DE ANUIDADE ****
+      if (usuario.CD_USUARIO) { // Garante que temos o ID do usuário
+        const userId = usuario.CD_USUARIO;
+        console.log(`Login bem-sucedido para usuário ${userId}. Verificando status da anuidade...`);
+        // Chama o serviço para verificar/criar cobrança em background
+        // Não usamos 'await' aqui para não atrasar a resposta do login
+        AnuidadeService.verificarECriarCobrancaAnual(userId)
+          .then(() => {
+             console.log(`Verificação de anuidade concluída (background) para usuário ${userId}.`);
+          })
+          .catch(err => {
+            // Logar erro que pode ter ocorrido na verificação/criação da anuidade
+            console.error(`Erro background na verificação de anuidade para user ${userId}:`, err);
+        });
+      } else {
+          console.warn(`CD_USUARIO não encontrado para ${NM_USUARIO} após login. Verificação de anuidade pulada.`);
+      }
+      // **** FIM DA INTEGRAÇÃO ****
+
+      // Continua com a criação do token e resposta do login
       await CriarUsuarioToken(usuario, req, res);
+
     } catch (error) {
+       console.error("Erro durante o processo de login:", error); // Log do erro no servidor
       return res
         .status(500)
-        .json({ message: "Erro no servidor. Tente novamente mais tarde." });
+        .json({ message: "Erro no servidor durante o login. Tente novamente mais tarde." });
     }
   }
 
