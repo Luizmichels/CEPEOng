@@ -1,13 +1,15 @@
+// ValorPagamentoRoutes.js
 const routes = require('express').Router();
 import ValorPagamento from '../controller/ValorPagamentoController';
 import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken';
 
-const { cadastrarValor, listarUltValor, obterValor, atualizarValor, deletarValor} = ValorPagamento;
+const { inicializarValor, listarValorUnico, atualizarValorUnico } = ValorPagamento;
 
-routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), cadastrarValor);
-routes.get('/listar', ChecarToken, listarUltValor);
-routes.get('/obter/:CD_VALOR_PAGAMENTO', ChecarToken, verificarNivelAcesso(3), obterValor);
-routes.patch('/atualizar/:CD_VALOR_PAGAMENTO', ChecarToken, verificarNivelAcesso(3), atualizarValor);
-routes.delete('/deletar/:CD_VALOR_PAGAMENTO', ChecarToken, verificarNivelAcesso(3), deletarValor);
+routes.post('/inicializar', inicializarValor); // Rota para inicializar o valor (será chamada uma vez)
+routes.get('/listar', ChecarToken, listarValorUnico); // Rota para obter o único valor
+routes.patch('/atualizar', ChecarToken, verificarNivelAcesso(3), atualizarValorUnico); // Rota para atualizar o único valor
+
+module.exports = routes;
+
 
 export default routes;

@@ -1,93 +1,52 @@
-// ../controllers/FuncaoController.js
+// ../controllers/ValorPagamentoController.js
 import ValorPagamento from "../models/ValorPagamento";
 
 export default class ValorPagamentoController {
 
-  static async cadastrarValor(req, res) {
+  static async inicializarValor(req, res) {
     try {
-      const {VALOR} = req.body;
-
-      if (!VALOR) return res.status(422).json({ message: "O valor é obrigatório!" })
-
-      const novaValor = await ValorPagamento.create({ VALOR });
-      res.status(201).json({ message: "Novo Valor Cadastrado com sucesso!", novaValor });
+      const valorExistente = await ValorPagamento.findOne();
+      if (!valorExistente) {
+        const novoValor = await ValorPagamento.create({ VALOR: 60.00 });
+        return res.status(201).json({ message: "Valor inicial da anuidade criado com sucesso!", novoValor });
+      } else {
+        return res.status(200).json({ message: "Valor da anuidade já inicializado.", valorExistente });
+      }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
 
-  static async listarUltValor(req, res) {
+  static async listarValorUnico(req, res) {
     try {
-        const ultValor = await ValorPagamento.findOne({
-          order: [['createdAt', 'DESC']]
-        });
-
-        if (ultValor.length === 0) {
-            return res.status(404).json({ message: 'Não há nenhum valor cadastrado' });
-        }
-
-        res.status(200).json({  CD_VALOR_PAGAMENTO: ultValor.CD_VALOR_PAGAMENTO,
-                                VALOR: ultValor.VALOR });
+      const valorUnico = await ValorPagamento.findOne();
+      if (!valorUnico) {
+        return res.status(404).json({ message: 'Nenhum valor de anuidade cadastrado.' });
+      }
+      res.status(200).json({ VALOR: valorUnico.VALOR, CD_VALOR_PAGAMENTO: valorUnico.CD_VALOR_PAGAMENTO });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   }
 
-  // Obter uma função específica por ID
-  static async obterValor(req, res) {
-    const { CD_VALOR_PAGAMENTO } = req.params;
-
-    try {
-        const Valor = await ValorPagamento.findOne({ where: { CD_VALOR_PAGAMENTO } });
-
-        if (!Valor) return res.status(404).json({ message: 'Valor não encontrado' });
-
-        const ValorFormatada = {
-          CD_VALOR_PAGAMENTO: Valor.CD_VALOR_PAGAMENTO,
-          VALOR: Valor.VALOR
-        };
-
-        res.status(200).json({ Valor: ValorFormatada });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-  }
-
-  static async atualizarValor(req, res) {
-    const { CD_VALOR_PAGAMENTO } = req.params;
+  static async atualizarValorUnico(req, res) {
     const { VALOR } = req.body;
 
     try {
-        if (!VALOR) return res.status(422).json({ message: 'O Valor é obrigatório!' });
+      if (!VALOR) {
+        return res.status(422).json({ message: 'O Valor é obrigatório!' });
+      }
 
-        const valor = await ValorPagamento.findOne({ where: { CD_VALOR_PAGAMENTO } });
+      const [updatedRows] = await ValorPagamento.update({ VALOR }, { where: {} });
 
-        if (!valor) {
-            return res.status(404).json({ message: 'Função não encontrada!' });
-        }
-
-        await ValorPagamento.update({ VALOR });
-
-        res.status(200).json({ message: 'Valor atualizado com sucesso!', valor });
+      if (updatedRows > 0) {
+        const valorAtualizado = await ValorPagamento.findOne();
+        res.status(200).json({ message: 'Valor da anuidade atualizado com sucesso!', valorAtualizado });
+      } else {
+        res.status(404).json({ message: 'Nenhum valor de anuidade encontrado para atualizar.' });
+      }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+      res.status(500).json({ error: error.message });
     }
   }
-
-  static async deletarValor(req, res) {
-    const { CD_VALOR_PAGAMENTO } = req.params;
-
-    try {
-        const valor = await ValorPagamento.findOne({ where: { CD_VALOR_PAGAMENTO } });
-
-        if (!valor) return res.status(404).json({ message: 'Valor não encontrada' });
-
-        await ValorPagamento.destroy({ where: { CD_VALOR_PAGAMENTO } });
-
-        res.status(200).json({ message: 'Valor deletado com sucesso' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-}
-
 }
