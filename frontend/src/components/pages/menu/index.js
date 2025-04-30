@@ -108,7 +108,7 @@ const ChartComponent = () => {
     <div className="tela pagina-menu">
       <div className="menu">
         <div>
-          <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" />
+          <img src="/assets/img/cepe_joinville_laranja 2.png" className="logo" alt="logo" />
         </div>
         <div className="opcoes">
           <Button color="default" className="text-button novoitem" onClick={handleNavigate}>

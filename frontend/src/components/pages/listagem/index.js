@@ -76,7 +76,7 @@ const Listagem = () => {
         </a>
         <div className="divisao">
           <p>Nome</p>
-          <Input type="search" className="buscar" id="busca_nome" onChange={(e) => setNome(e.target.value)} />
+          <Input type="search" className="buscar-" id="busca_nome" onChange={(e) => setNome(e.target.value)} />
         </div>
         <div className="divisao">
           <p>Modalidade</p>
@@ -90,7 +90,7 @@ const Listagem = () => {
           <p>Função</p>
           <Input type="search" className="buscar" id="busca_funcao" onChange={(e) => setFuncao(e.target.value)} />
         </div>
-        <Button color="default" onClick={handleExport} disabled={isExporting}>
+        <Button className='btns' color="default" onClick={handleExport} disabled={isExporting}>
           {isExporting ? 'Exportando...' : 'Exportar PDF'}
         </Button>
       </header>
@@ -119,7 +119,7 @@ const Listagem = () => {
           </table>
         </div>
       </Row>
-      <Button color="default" className="voltar" onClick={() => navigate('/menu')}>Voltar</Button>
+      <Button color="default" className='btns' onClick={() => navigate('/menu')}>Voltar</Button>
 
       {exportData.length > 0 && <ExportPDF data={exportData} />}
 

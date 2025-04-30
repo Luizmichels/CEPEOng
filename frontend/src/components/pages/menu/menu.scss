@@ -26,6 +26,14 @@ body.pagina-menu-body {
     display: block;
     margin: 25px auto;
   }
+  
+  .logo {
+    width: 22vh !important;
+    height: 22vh !important;
+    padding: 25px;
+    display: block;
+    margin: 0 auto; /* Centraliza horizontalmente */
+  }
 
   .novoitem {
     margin: 0 auto;

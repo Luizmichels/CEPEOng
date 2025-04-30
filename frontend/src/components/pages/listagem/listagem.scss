@@ -47,10 +47,11 @@ input[type="search"] {
 }
 
 .logo {
-  width: 23vh;
-  height: 23vh;
-  margin-left: 20px;
-  padding: 10px;
+  width: 22vh !important;
+  height: 22vh !important;
+  padding: 25px;
+  display: block;
+  margin: 0 auto; /* Centraliza horizontalmente */
 }
 
 img {
@@ -58,21 +59,16 @@ img {
   height: 100px;
 }
 
-button {
+.btns {
   background-color: #ED5600;
   margin-top: 5vh;
-  width: 35vh;
-  height: 8vh;
-  margin-left: 10vh;
+  margin-right: 2vh;
+  width: 25vh;
+  height: 7vh;
   text-align: center;
-  line-height: 7vh;
-  vertical-align: middle;
-  border-radius: 50px;
-  font-size: 3.5vh !important;
+  font-size: 3vh;
   border-color: white;
   color: white;
-  border-width: 1px;
-  border-style: solid;
   cursor: pointer;
 }
 
@@ -142,10 +138,6 @@ button {
 .main-content {
   flex-grow: 1;
   width: 100%;
-}
-
-.voltar {
-  margin: 20px auto;
 }
 
 .tituloFixo {

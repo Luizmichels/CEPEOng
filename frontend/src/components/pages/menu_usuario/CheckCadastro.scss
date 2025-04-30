@@ -20,10 +20,13 @@
 }
 
 .logo {
-  width: 25vh !important;
-  height: 25vh !important;
+  width: 22vh !important;
+  height: 22vh !important;
   padding: 25px;
+  display: block;
+  margin: 0 auto; /* Centraliza horizontalmente */
 }
+
 .check-conjunto{
   margin-top: 15vh;
   display: flex;

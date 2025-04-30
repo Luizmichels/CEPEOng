@@ -214,13 +214,23 @@ const CadastroNovoAtleta = () => {
     const nivelAcesso = getNivel(); // Obtém o nível de acesso do usuário
     
     useEffect(() => {
-      if (nivelAcesso === '1' || nivelAcesso === '2') {
-        if (id !== cd_usuario) { // Compara o ID da URL com o ID do usuário logado
+      const cd_usuario_logado = getId(); // Pega ID do usuário logado
+      const nivelAcesso = getNivel();
+      const urlId = queryParams.get('id'); // Pega ID da URL (pode ser null)
+    
+      // Só faz a verificação de ID se um ID existir na URL (edição)
+      // E se o nível de acesso for 1 ou 2
+      if (urlId && (nivelAcesso === '1' || nivelAcesso === '2')) { 
+        // Comparar como string por segurança (id da URL é string, getId pode retornar número)
+        if (String(urlId) !== String(cd_usuario_logado)) { 
           NotificacaoManager.error("Acesso negado: você só pode alterar seu próprio cadastro.", '', 2500, 'filled');
-          navigate('/login'); // Redireciona para outra página, se necessário
+          // Considere talvez redirecionar para '/check-cadastro' ou outra página apropriada
+          navigate('/login'); 
         }
       }
-    }, [id, nivelAcesso, navigate]);
+      // Se não houver urlId, ou se o nível for 3 (admin), não faz nada aqui, permitindo o acesso.
+    
+    }, [location.search, nivelAcesso, navigate]); // Dependa de location.search para reavaliar se a URL muda
 
   const handleLogoClick = () => {
     const nivelAcesso = getNivel();

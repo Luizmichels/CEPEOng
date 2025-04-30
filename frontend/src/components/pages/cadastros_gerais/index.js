@@ -79,6 +79,17 @@ function App() {
             </Row>
           );
         })}
+        <Row className="mb-4">
+          <Col xs="12" className="d-flex justify-content-center">
+            <Button
+              color="default"
+              className="quadradov2 btn-h2"
+              onClick={() => handleClick("/anuidade")}
+            >
+              Valor Anuidade
+            </Button>
+          </Col>
+        </Row>
       </div>
     </div>
   );

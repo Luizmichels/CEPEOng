@@ -35,6 +35,10 @@ const ViewEsqueciSenha = lazy(() => import("../components/pages/esqueciSenha/esq
 const ViewRealizeCadastro = lazy(() => import("../components/pages/RealizeCadastro/RealizeCadastro"))
 const ViewMenuTecico = lazy(() => import("../components/pages/MenuTecnico"))
 const ViewAlterarSenha = lazy(() => import("../components/pages/AlterarSenha"))
+const ViewAnuidade = lazy(() => import("../components/pages/CadastroAnuidade/Anuidade"))
+const ViewNovaAnuidade = lazy(() => import("../components/pages/CadastroAnuidade/NovaAnuidade"));
+const ViewPagamentoAnuidade = lazy(() => import("../components/pages/PagamentoAnuidade"));
+
 
 interface Permissao {
   ok: boolean;
@@ -99,9 +103,11 @@ export default function Rotas() {
         <Route path="listagem" element={<ValidaSessao tela={ViewListagem} nivel={3} />} />
         <Route path="listagem-tec" element={<ValidaSessao tela={ViewListagemTec} nivel={2} />} />
         <Route path="cadastros" element={<ValidaSessao tela={ViewCadGeral} nivel={3} />} />
+        <Route path="anuidade" element={<ValidaSessao tela={ViewAnuidade} nivel={3} />} />
         <Route path="associado" element={<ValidaSessao tela={ViewNovoAssociado} nivel={1} />} />
         <Route path="cadastro" element={<ValidaSessao tela={ViewCadTec} nivel={2} />} />
         <Route path="alterar-senha" element={<ValidaSessao tela={ViewAlterarSenha} nivel={1} />} />
+        <Route path="pag-anuidade" element={<ValidaSessao tela={ViewPagamentoAnuidade} nivel={1} />} />
         
         <Route path="funcoes" >
           <Route index element={<ValidaSessao tela={ViewFuncoes} nivel={3} />} />
@@ -119,6 +125,11 @@ export default function Rotas() {
           <Route index element={<ValidaSessao tela={ViewDeficiencia} nivel={3} />} />
           <Route path="nova" element={<ValidaSessao tela={ViewNovaDeficiencia} nivel={3} />} />
           <Route path="editar/:CD_DEFICIENCIA" element={<ValidaSessao tela={ViewEditarDeficiencia} nivel={3} />} />
+        </Route>
+
+        <Route path="anuidade">
+          <Route index element={<ValidaSessao tela={ViewAnuidade} nivel={3} />} />
+          <Route path="editar" element={<ValidaSessao tela={ViewNovaAnuidade} nivel={3} />} /> {/* Mudando "nova" para "editar" */}
         </Route>
 
         <Route path="equipamento">

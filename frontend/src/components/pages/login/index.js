@@ -92,7 +92,7 @@ function Login() {
   };
 
   return (
-    <div className="tela-login tela">
+    <div className="tela-login tela-">
       <Form onSubmit={handleLogin} className="formulario">
         <div className="conteudo pe-4">
         <br />
