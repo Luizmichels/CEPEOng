@@ -24,6 +24,6 @@ routes.post(
   PessoaFisicaController.CadastImagens
 );
 routes.get('/listar/associados', ChecarToken, verificarNivelAcesso(3), PessoaFisicaController.TodasAssociados)
-routes.get('/obter/:CD_USUARIO', ChecarToken, verificarNivelAcesso(1), PessoaFisicaController.BuscarPorID)
+routes.get('/obter/:CD_USUARIO', ChecarToken, verificarNivelAcesso(1), PessoaFisicaController.BuscarPorCdUsuario)
 
 module.exports = routes;

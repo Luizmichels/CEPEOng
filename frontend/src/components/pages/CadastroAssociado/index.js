@@ -206,7 +206,6 @@ const CadastroNovoAtleta = () => {
   const [funcao, setFuncaos] = useState([]);
   const [selectedFuncaos, setSelectedFuncaos] = useState("");
 
-   // const cd_usuario = getId();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');

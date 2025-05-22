@@ -894,16 +894,12 @@ module.exports = class PessoaFisicaController {
     }
   }
 
-  static async BuscarPorID(req, res) {
+  static async BuscarPorCdUsuario(req, res) {
     const { CD_USUARIO } = req.params;
 
     try {
-      const token = ObterToken(req);
-      const user = await ObterUsuarioToken(token);
+      const usuario = await PessoaFisica.findOne({where: { CD_USUARIO }});
 
-      const usuario = await PessoaFisica.findOne({
-        where: { CD_USUARIO: user.CD_USUARIO },
-      });
 
       if (!usuario) {
         return res.status(404).json({ message: "Usuário não encontrado" });
@@ -945,9 +941,13 @@ module.exports = class PessoaFisicaController {
   }
 
   static async BuscarPorID(req, res) {
+    console.log(req, 'reqqqqqqqqqqqqqqqqqqqq')
     try {
       const token = ObterToken(req);
       const user = await ObterUsuarioToken(token);
+
+      console.log(token, 'tokeeeeeeeeen')
+      console.log(user, 'userrrrrrrrrrrrrrrrr')
 
       const usuario = await PessoaFisica.findOne({
         where: { CD_USUARIO: user.CD_USUARIO },

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from "reactstrap";
 import { useNavigate } from 'react-router-dom';
 import api from '../../../utlis/api';
-import { getToken } from '../../../utlis';
+import { getId } from '../../../utlis';
 import './CheckCadastro.scss';
 
 function CheckCadastro() {
@@ -13,9 +13,9 @@ function CheckCadastro() {
   useEffect(() => {
     const verificarCadastro = async () => {
       try {
-        const token = getToken();
-        const response = await api.get(`/associado/obter/${token}`, 
-          { headers: { Authorization: `Bearer ${token.token}` } });        
+        const id = getId();
+        const response = await api.get(`/associado/obter/${id}`, 
+          { headers: { Authorization: `Bearer ${id.id}` } });        
         const usuario = response.data.usuario;
 
         setUsuarioCadastrado(usuario);

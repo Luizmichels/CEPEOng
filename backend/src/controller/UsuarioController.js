@@ -91,22 +91,14 @@ module.exports = class UsuarioController {
     try {
       // Verificação se o usuario já existe
       const usuario = await Usuario.findOne({
-        where: { NM_USUARIO: NM_USUARIO },
-        // Importante: Incluir CD_USUARIO se ele não vier por padrão
-        attributes: ['CD_USUARIO', 'NM_USUARIO', 'SENHA', 'NIVEL_ACESSO', 'EMAIL'] // Liste os atributos necessários
+        where: { NM_USUARIO: NM_USUARIO }
       });
-      if (!usuario) {
-        return res
-          .status(422)
-          .json({ message: "Não há usuário cadastrado com este Nome!" });
-      }
+      if (!usuario) return res.status(422).json({ message: "Não há usuário cadastrado com este Nome!" });
 
       // Verificando se a senha enviada está batendo com a senha do banco de dados
       const checarSenha = await bcrypt.compare(SENHA, usuario.SENHA);
 
-      if (!checarSenha) {
-        return res.status(422).json({ message: "Senha inválida!" });
-      }
+      if (!checarSenha) return res.status(422).json({ message: "Senha inválida!" });
 
       // **** INÍCIO DA INTEGRAÇÃO DA VERIFICAÇÃO DE ANUIDADE ****
       if (usuario.CD_USUARIO) { // Garante que temos o ID do usuário
