@@ -47,27 +47,6 @@ input {
   background-color: #e55b00;
 }
 
-input[type="text"] {
-  background-color: #ED5600;
-  /* width: 80vh; */
-  height: 45px;
-  color: white;  
-  font-family: "Inter", sans-serif;
-  border-radius: 5px;
-  /* margin-top: 10px; */
-  outline: none;
-}
-
-input[type="password"] {
-  background-color: #ED5600;
-  /* width: 80vh; */
-  height: 45px;
-  font-family: "Inter", sans-serif;
-  color: #ED5600;    
-  border-radius: 5px;
-  /* margin-top: 10px; */
-}
-
 input[type="submit"] {
   background-color: #ED5600;
   /* width: 35vh; */
@@ -183,13 +162,11 @@ h4 {
 }
 
 .btn-cad-ass{
-  padding: 20px 80px;
-  left: auto;
-  bottom: 5vh;
-  transform: translateX(120%);
-  margin-top: 2vh;
-  margin-bottom: 5vh;
+  padding: 15px 60px;
+  margin: 3vh auto;
   font-size: 3vh;
+  display: block; 
+  width: fit-content;
 }
 
 .titulo {

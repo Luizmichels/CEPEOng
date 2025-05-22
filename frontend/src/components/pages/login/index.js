@@ -106,24 +106,21 @@ function Login() {
             <div className="usuarioesenha">
               <Row className="mb-3">
                 <Col xs="12" className="form-group">
-                  <Label for="nome_usuario">Usuário</Label>
+                  <Label id="textUser" for="nome_usuario">Usuário</Label>
                   <Input
-                    required
-                    id="nome_usuario"
+
                     onChange={(e) => setUser(e.target.value)}
-                    className="user"
+
                     value={user}
                   />
                 </Col>
               </Row>
               <Row className="mb-1">
                 <Col xs="12" className="form-group">
-                  <Label for="senha_usuario">Senha</Label>
+                  <Label id="textSenha" for="senha_usuario">Senha</Label>
                   <Input
                     required
-                    id="senha_usuario"
                     onChange={(e) => setPassword(e.target.value)}
-                    className="senha"
                     type="password"
                     value={password}
                   />
@@ -154,7 +151,8 @@ function Login() {
           previous={previous}
           onExiting={() => setAnimating(true)}
           onExited={() => setAnimating(false)}
-          interval={3800} // Define o intervalo de transição automática em milissegundos
+          // Define o intervalo de transição automática em milissegundos
+          interval={3800}
         >
           <CarouselIndicators
             items={items}

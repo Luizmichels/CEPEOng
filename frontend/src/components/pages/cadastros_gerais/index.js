@@ -54,7 +54,8 @@ function App() {
       <img
         src="../../../assets/img/cepe_joinville_laranja 2.png"
         alt="logo"
-        onClick={() => handleClick()} // Adicionar evento de clique para lidar com a navegação
+        onClick={() => handleClick()} 
+        className="logo"
       />
       <div className="cadastros">
         {new Array(Math.ceil(teste.length / 4)).fill().map((_, i) => {
@@ -84,7 +85,7 @@ function App() {
             <Button
               color="default"
               className="quadradov2 btn-h2"
-              onClick={() => handleClick("/anuidade")}
+              onClick={() => handleClick("/anuidade/editar")}
             >
               Valor Anuidade
             </Button>

@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { getToken } from "../utlis";
-import { post, get } from "../utlis/api";
+import { post } from "../utlis/api";
 
 const ViewLogin = lazy(() => import("../components/pages/login"));
 const ViewMenu = lazy(() => import("../components/pages/menu"));
@@ -35,7 +35,7 @@ const ViewEsqueciSenha = lazy(() => import("../components/pages/esqueciSenha/esq
 const ViewRealizeCadastro = lazy(() => import("../components/pages/RealizeCadastro/RealizeCadastro"))
 const ViewMenuTecico = lazy(() => import("../components/pages/MenuTecnico"))
 const ViewAlterarSenha = lazy(() => import("../components/pages/AlterarSenha"))
-const ViewAnuidade = lazy(() => import("../components/pages/CadastroAnuidade/Anuidade"))
+const ViewAnuidade = lazy(() => import("../components/pages/CadastroAnuidade/NovaAnuidade"))
 const ViewNovaAnuidade = lazy(() => import("../components/pages/CadastroAnuidade/NovaAnuidade"));
 const ViewPagamentoAnuidade = lazy(() => import("../components/pages/PagamentoAnuidade"));
 
@@ -58,25 +58,25 @@ function ValidaSessao({ tela: Tela, nivel = 1 }: Props) {
   const [load, setLoad] = useState(true);
   const [permissao, setPermissao] = useState<Permissao>();
 
-  useEffect(() => {
-    const validarPermissao = async () => {
-      try {
-        const { data } = await post("/usuario/validaPermissao", {
-          token: getToken(),
-        });
-        const { ok, nivel: nivelUsuario } = data;
-        console.log(ok, nivel)
-        setPermissao({ ok, nivelUsuario });
-      } catch (error) {
-        console.error("Erro ao validar permissão:", error);
-        setPermissao({ ok: false });
-      } finally {
-        setLoad(false);
-      }
-    };
+useEffect(() => {
+  const validarPermissao = async () => {
+    try {
+      const { data } = await post("/usuario/validaPermissao", {
+        token: getToken(),
+      });
+      const { ok, nivel: nivelUsuario } = data;
+      console.log(ok, nivel); // Aqui você usa 'nivel'
+      setPermissao({ ok, nivelUsuario });
+    } catch (error) {
+      console.error("Erro ao validar permissão:", error);
+      setPermissao({ ok: false });
+    } finally {
+      setLoad(false);
+    }
+  };
 
-    validarPermissao();
-  }, []);
+  validarPermissao();
+}, [nivel]); // <-- Adicione 'nivel' aqui
 
   if (load) return <div>Loading...</div>;
   if (!permissao?.ok) return <Navigate to="/rota_de_falta_de_permissao" />;

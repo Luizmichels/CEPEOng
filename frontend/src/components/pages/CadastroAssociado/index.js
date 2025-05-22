@@ -97,7 +97,7 @@ const djsConfig = {
             </span>
           </div>
           <div className="preview-container">
-            <img data-dz-thumbnail className="img-thumbnail border-0" />
+            <img data-dz-thumbnail alt="img" className="img-thumbnail border-0" />
             <i className="simple-icon-doc preview-icon" />
           </div>
         </div>
@@ -206,7 +206,7 @@ const CadastroNovoAtleta = () => {
   const [funcao, setFuncaos] = useState([]);
   const [selectedFuncaos, setSelectedFuncaos] = useState("");
 
-    const cd_usuario = getId();
+   // const cd_usuario = getId();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const id = queryParams.get('id');
@@ -519,7 +519,7 @@ const CadastroNovoAtleta = () => {
       <Form onSubmit={handleSubmit}>
         <h2>Dados Pessoais</h2>
         <FormGroup>
-          <Label for="NM_PESSOA">Nome Completo:</Label>
+          <Label for="NM_PESSOA">Nome Completo: *</Label>
           <Input
             type="text"
             id="NM_PESSOA"
@@ -531,7 +531,7 @@ const CadastroNovoAtleta = () => {
         <Row>
         <Col md={4}>
             <FormGroup>
-              <Label for="NR_CELULAR">Telefone Celular:</Label>
+              <Label for="NR_CELULAR">Telefone Celular: *</Label>
               <Input
                 type="tel"
                 id="NR_CELULAR"
@@ -559,7 +559,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="NATURALIDADE">Naturalidade:</Label>
+              <Label for="NATURALIDADE">Naturalidade: *</Label>
               <Input
                 type="text"
                 id="NATURALIDADE"
@@ -573,7 +573,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="SEXO">Sexo:</Label>
+              <Label for="SEXO">Sexo: *</Label>
               <Input
                 type="select"
                 name="SEXO"
@@ -591,7 +591,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="DT_NASCIMENTO">Data de Nascimento:</Label>
+              <Label for="DT_NASCIMENTO">Data de Nascimento: *</Label>
               <Input
                 type="date"
                 id="DT_NASCIMENTO"
@@ -603,7 +603,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="ESTADO_CIVIL">Estado Civil:</Label>
+              <Label for="ESTADO_CIVIL">Estado Civil: *</Label>
               <Input
                 type="select"
                 name="ESTADO_CIVIL"
@@ -624,7 +624,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="EMAIL">E-mail:</Label>
+              <Label for="EMAIL">E-mail: *</Label>
               <Input
                 type="email"
                 id="EMAIL"
@@ -636,7 +636,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="MEIO_LOCOMOCAO">Meio de Locomoção:</Label>
+              <Label for="MEIO_LOCOMOCAO">Meio de Locomoção: *</Label>
               <Input
                 type="select"
                 name="MEIO_LOCOMOCAO"
@@ -655,7 +655,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="CD_DEFICIENCIA">Deficiência:</Label>
+              <Label for="CD_DEFICIENCIA">Deficiência: *</Label>
               <Select
                 options={options}
                 placeholder="Selecione a deficiência"
@@ -675,7 +675,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="CD_MEIO_LOCOMOCAO">Equipamento de locomoção:</Label>
+              <Label for="CD_MEIO_LOCOMOCAO">Equipamento de locomoção: *</Label>
               <Input
                 type="select"
                 name="CD_MEIO_LOCOMOCAO"
@@ -698,7 +698,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="CD_FUNCAO">Função:</Label>
+              <Label for="CD_FUNCAO">Função: *</Label>
               <Input
                 type="select"
                 name="CD_FUNCAO"
@@ -718,7 +718,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="ASSISTENCIA">Assistência:</Label>
+              <Label for="ASSISTENCIA">Assistência: *</Label>
               <Input
                 type="select"
                 name="ASSISTENCIA"
@@ -738,7 +738,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={5}>
             <FormGroup>
-              <Label for="NM_PAI">Nome do Pai:</Label>
+              <Label for="NM_PAI">Nome do Pai: *</Label>
               <Input
                 type="text"
                 id="NM_PAI"
@@ -764,7 +764,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={5}>
             <FormGroup>
-              <Label for="NM_MAE">Nome da Mãe:</Label>
+              <Label for="NM_MAE">Nome da Mãe: *</Label>
               <Input
                 type="text"
                 id="NM_MAE"
@@ -821,7 +821,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="PESO">Peso (kg):</Label>
+              <Label for="PESO">Peso (kg): *</Label>
               <Input
                 type="number"
                 id="PESO"
@@ -834,7 +834,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="ALTURA">Altura (cm):</Label>
+              <Label for="ALTURA">Altura (cm): *</Label>
               <Input
                 type="number"
                 id="ALTURA"
@@ -846,7 +846,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="GP_SANGUE">Grupo Sanguíneo:</Label>
+              <Label for="GP_SANGUE">Grupo Sanguíneo: *</Label>
               <Input
                 type="select"
                 name="GP_SANGUE"
@@ -871,7 +871,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="RENDA">Renda Familiar:</Label>
+              <Label for="RENDA">Renda Familiar: *</Label>
               <Input
                 type="select"
                 name="RENDA"
@@ -899,7 +899,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="ESCOLARIDADE">Escolaridade:</Label>
+              <Label for="ESCOLARIDADE">Escolaridade: *</Label>
               <Input
                 type="text"
                 id="ESCOLARIDADE"
@@ -911,7 +911,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="INSTITUICAO">Instituição de Ensino:</Label>
+              <Label for="INSTITUICAO">Instituição de Ensino: *</Label>
               <Input
                 type="text"
                 id="INSTITUICAO"
@@ -942,7 +942,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="CPF">CPF:</Label>
+              <Label for="CPF">CPF: *</Label>
               <Input
                 type="text"
                 id="CPF"
@@ -954,7 +954,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="RG">RG:</Label>
+              <Label for="RG">RG: *</Label>
               <Input
                 type="text"
                 id="RG"
@@ -966,7 +966,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="UF_RG">UF do RG:</Label>
+              <Label for="UF_RG">UF do RG: *</Label>
               <Input
                 type="text"
                 id="UF_RG"
@@ -978,7 +978,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="DT_EMISSAO_RG">Data de Emissão do RG:</Label>
+              <Label for="DT_EMISSAO_RG">Data de Emissão do RG: *</Label>
               <Input
                 type="date"
                 id="DT_EMISSAO_RG"
@@ -1072,7 +1072,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={7}>
             <FormGroup>
-              <Label for="ENDERECO">Endereço:</Label>
+              <Label for="ENDERECO">Endereço: *</Label>
               <Input
                 type="text"
                 id="ENDERECO"
@@ -1084,7 +1084,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={5}>
             <FormGroup>
-              <Label for="NR_ENDERECO">Número:</Label>
+              <Label for="NR_ENDERECO">Número: *</Label>
               <Input
                 type="text"
                 id="NR_ENDERECO"
@@ -1108,7 +1108,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={3}>
             <FormGroup>
-              <Label for="CEP">CEP:</Label>
+              <Label for="CEP">CEP: *</Label>
               <Input
                 type="text"
                 id="CEP"
@@ -1123,7 +1123,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={4}>
             <FormGroup>
-              <Label for="CD_MODALIDADE">Modalidade:</Label>
+              <Label for="CD_MODALIDADE">Modalidade: *</Label>
               <Input
                 type="select"
                 name="CD_MODALIDADE"
@@ -1146,7 +1146,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="CLASSIF_FUNC">Classificação Funcional:</Label>
+              <Label for="CLASSIF_FUNC">Classificação Funcional: *</Label>
               <Input
                 type="text"
                 id="CLASSIF_FUNC"
@@ -1158,7 +1158,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={4}>
             <FormGroup>
-              <Label for="PROVA">Prova:</Label>
+              <Label for="PROVA">Prova: *</Label>
               <Input
                 type="text"
                 id="PROVA"
@@ -1173,7 +1173,7 @@ const CadastroNovoAtleta = () => {
         <Row>
           <Col md={3}>
             <FormGroup>
-              <Label for="TAMANHO_CAMISA">Tamanho da Camisa:</Label>
+              <Label for="TAMANHO_CAMISA">Tamanho da Camisa: *</Label>
               <Input
                 type="select"
                 name="TAMANHO_CAMISA"
@@ -1194,7 +1194,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={3}>
             <FormGroup>
-              <Label for="TAMANHO_AGASALHO">Tamanho da Agasalho:</Label>
+              <Label for="TAMANHO_AGASALHO">Tamanho da Agasalho: *</Label>
               <Input
                 type="select"
                 name="TAMANHO_AGASALHO"
@@ -1215,7 +1215,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={3}>
             <FormGroup>
-              <Label for="TAMANHO_BERM_CAL">Tamanho da Bermuda/Calça:</Label>
+              <Label for="TAMANHO_BERM_CAL">Tamanho da Bermuda/Calça: *</Label>
               <Input
                 type="select"
                 name="TAMANHO_BERM_CAL"
@@ -1236,7 +1236,7 @@ const CadastroNovoAtleta = () => {
           </Col>
           <Col md={3}>
             <FormGroup>
-              <Label for="NR_CALCADO">Número do Calçado:</Label>
+              <Label for="NR_CALCADO">Número do Calçado: *</Label>
               <Input
                 type="select"
                 name="NR_CALCADO"
@@ -1287,79 +1287,82 @@ const CadastroNovoAtleta = () => {
           <b>SEM CAMISA.</b>
         </h4>
         <Row>
-          <Col md={4}>
-            <FormGroup>
-              <DropzoneComponent
-                config={componentConfig}
-                djsConfig={{
-                  ...djsConfig,
-                  params: {
-                    tipo: "atleta",
-                    nome: FOTO_ATLETA,
-                  },
-                  dictDefaultMessage: "Foto 3x4 Atual",
-                }}
-                eventHandlers={{
-                  init: (dropzone) => {
-                    if (FOTO_ATLETA) {
-                      dropzone.emit("addedfile", { name: FOTO_ATLETA, size: 12345 });
-                      dropzone.emit("thumbnail", { name: FOTO_ATLETA }, `../uploads/atleta/${FOTO_ATLETA}`);
-                      dropzone.emit("complete", { name: FOTO_ATLETA });
-                    }
-                  },
-                }}
-              />
-            </FormGroup>
-          </Col>
-          <Col md={4}>
-            <FormGroup>
-              <DropzoneComponent
-                config={componentConfig}
-                djsConfig={{
-                  ...djsConfig,
-                  params: {
-                    tipo: "rg",
-                    nome: FOTO_RG,
-                  },
-                  dictDefaultMessage: "Foto do RG do associado",
-                }}
-                eventHandlers={{
-                  init: (dropzone) => {
-                    if (FOTO_RG) {
-                      dropzone.emit("addedfile", { name: FOTO_RG, size: 12345 });
-                      dropzone.emit("thumbnail", { name: FOTO_RG }, `../uploads/rg/${FOTO_RG}`);
-                      dropzone.emit("complete", { name: FOTO_RG });
-                    }
-                  },
-                }}
-              />
-            </FormGroup>
-          </Col>
-          <Col md={4}>
-            <FormGroup>
-              <DropzoneComponent
-                config={componentConfig}
-                djsConfig={{
-                  ...djsConfig,
-                  params: {
-                    tipo: "resp",
-                    nome: FOTO_RG_RESPONS,
-                  },
-                  dictDefaultMessage: "Foto do RG do responsável",
-                }}
-                eventHandlers={{
-                  init: (dropzone) => {
-                    if (FOTO_RG_RESPONS) {
-                      dropzone.emit("addedfile", { name: FOTO_RG_RESPONS, size: 12345 });
-                      dropzone.emit("thumbnail", { name: FOTO_RG_RESPONS }, `../uploads/resp/${FOTO_RG_RESPONS}`);
-                      dropzone.emit("complete", { name: FOTO_RG_RESPONS });
-                    }
-                  },
-                }}
-              />
-            </FormGroup>
-          </Col>
-        </Row>
+  <Col md={4}>
+    <FormGroup>
+      <DropzoneComponent
+        config={componentConfig}
+        djsConfig={{
+          ...djsConfig,
+          params: {
+            tipo: "atleta",
+            nome: FOTO_ATLETA,
+          },
+          dictDefaultMessage: "Foto 3x4 Atual",
+        }}
+        eventHandlers={{
+          init: (dropzone) => {
+            // Remova ou comente as linhas abaixo para que as fotos não sejam exibidas automaticamente
+            // if (FOTO_ATLETA) {
+            //   dropzone.emit("addedfile", { name: FOTO_ATLETA, size: 12345 });
+            //   dropzone.emit("thumbnail", { name: FOTO_ATLETA }, `../uploads/atleta/${FOTO_ATLETA}`);
+            //   dropzone.emit("complete", { name: FOTO_ATLETA });
+            // }
+          },
+        }}
+      />
+    </FormGroup>
+  </Col>
+  <Col md={4}>
+    <FormGroup>
+      <DropzoneComponent
+        config={componentConfig}
+        djsConfig={{
+          ...djsConfig,
+          params: {
+            tipo: "rg",
+            nome: FOTO_RG,
+          },
+          dictDefaultMessage: "Foto do RG do associado",
+        }}
+        eventHandlers={{
+          init: (dropzone) => {
+            // Remova ou comente as linhas abaixo para que as fotos não sejam exibidas automaticamente
+            // if (FOTO_RG) {
+            //   dropzone.emit("addedfile", { name: FOTO_RG, size: 12345 });
+            //   dropzone.emit("thumbnail", { name: FOTO_RG }, `../uploads/rg/${FOTO_RG}`);
+            //   dropzone.emit("complete", { name: FOTO_RG });
+            // }
+          },
+        }}
+      />
+    </FormGroup>
+  </Col>
+  <Col md={4}>
+    <FormGroup>
+      <DropzoneComponent
+        config={componentConfig}
+        djsConfig={{
+          ...djsConfig,
+          params: {
+            tipo: "resp",
+            nome: FOTO_RG_RESPONS,
+          },
+          dictDefaultMessage: "Foto do RG do responsável",
+        }}
+        eventHandlers={{
+          init: (dropzone) => {
+            // Remova ou comente as linhas abaixo para que as fotos não sejam exibidas automaticamente
+            // if (FOTO_RG_RESPONS) {
+            //   dropzone.emit("addedfile", { name: FOTO_RG_RESPONS, size: 12345 });
+            //   dropzone.emit("thumbnail", { name: FOTO_RG_RESPONS }, `../uploads/resp/${FOTO_RG_RESPONS}`);
+            //   dropzone.emit("complete", { name: FOTO_RG_RESPONS });
+            // }
+          },
+        }}
+      />
+    </FormGroup>
+  </Col>
+</Row>
         <Button
           color="default"
           className="btn-cad-ass"

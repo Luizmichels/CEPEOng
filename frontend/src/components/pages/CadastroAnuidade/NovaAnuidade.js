@@ -41,7 +41,7 @@ const ViewNovaAnuidade = () => {
       NotificacaoManager.success('Valor da anuidade atualizado com sucesso!', '', 1000, 'filled');
 
       startTransition(() => {
-        navigate("/anuidade");
+        navigate("/cadastros");
       });
     } catch (error) {
       console.error("Erro ao atualizar valor da anuidade:", error);

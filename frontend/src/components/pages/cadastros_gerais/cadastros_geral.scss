@@ -10,6 +10,14 @@ img {
   color: white;
   // overflow: hidden;
 
+  .logo {
+    width: 22vh !important;
+    height: 22vh !important;
+    padding: 25px;
+    display: block;
+    margin: 0 auto; /* Centraliza horizontalmente */
+  }
+
   a {
     text-decoration: none;
     color: #fff;
