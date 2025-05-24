@@ -1,0 +1,9 @@
+{
+    "watch": [
+        "teste",
+        "src",
+        ".env"
+    ],
+    "ext": "js,ts",
+    "exec": "jest"
+}
