@@ -1,13 +1,7 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes } from "sequelize";
+import sequelize from "../db/conn.js";
 
-class ValorPagamento extends Model {
-  public CD_VALOR_PAGAMENTO!: number;
-  public VALOR!: number;
-}
-
-import sequelize from "../db/conn";
-
-ValorPagamento.init({
+const ValorPagamento = sequelize.define('ValorPagamento', {
   CD_VALOR_PAGAMENTO: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -19,7 +13,6 @@ ValorPagamento.init({
     allowNull: false,
   },
 }, {
-  sequelize,
   tableName: 'VALOR_PAGAMENTO',
 });
 

@@ -1,12 +1,7 @@
-import { DataTypes, Model } from "sequelize"
+import { DataTypes } from "sequelize"
+import sequelize from "../db/conn.js";
 
-class DeficienciaPessoa extends Model {
-    public CD_DEFICIENCIA_PESSOA!: number;
-}
-
-import sequelize from "../db/conn";
-
-DeficienciaPessoa.init({
+const DeficienciaPessoa = sequelize.define('DeficienciaPessoa', {
     CD_DEFICIENCIA_PESSOA: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -14,7 +9,6 @@ DeficienciaPessoa.init({
         primaryKey: true
     }
 }, {
-    sequelize,
     tableName: 'DEFICIENCIA_PESSOA'
 })
 

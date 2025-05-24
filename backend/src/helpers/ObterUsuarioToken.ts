@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Usuario from '../models/usuario';
+import Usuario from '../models/usuario.js';
 
 const ObterUsuarioToken = async (token) => {
     if (!token) {

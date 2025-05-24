@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import usuario from '../controller/UsuarioController.js'
-import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken'
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken.js'
 const routes = Router()
 const { CadastroUsuario, login, login2, DeletarUsuario, BuscarPorID, TodosUsuario, EditarUsuario, EditarNivelAcesso, CadastroTecModali, TodosNivel2, TecnicoModalidade, ObterTecnicoModalidade, EditarTecModali, DeletarTecModali, sendEmail, SolicitarSenhaTemporaria } = usuario
 

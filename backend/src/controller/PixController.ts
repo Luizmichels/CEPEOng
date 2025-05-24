@@ -1,12 +1,12 @@
 // controllers/PixController.js
-import { criarCobrancaPix, gerarQrCodePix, getValidToken } from "../services/pixService"; // Adicionei getValidToken se for usar obterTokenTeste
-import Pagamento from "../models/Pagamentos"
+import { criarCobrancaPix, gerarQrCodePix, getValidToken } from "../services/pixService.js"; // Adicionei getValidToken se for usar obterTokenTeste
+import Pagamento from "../models/Pagamentos.js"
 import { Op } from "sequelize";
 
 // Helpers (verifique os caminhos corretos)
-import ObterUsuarioToken from "../helpers/ObterUsuarioToken";
-import ObterToken from "../helpers/ObterToken";
-import ObterUltimoValor from "../helpers/UltValorMensalidade"; // Verifique se este é o helper correto para o VALOR da anuidae
+import ObterUsuarioToken from "../helpers/ObterUsuarioToken.js";
+import ObterToken from "../helpers/ObterToken.js";
+import ObterUltimoValor from "../helpers/UltValorMensalidade.js"; // Verifique se este é o helper correto para o VALOR da anuidae
 
 export default class PixController {
 

@@ -1,6 +1,6 @@
 import {Router} from 'express';
-import modelidade from '../controller/ModalidadeController';
-import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken';
+import modelidade from '../controller/ModalidadeController.js';
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken.js';
 const routes = Router()
 const { cadastrarModalidade, editarModalidade, listarModalidades, obterModalidade, deletarModalidade } = modelidade
 

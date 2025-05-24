@@ -1,4 +1,4 @@
-import MeioLocomocao from '../models/meio_locomocao';
+import MeioLocomocao from '../models/meio_locomocao.js';
 
 const { create, findAll, findOne, destroy } = MeioLocomocao
 export default class MeioLocomocaoController {

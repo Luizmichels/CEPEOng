@@ -1,4 +1,4 @@
-import Deficiencia from '../models/deficiencia';
+import Deficiencia from '../models/deficiencia.js';
 export default class DeficienciaController {
     // Criando a deficiencia
     static async CadastDeficiencia(req, res) {

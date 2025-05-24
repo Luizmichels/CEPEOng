@@ -1,5 +1,5 @@
 import { genSalt, hash } from 'bcrypt';
-import Usuario from '../models/usuario';
+import Usuario from '../models/usuario.js';
 
 async function createDefaultAdminUser() {
     const NM_USUARIO = 'admin';

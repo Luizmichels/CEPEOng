@@ -1,15 +1,15 @@
-import Usuario from "../models/usuario";
-import TecnicoModalidade from "../models/TecnicoModalidade";
+import Usuario from "../models/usuario.js";
+import TecnicoModalidade from "../models/TecnicoModalidade.js";
 import bcrypt from "bcrypt";
-import { sendMail, sendMailTo } from "../helpers/mail";
-import {EmailValido} from "../helpers/Validacoes"
-import db from "../db/conn";
+import { sendMail, sendMailTo } from "../helpers/mail.js";
+import {EmailValido} from "../helpers/Validacoes.js"
+import db from "../db/conn.js";
 
 // helpers
-import CriarUsuarioToken from "../helpers/CriarUsuarioToken";
-import ObterToken from "../helpers/ObterToken";
-import ObterUsuarioToken from "../helpers/ObterUsuarioToken";
-import AnuidadeService from "../services/AnuidadeService";
+import CriarUsuarioToken from "../helpers/CriarUsuarioToken.js";
+import ObterToken from "../helpers/ObterToken.js";
+import ObterUsuarioToken from "../helpers/ObterUsuarioToken.js";
+import AnuidadeService from "../services/AnuidadeService.js";
 
 export default class UsuarioController {
   // Função para cadastrar o usuário

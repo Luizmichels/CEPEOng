@@ -1,5 +1,5 @@
 // ../controllers/ValorPagamentoController.js
-import ValorPagamento from "../models/ValorPagamento";
+import ValorPagamento from "../models/ValorPagamento.js";
 
 export default class ValorPagamentoController {
 

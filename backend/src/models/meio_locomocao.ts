@@ -1,15 +1,7 @@
-import { DataTypes, Model } from 'sequelize'
+import { DataTypes } from 'sequelize'
+import sequelize from "../db/conn.js";
 
-class MeioLocomocao extends Model {
-    public CD_MEIO_LOCOMOCAO!: number;
-    public NM_MEIO_LOCOMOCAO!: string;
-    public DS_MEIO_LOCOMOCAO!: string;
-}
-
-// Importando a conexão com o banco
-import sequelize from "../db/conn";
-
-MeioLocomocao.init({
+const MeioLocomocao = sequelize.define('MeioLocomocao', {
     CD_MEIO_LOCOMOCAO: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -24,7 +16,6 @@ MeioLocomocao.init({
         type: DataTypes.STRING
     }
 }, {
-    sequelize,
     tableName: 'MEIO_LOCOMOCAO',
 })
 

@@ -1,27 +1,25 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import session from "express-session";
 import cors from 'cors';
-import createDefaultAdminUser from './helpers/CriarUsarioAdim';
 import dotenv from "dotenv";
 import pkg from "body-parser";
-import { readdir } from 'fs/promises';
 import path from 'path';
-import bodyParser from "body-parser";
-
-import conn from "./db/conn";
-// Rotas
-import RotaDeficiencia from './routes/DeficienciaRoutes';
-import RotaUsuario from './routes/UsuarioRoutes';
-import RotaPessoaFisica from './routes/PessoaFisicaRoutes';
-import RotaMeioLocomocao from './routes/MeioLocomocaoRoutes';
-import RotaModalidade from './routes/ModalidadeRoutes';
-import RotaFuncao from './routes/FuncaoRoutes';
-import RotaImagem from './routes/ImagemRoutes';
-import RotaDash from './routes/DashRoutes';
-import RotaValorPag from './routes/ValorPagamentoRoutes';
-import RotaPix from './routes/PixRoutes'
 import { fileURLToPath, pathToFileURL } from 'url';
 import { readdirSync } from 'fs';
+
+import createDefaultAdminUser from './helpers/CriarUsarioAdim.js';
+import conn from "./db/conn.js";
+
+import RotaDeficiencia from './routes/DeficienciaRoutes.js';
+import RotaUsuario from './routes/UsuarioRoutes.js';
+import RotaPessoaFisica from './routes/PessoaFisicaRoutes.js';
+import RotaMeioLocomocao from './routes/MeioLocomocaoRoutes.js';
+import RotaModalidade from './routes/ModalidadeRoutes.js';
+import RotaFuncao from './routes/FuncaoRoutes.js';
+import RotaImagem from './routes/ImagemRoutes.js';
+import RotaDash from './routes/DashRoutes.js';
+import RotaValorPag from './routes/ValorPagamentoRoutes.js';
+import RotaPix from './routes/PixRoutes.js';
 
 const { json, urlencoded } = pkg;
 
@@ -87,7 +85,6 @@ app.use('/pix', RotaPix);
 
 const getTime = (): number => Date.now() / 1000;
 
-// Novas Rotas De Forma dinamica
 async function loaderRoutes(): Promise<void> {
   try {
 
@@ -136,22 +133,19 @@ async function loaderRoutes(): Promise<void> {
   }
 }
 
-await loaderRoutes().catch(console.error).finally(async()=>{
-  // Definindo a porta que o backend vai rodar
-  await conn
-    .sync()
-    // .sync({force: true}) // Apaga todas as tabelas e faz novamente
-    .then(async () => {
-      console.log('Database synchronized');
-      await createDefaultAdminUser();
-      console.log('Default admin user created');
-    })
-    .catch((err) => console.log('Database sync error:', err));
-    
-  });
+await loaderRoutes().catch(console.error);
+
+await conn
+  .sync()
+  .then(async () => {
+    console.log('Database synchronized');
+    await createDefaultAdminUser();
+    console.log('Default admin user created');
+  })
+  .catch((err: unknown) => console.log('Database sync error:', err));
 
 const server = app.listen(PORTA, () => {
-      console.log('Servidor rodando na porta 5000');
-    });
+  console.log('Servidor rodando na porta 5000');
+});
 
 export default server;

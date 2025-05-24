@@ -1,7 +1,7 @@
 // ValorPagamentoRoutes.js
 import {Router} from 'express';
-import ValorPagamento from '../controller/ValorPagamentoController';
-import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken';
+import ValorPagamento from '../controller/ValorPagamentoController.js';
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken.js';
 const routes = Router()
 
 const { inicializarValor, listarValorUnico, atualizarValorUnico } = ValorPagamento;

@@ -1,6 +1,6 @@
 import {Router} from 'express'
-import DeficienciaController from '../controller/DeficienciaController'
-import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken'
+import DeficienciaController from '../controller/DeficienciaController.js'
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken.js'
 
 const routes = Router();
 const { CadastDeficiencia, TodasDeficiencias, BuscarPorID, DeletarDeficiencias, EditarDeficiencias } = DeficienciaController

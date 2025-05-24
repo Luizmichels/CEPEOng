@@ -1,10 +1,10 @@
-import PessoaFisica from "../models/pessoa_fisica";
+import PessoaFisica from "../models/pessoa_fisica.js";
 import fs from "fs";
 import { mkdir } from "fs/promises";
-import Deficiencia from "../models/deficiencia";
-import DeficienciaPessoa from "../models/DeficienciaPessoa";
-import AtletaModalidade from "../models/AtletaModalidade";
-import db from "../db/conn";
+import Deficiencia from "../models/deficiencia.js";
+import DeficienciaPessoa from "../models/DeficienciaPessoa.js";
+import AtletaModalidade from "../models/AtletaModalidade.js";
+import db from "../db/conn.js";
 
 const { existsSync, copyFileSync, realpathSync } = fs;
 
@@ -15,14 +15,14 @@ import {
   formatarCPF,
   formatarRG,
   formatarCEP,
-} from "../helpers/FormatarDadosPessoa";
+} from "../helpers/FormatarDadosPessoa.js";
 import {
   EmailValido,
   cpfValido,
   diferencaAnos,
-} from "../helpers/Validacoes";
-import ObterToken from "../helpers/ObterToken";
-import ObterUsuarioToken from "../helpers/ObterUsuarioToken";
+} from "../helpers/Validacoes.js";
+import ObterToken from "../helpers/ObterToken.js";
+import ObterUsuarioToken from "../helpers/ObterUsuarioToken.js";
 
 export default class PessoaFisicaController {
   static async CadastImagens(req, res) {

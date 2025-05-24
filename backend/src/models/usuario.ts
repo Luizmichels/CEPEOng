@@ -1,18 +1,9 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from "../db/conn.js";
 import Modalidade from "./modalidade.js";
 import TecnicoModalidade from "./TecnicoModalidade.js";
 
-class Usuario extends Model {
-  public CD_USUARIO!: number;
-  public NM_USUARIO!: string;
-  public SENHA!: string;
-  public readonly NIVEL_ACESSO!: number;
-}
-
-
-
-Usuario.init({
+const Usuario = sequelize.define('Usuario', {
   CD_USUARIO: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -36,8 +27,7 @@ Usuario.init({
     allowNull: false,
     defaultValue: 1,
   },
-},{
-  sequelize,
+}, {
   tableName: 'USUARIO',
 });
 

@@ -1,7 +1,7 @@
 import {Router} from 'express';
 
 import MeioLocomocaoController from '../controller/MeioLocomocaoController.js'
-import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken'
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken.js'
 const routes = Router()
 
 routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), MeioLocomocaoController.CadastroMeioLocomocao)

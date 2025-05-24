@@ -1,15 +1,7 @@
-import { DataTypes, Model } from 'sequelize'
+import { DataTypes } from 'sequelize'
+import sequelize from "../db/conn.js";
 
-class Funcao extends Model {
-  public CD_FUNCAO!: Number;
-  public NM_FUNCAO!: string;
-  public DS_FUNCAO!: string;
-}
-
-// Importando a conexão com o banco
-import sequelize from "../db/conn";
-
-Funcao.init({
+const Funcao = sequelize.define('Funcao', {
   CD_FUNCAO: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -23,8 +15,7 @@ Funcao.init({
   DS_FUNCAO: {
     type: DataTypes.STRING,
   }
-},{
-  sequelize,
+}, {
   tableName: 'FUNCAO',
 });
 

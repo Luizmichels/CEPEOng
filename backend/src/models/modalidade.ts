@@ -1,15 +1,7 @@
-import { DataTypes, Model } from 'sequelize'
+import { DataTypes } from 'sequelize'
+import sequelize from "../db/conn.js";
 
-class Modalidade extends Model {
-    public CD_MODALIDADE!: number;
-    public NM_MODALIDADE!: string;
-    public NOMENCLATURA!: string;
-}
-
-// Importando a conexão com o banco
-import sequelize from "../db/conn";
-
-Modalidade.init({
+const Modalidade = sequelize.define('Modalidade', {
     CD_MODALIDADE: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -24,7 +16,6 @@ Modalidade.init({
         type: DataTypes.STRING
     }
 }, {
-    sequelize,
     tableName: 'MODALIDADE',
 })
 

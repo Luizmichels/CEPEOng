@@ -1,5 +1,5 @@
 // ../controllers/FuncaoController.js
-import Funcao from '../models/funcao';
+import Funcao from '../models/funcao.js';
 
 export default class FuncaoController {
     // Criar uma nova função

@@ -1,7 +1,7 @@
 // routes/pix.routes.js
 import express from "express";
-import PixController from "../controller/PixController";
-import { ChecarToken } from "../helpers/VerificarToken";
+import PixController from "../controller/PixController.js";
+import { ChecarToken } from "../helpers/VerificarToken.js";
 
 const router = express.Router();
 

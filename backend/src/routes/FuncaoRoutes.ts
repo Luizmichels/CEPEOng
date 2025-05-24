@@ -1,5 +1,5 @@
-import FuncaoController from '../controller/FuncaoController';
-import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken';
+import FuncaoController from '../controller/FuncaoController.js';
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken.js';
 import {Router} from 'express';
 const routes = Router()
 

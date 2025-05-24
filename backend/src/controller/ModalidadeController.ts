@@ -1,4 +1,4 @@
-import Modalidade from '../models/modalidade';
+import Modalidade from '../models/modalidade.js';
 
 export default class ModalidadeController {
     // criar uma nova modalidade

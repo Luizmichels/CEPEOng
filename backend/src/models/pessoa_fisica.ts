@@ -1,69 +1,16 @@
-import { DataTypes, Model } from "sequelize";
-
-class PessoaFisica extends Model{
-  public CD_PESSOA_FISICA!: number;
-  public NM_PESSOA!: string;
-  public NR_CELULAR!: string;
-  public NR_TELEFONE!: string;
-  public SEXO!: string;
-  public DT_NASCIMENTO!: Date;
-  public ESTADO_CIVIL!: string;
-  public NATURALIDADE!: string;
-  public EMAIL!: string;
-  public MEIO_LOCOMOCAO!: string;
-  public ASSISTENCIA!: string;
-  public NM_PAI!: string;
-  public CELULAR_PAI!: string;
-  public NM_MAE!: string;
-  public CELULAR_MAE!: string;
-  public EMAIL_RESPONS!: string;
-  public NATURALIDADE_RESPONS!: string;
-  public PESO!: number;
-  public ALTURA!: number;
-  public GP_SANGUE!: string;
-  public RENDA!: string;
-  public ESCOLARIDADE!: string;
-  public INSTITUICAO!: string;
-  public MATRICULA!: string;
-  public TELEFONE_ESCOLA!: string;
-  public CPF!: string;
-  public RG!: string;
-  public UF_RG!: string;
-  public DT_EMISSAO_RG!: Date;
-  public NR_PASSAPORTE!: string;
-  public CPF_RESPONS!: string;
-  public RG_RESPONS!: string;
-  public UF_RG_RESPONS!: string;
-  public DT_EMISSAO_RG_RESPONS!: string;
-  public NR_PASSAPORTE_RESPONS!: string;
-  public CEP!: string;
-  public ENDERECO!: string;
-  public NR_ENDERECO!: string;
-  public DS_ENDERECO!: string;
-  public CLASSIF_FUNC!: string;
-  public PROVA!: string;
-  public TAMANHO_CAMISA!: string;
-  public TAMANHO_AGASALHO!: string;
-  public TAMANHO_BERM_CAL!: string;
-  public NR_CALCADO!: string;
-  public FOTO_ATLETA!: string;
-  public FOTO_RG!: string;
-  public FOTO_RG_RESPONS!: string;
-}
-
-// Importando a conexão com o banco
-import sequelize from "../db/conn";
+import { DataTypes } from "sequelize";
+import sequelize from "../db/conn.js";
 
 // Importando as outras tabelas
-import deficiencia from "./deficiencia";
-import funcao from "./funcao";
-import MeioLocomocao from "./meio_locomocao";
-import modalidade from "./modalidade";
-import DeficienciaPessoa from "./DeficienciaPessoa";
-import Usuario from "./usuario";
-import AtletaModalidade from "./AtletaModalidade";
+import deficiencia from "./deficiencia.js";
+import funcao from "./funcao.js";
+import MeioLocomocao from "./meio_locomocao.js";
+import modalidade from "./modalidade.js";
+import DeficienciaPessoa from "./DeficienciaPessoa.js";
+import Usuario from "./usuario.js";
+import AtletaModalidade from "./AtletaModalidade.js";
 
-PessoaFisica.init({
+const PessoaFisica = sequelize.define('PessoaFisica', {
   CD_PESSOA_FISICA: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -244,7 +191,6 @@ PessoaFisica.init({
     type: DataTypes.TEXT,
   },
 }, {
-  sequelize,
   tableName: 'PESSOA_FISICA',
 });
 

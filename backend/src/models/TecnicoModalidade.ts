@@ -1,12 +1,7 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes } from "sequelize";
+import sequelize from "../db/conn.js";
 
-class TecnicoModalidade extends Model{
-  public CD_TECNICO_MODALIDADE!: number;
-}
-
-import sequelize from "../db/conn";
-
-TecnicoModalidade.init({
+const TecnicoModalidade = sequelize.define('TecnicoModalidade', {
   CD_TECNICO_MODALIDADE: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -14,7 +9,6 @@ TecnicoModalidade.init({
     primaryKey: true,
   },
 }, {
-  sequelize,
   tableName: 'TECNICO_MODALIDADE',
 });
 

@@ -1,23 +1,8 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes } from "sequelize";
+import sequelize from "../db/conn.js";
+import Usuario from "./usuario.js";
 
-class Pagamento extends Model {
-  public CD_PAGAMENTO!: number;
-  public TXID_GERENCIANET!: Text;
-  public VALOR!: number;
-  public NUMERO_PARCELA!: number;
-  public TOTAL_PARCELA!: number;
-  public DT_CRIACAO!: Date;
-  public DT_PAGAMENTO!: Date | null;
-  public STATUS!: Text | null;
-  public LOC_ID_GERENCIANET!: number | null;
-  public PIX_COPIA_E_COLA!: string | null;
-}
-
-import sequelize from "../db/conn";
-
-import Usuario from "./usuario";
-
-Pagamento.init({
+const Pagamento = sequelize.define('Pagamento', {
   CD_PAGAMENTO: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -61,7 +46,6 @@ Pagamento.init({
       allowNull: true,
   }
 }, {
-  sequelize,
   tableName: 'PAGAMENTO',
 });
 

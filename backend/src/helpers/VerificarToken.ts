@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
-import ObterToken from '../helpers/ObterToken';
-import Usuario from '../models/usuario';
+import ObterToken from './ObterToken.js';
+import Usuario from '../models/usuario.js';
 
 export const ChecarToken = (req, res, next) => {
     const token = ObterToken(req);

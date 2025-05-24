@@ -1,4 +1,4 @@
-import db from "../db/conn";
+import db from "../db/conn.js";
 
 export default class DashController {
 

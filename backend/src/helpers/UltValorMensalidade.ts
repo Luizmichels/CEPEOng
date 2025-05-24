@@ -1,5 +1,5 @@
 // src/helpers/obterUltimoValorHelper.js
-import ValorPagamento from "../models/ValorPagamento";
+import ValorPagamento from "../models/ValorPagamento.js";
 
 async function ObterUltimoValor() {
   try {

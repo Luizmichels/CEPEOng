@@ -1,9 +1,9 @@
 import {Router} from 'express';
-import pessoa from "../controller/PessoaFisicaController";
+import pessoa from "../controller/PessoaFisicaController.js";
 
 // helpers
-import { imageUpload } from "../helpers/imagem-upload";
-import { ChecarToken, verificarNivelAcesso } from "../helpers/VerificarToken";
+import { imageUpload } from "../helpers/imagem-upload.js";
+import { ChecarToken, verificarNivelAcesso } from "../helpers/VerificarToken.js";
 const routes = Router()
 const { CadastPessoaFisica, editarPessoaFisica, BuscarPorID, DadosAssociados, TodosCadastratos, TodosCadastratosTec, DadosFormatados, excluirPessoaId, CadastImagens, TodasAssociados, BuscarPorCdUsuario } = pessoa
 

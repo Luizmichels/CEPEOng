@@ -1,6 +1,6 @@
-import Pagamento from "../models/Pagamentos";
-import { criarCobrancaPix, gerarQrCodePix } from "./pixService";
-import ObterUltimoValor from "../helpers/UltValorMensalidade";
+import Pagamento from "../models/Pagamentos.js";
+import { criarCobrancaPix, gerarQrCodePix } from "./pixService.js";
+import ObterUltimoValor from "../helpers/UltValorMensalidade.js";
 
 const ANO_EM_MILISSEGUNDOS = 365 * 24 * 60 * 60 * 1000; // Aproximação
 

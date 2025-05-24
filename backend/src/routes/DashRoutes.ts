@@ -1,6 +1,6 @@
 import {Router} from 'express';
-import DashController from "../controller/DashController";
-import { ChecarToken,verificarNivelAcesso } from "../helpers/VerificarToken";
+import DashController from "../controller/DashController.js";
+import { ChecarToken,verificarNivelAcesso } from "../helpers/VerificarToken.js";
 
 const routes = Router();
 
