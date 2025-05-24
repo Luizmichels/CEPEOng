@@ -1,7 +1,5 @@
 const Deficiencia = require('../models/deficiencia').default;
-
 module.exports = class DeficienciaController {
-
     // Criando a deficiencia
     static async CadastDeficiencia(req, res) {
 
