@@ -1,5 +1,5 @@
-const multer = require("multer")
-const path = require("path")
+import multer from "multer";
+import path from "path";
 
 // Distino para aguardar as imagens
 const imageStorage = multer.diskStorage({
@@ -22,7 +22,7 @@ const imageStorage = multer.diskStorage({
     },
 });
 
-const imageUpload = multer({
+export const imageUpload = multer({
     storage: imageStorage,
     fileFilter(req, file, cb) {
         if (!file.originalname.match(/\.(png|jpg)$/)) {
@@ -32,5 +32,3 @@ const imageUpload = multer({
         cb(undefined, true);
     },
 });
-
-module.exports = { imageUpload }

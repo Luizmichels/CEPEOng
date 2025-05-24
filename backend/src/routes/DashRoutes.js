@@ -1,7 +1,8 @@
-const routes = require('express').Router();
-const DashController = require("../controller/DashController")
+import {Router} from 'express';
+import DashController from "../controller/DashController";
+import { ChecarToken,verificarNivelAcesso } from "../helpers/VerificarToken";
 
-const { ChecarToken,verificarNivelAcesso } = require("../helpers/VerificarToken");
+const routes = Router();
 
 routes.get('/totalAssociados', ChecarToken, verificarNivelAcesso(3), DashController.getTotalAssociados)
 routes.get('/modalidades', ChecarToken, verificarNivelAcesso(3), DashController.getModalidades)

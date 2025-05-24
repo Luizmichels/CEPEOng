@@ -1,6 +1,6 @@
-const Modalidade = require('../models/modalidade').default;
+import Modalidade from '../models/modalidade';
 
-module.exports = class ModalidadeController {
+export default class ModalidadeController {
     // criar uma nova modalidade
     static async cadastrarModalidade(req, res) {
         try {

@@ -1,10 +1,10 @@
 import Pagamento from "../models/Pagamentos";
 import { criarCobrancaPix, gerarQrCodePix } from "./pixService";
-const ObterUltimoValor = require("../helpers/UltValorMensalidade");
+import ObterUltimoValor from "../helpers/UltValorMensalidade";
 
 const ANO_EM_MILISSEGUNDOS = 365 * 24 * 60 * 60 * 1000; // Aproximação
 
-class AnuidadeService {
+export default class AnuidadeService {
 
   static async verificarECriarCobrancaAnual(userId) {
     const numericUserId = parseInt(userId, 10);
@@ -66,6 +66,4 @@ class AnuidadeService {
       console.error(`Erro GERAL no serviço ao verificar/criar anuidade para usuário ${numericUserId}:`, error.response?.data || error.message || error);
     }
   }
-}
-
-module.exports = AnuidadeService;
+};

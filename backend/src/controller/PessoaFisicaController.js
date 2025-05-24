@@ -1,32 +1,30 @@
-const PessoaFisica = require("../models/pessoa_fisica").default;
-const ExcelJS = require("exceljs");
-const fs = require("fs");
-const { mkdir } = require("fs/promises");
-const Deficiencia = require("../models/deficiencia").default;
-const DeficienciaPessoa = require("../models/DeficienciaPessoa").default;
-const AtletaModalidade = require("../models/AtletaModalidade").default;
+import PessoaFisica from "../models/pessoa_fisica";
+import fs from "fs";
+import { mkdir } from "fs/promises";
+import Deficiencia from "../models/deficiencia";
+import DeficienciaPessoa from "../models/DeficienciaPessoa";
+import AtletaModalidade from "../models/AtletaModalidade";
+import db from "../db/conn";
 
-const db = require("../db/conn").default;
 const { existsSync, copyFileSync, realpathSync } = fs;
 
 // helpers
-const {
+import {
   formatarData,
   formatarTelefone,
   formatarCPF,
   formatarRG,
   formatarCEP,
-} = require("../helpers/FormatarDadosPessoa");
-const {
+} from "../helpers/FormatarDadosPessoa";
+import {
   EmailValido,
   cpfValido,
   diferencaAnos,
-} = require("../helpers/Validacoes");
-const ObterToken = require("../helpers/ObterToken");
-const ObterUsuarioToken = require("../helpers/ObterUsuarioToken");
-const { Console } = require("console");
+} from "../helpers/Validacoes";
+import ObterToken from "../helpers/ObterToken";
+import ObterUsuarioToken from "../helpers/ObterUsuarioToken";
 
-module.exports = class PessoaFisicaController {
+export default class PessoaFisicaController {
   static async CadastImagens(req, res) {
     const file = req.file;
     const { tipo, nome } = req.body;

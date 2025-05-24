@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import session from "express-session";
 import cors from 'cors';
 import createDefaultAdminUser from './helpers/CriarUsarioAdim';
@@ -20,15 +20,21 @@ import RotaImagem from './routes/ImagemRoutes';
 import RotaDash from './routes/DashRoutes';
 import RotaValorPag from './routes/ValorPagamentoRoutes';
 import RotaPix from './routes/PixRoutes'
+import { fileURLToPath, pathToFileURL } from 'url';
+import { readdirSync } from 'fs';
 
 const { json, urlencoded } = pkg;
 
 // Iniciando o express
 const app = express();
 console.log('Express initialized');
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __filename = fileURLToPath(import.meta.url);
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = path.dirname(__filename);
 
 dotenv.config({
-  path: [path.join(__dirname, "../.env"), path.join(__dirname, ".env")],
+  path: [path.join(__dirname, "../../.env"), path.join(__dirname, ".env")],
 });
 
 const { origin, /* pass, */ secret, nome, debug, PORTA, limit } = process.env;
@@ -82,36 +88,44 @@ app.use('/pix', RotaPix);
 const getTime = (): number => Date.now() / 1000;
 
 // Novas Rotas De Forma dinamica
-async function loadRoutes(): Promise<void> {
-  // Adicionando anotação de tipo para indicar que a função retorna uma promessa que não resolve um valor específico
+async function loaderRoutes(): Promise<void> {
   try {
-    const files: string[] = await readdir(path.join(__dirname, "routes")); // Tipando `files` como um array de strings
-    const time = getTime();
-    const p: Array<Promise<void>> = files.map(
-      // eslint-disable-next-line @typescript-eslint/promise-function-async
-      (file: string) =>
-        new Promise((resolve) => {
-          setTimeout(async () => {
-            const modulePath: string = path.join(__dirname, "routes", file); // Tipando `modulePath` como uma string
-            const { default: module } = await import(modulePath); // Tipando `module` como um `RequestListener` (função de callback do servidor HTTP)
-            if (debug === "true")
-              console.debug(
-                file.replace(/\.(js|ts)$/, ""),
-                (getTime() - time).toFixed(2)
-              );
 
-            app.use(`/${file.replace(/\.(js|ts)$/, "")}`, module);
-            resolve();
-          }, 10);
-        })
-      // Tipando `file` como uma string e `p` como um array de promessas que não resolvem valores específicos
-    );
+    const files: string[] = readdirSync(path.join(__dirname, "routes")) as string[];
+
+    const time = getTime();
+    const p = files.map(async (file: string) => {
+      try {
+        const modulePath: string = path.join(__dirname, "routes", file);
+
+        const moduleUrl = pathToFileURL(modulePath).href;
+
+        const { default: module } = await import(moduleUrl);
+
+        if (
+          typeof module === "function" &&
+          module.name != null &&
+          module.stack != null
+        ) {
+          app.use(
+            `/api/${file
+              .replace(/\.(js|ts)$/, "")
+              .replace(/\\|\//gi, "/")}`,
+            module
+          );
+        }
+      } catch (error) {
+        console.error("Erro ao carregar rota:", error);
+      }
+    });
 
     await Promise.all(p);
 
     if (debug === "true")
       console.debug("rotas 😼", (getTime() - time).toFixed(2));
-
+    else {
+      console.debug = () => {};
+    }
     app.use((req, res) => {
       // Tipando `req` e `res` como `any` aqui, mas o ideal seria tipá-los corretamente
       res.sendStatus(404);
@@ -122,25 +136,22 @@ async function loadRoutes(): Promise<void> {
   }
 }
 
-loadRoutes().catch(console.error).finally(()=>{
+await loaderRoutes().catch(console.error).finally(async()=>{
   // Definindo a porta que o backend vai rodar
-  conn
+  await conn
     .sync()
     // .sync({force: true}) // Apaga todas as tabelas e faz novamente
     .then(async () => {
       console.log('Database synchronized');
       await createDefaultAdminUser();
       console.log('Default admin user created');
-
-      app.listen(PORTA, () => {
-        console.log('Servidor rodando na porta 5000');
-      });
     })
     .catch((err) => console.log('Database sync error:', err));
+    
+  });
 
-});
+const server = app.listen(PORTA, () => {
+      console.log('Servidor rodando na porta 5000');
+    });
 
-// app.use((_, res) => {
-//   res.status(404).send("Nada Aqui!")
-// });
-
+export default server;

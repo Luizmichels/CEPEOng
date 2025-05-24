@@ -1,7 +1,8 @@
-const routes = require('express').Router()
+import {Router} from 'express';
 
-const MeioLocomocaoController = require('../controller/MeioLocomocaoController.js').default
-const { ChecarToken, verificarNivelAcesso } = require('../helpers/VerificarToken')
+import MeioLocomocaoController from '../controller/MeioLocomocaoController.js'
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken'
+const routes = Router()
 
 routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), MeioLocomocaoController.CadastroMeioLocomocao)
 routes.delete('/deletar/:CD_MEIO_LOCOMOCAO', ChecarToken, verificarNivelAcesso(3), MeioLocomocaoController.DeletarMeioLocomocao)
@@ -10,4 +11,4 @@ routes.get('/obter/:CD_MEIO_LOCOMOCAO', ChecarToken, verificarNivelAcesso(3), Me
 routes.get('/listar', ChecarToken, verificarNivelAcesso(1), MeioLocomocaoController.TodosMeios)
 
 
-module.exports = routes
+export default routes

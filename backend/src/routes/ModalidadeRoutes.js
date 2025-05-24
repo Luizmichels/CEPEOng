@@ -1,11 +1,13 @@
-const routes = require('express').Router()
-const ModalidadeController = require('../controller/ModalidadeController');
-const { ChecarToken, verificarNivelAcesso } = require('../helpers/VerificarToken')
+import {Router} from 'express';
+import modelidade from '../controller/ModalidadeController';
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken';
+const routes = Router()
+const { cadastrarModalidade, editarModalidade, listarModalidades, obterModalidade, deletarModalidade } = modelidade
 
-routes.post('/cadastro', ChecarToken,verificarNivelAcesso(3), ModalidadeController.cadastrarModalidade);
-routes.patch('/editar/:CD_MODALIDADE', ChecarToken, verificarNivelAcesso(3), ModalidadeController.editarModalidade);
-routes.get('/listar', ChecarToken, verificarNivelAcesso(1), ModalidadeController.listarModalidades);
-routes.get('/obter/:CD_MODALIDADE', ChecarToken, verificarNivelAcesso(3), ModalidadeController.obterModalidade);
-routes.delete('/deletar/:CD_MODALIDADE', ChecarToken, verificarNivelAcesso(3), ModalidadeController.deletarModalidade);
+routes.post('/cadastro', ChecarToken,verificarNivelAcesso(3), cadastrarModalidade);
+routes.patch('/editar/:CD_MODALIDADE', ChecarToken, verificarNivelAcesso(3), editarModalidade);
+routes.get('/listar', ChecarToken, verificarNivelAcesso(1), listarModalidades);
+routes.get('/obter/:CD_MODALIDADE', ChecarToken, verificarNivelAcesso(3), obterModalidade);
+routes.delete('/deletar/:CD_MODALIDADE', ChecarToken, verificarNivelAcesso(3), deletarModalidade);
 
-module.exports = routes;    
+export default routes;    

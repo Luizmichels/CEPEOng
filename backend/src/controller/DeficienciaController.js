@@ -1,5 +1,5 @@
-const Deficiencia = require('../models/deficiencia').default;
-module.exports = class DeficienciaController {
+import Deficiencia from '../models/deficiencia';
+export default class DeficienciaController {
     // Criando a deficiencia
     static async CadastDeficiencia(req, res) {
 

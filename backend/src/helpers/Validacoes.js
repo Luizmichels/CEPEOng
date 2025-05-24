@@ -1,23 +1,23 @@
-const validator = require('validator')
+import validator from 'validator';
 
-function EmailValido(email) {
+export function EmailValido(email) {
     return validator.isEmail(email);
 }
 
 // Remove todos os pontos (.) e traços (-)
-function cleanCPF(cpf) {
+export function cleanCPF(cpf) {
     return cpf.replace(/[.\-]/g, '');
 }
 
 //Validação se o CPF valido
-function cpfValido(cpf) {
+export function cpfValido(cpf) {
     // Limpa o CPF antes de validar
     const cleanedCPF = cleanCPF(cpf);
     return validator.isTaxID(cleanedCPF, 'pt-BR');
 }
 
 // Função para calcular a diferença em anos entre duas datas
-function diferencaAnos(dataNascimento) {
+export function diferencaAnos(dataNascimento) {
     // Convertendo a data de nascimento para um objeto Date
     const dtNascimento = new Date(dataNascimento);
     const dtAtual = new Date();
@@ -34,10 +34,4 @@ function diferencaAnos(dataNascimento) {
     }
 
     return diffYears;
-}
-
-module.exports = {
-    EmailValido,
-    cpfValido,
-    diferencaAnos
 }

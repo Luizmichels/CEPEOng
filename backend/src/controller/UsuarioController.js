@@ -1,18 +1,17 @@
-const Usuario = require("../models/usuario").default;
-const TecnicoModalidade = require("../models/TecnicoModalidade").default;
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { sendMail, sendMailTo } = require("../helpers/mail");
-const {EmailValido} = require("../helpers/Validacoes")
-const db = require("../db/conn").default;
+import Usuario from "../models/usuario";
+import TecnicoModalidade from "../models/TecnicoModalidade";
+import bcrypt from "bcrypt";
+import { sendMail, sendMailTo } from "../helpers/mail";
+import {EmailValido} from "../helpers/Validacoes"
+import db from "../db/conn";
 
 // helpers
-const CriarUsuarioToken = require("../helpers/CriarUsuarioToken");
-const ObterToken = require("../helpers/ObterToken");
-const ObterUsuarioToken = require("../helpers/ObterUsuarioToken");
-const AnuidadeService = require("../services/AnuidadeService");
+import CriarUsuarioToken from "../helpers/CriarUsuarioToken";
+import ObterToken from "../helpers/ObterToken";
+import ObterUsuarioToken from "../helpers/ObterUsuarioToken";
+import AnuidadeService from "../services/AnuidadeService";
 
-module.exports = class UsuarioController {
+export default class UsuarioController {
   // Função para cadastrar o usuário
   static async CadastroUsuario(req, res) {
     const { NM_USUARIO, SENHA, EMAIL } = req.body;

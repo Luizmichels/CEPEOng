@@ -18,4 +18,4 @@ async function ObterUltimoValor() {
   }
 }
 
-module.exports = ObterUltimoValor;
+export default ObterUltimoValor;

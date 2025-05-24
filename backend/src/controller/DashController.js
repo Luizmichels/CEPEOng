@@ -1,11 +1,6 @@
-const PessoaFisica = require("../models/pessoa_fisica").default;
-const Deficiencia = require("../models/deficiencia").default;
-const DeficienciaPessoa = require("../models/DeficienciaPessoa").default;
-const AtletaModalidade = require("../models/AtletaModalidade").default;
+import db from "../db/conn";
 
-const db = require("../db/conn").default;
-
-module.exports = class DashController {
+export default class DashController {
 
   static async getTotalAssociados(req, res) {
     try {

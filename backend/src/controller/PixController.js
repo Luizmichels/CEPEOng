@@ -4,9 +4,9 @@ import Pagamento from "../models/Pagamentos"
 import { Op } from "sequelize";
 
 // Helpers (verifique os caminhos corretos)
-const ObterUsuarioToken = require("../helpers/ObterUsuarioToken");
-const ObterToken = require("../helpers/ObterToken");
-const ObterUltimoValor = require("../helpers/UltValorMensalidade"); // Verifique se este é o helper correto para o VALOR da anuidade
+import ObterUsuarioToken from "../helpers/ObterUsuarioToken";
+import ObterToken from "../helpers/ObterToken";
+import ObterUltimoValor from "../helpers/UltValorMensalidade"; // Verifique se este é o helper correto para o VALOR da anuidae
 
 export default class PixController {
 

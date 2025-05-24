@@ -1,6 +1,7 @@
-const routes = require('express').Router();
 import FuncaoController from '../controller/FuncaoController';
 import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken';
+import {Router} from 'express';
+const routes = Router()
 
 const { cadastrarFuncao, listarFuncoes, obterFuncao, atualizarFuncao, deletarFuncao } = FuncaoController;
 

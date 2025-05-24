@@ -1,10 +1,20 @@
 import fs from "fs";
-import path from "path";
+import path, { dirname } from "path";
 import https from "https";
 import axios from 'axios';
+import { fileURLToPath } from "url";
+import dotenv from "dotenv";
 
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __filename = fileURLToPath(import.meta.url);
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
+const __dirname = path.dirname(__filename);
+dotenv.config({
+  path: [path.join(__dirname, "../../../.env"), path.join(__dirname, ".env")],
+});
+console.log(__dirname)
 const cert = fs.readFileSync(
-  path.resolve(__dirname, `../certs/${process.env.GN_CERT_H}`)
+  path.resolve(__dirname, `../../../certs/${process.env.GN_CERT_H}`)
 );
 
 const agent = new https.Agent({

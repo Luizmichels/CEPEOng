@@ -4,14 +4,13 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-
   "scripts": {
     "start": "nodemon src/index.ts",
     "build": "swc src teste -d build",
     "build-dev": "npm run build && node --inspect build/src/index.js",
-    "dev": "nodemon --ext ts --exec \"npm run built-dev\"",
-    "test": "npm jest",
-    "test:w": "nodemon --config nodemon.jest.test.json --exec jest"
+    "dev": "nodemon --ext ts,js --exec \"npm run build-dev\"",
+    "test": "npm run build && npx mocha build/teste/**/*.test.js --no-config --exit",
+    "test:w": "nodemon --config nodemon.mocha.test.json"
   },
   "keywords": [],
   "author": "André Luiz Michels da Silva, Gustavo Antonio da Costa Pereira",
@@ -30,7 +29,7 @@
     "express-session": "^1.18.0",
     "gn-api-sdk-node": "^3.0.4",
     "jsonwebtoken": "^9.0.2",
-    "multer": "^1.4.5-lts.1",
+    "multer": "^2.0.0",
     "mysql2": "^3.10.2",
     "nodemailer": "^6.9.14",
     "nodemon": "^3.1.0",
@@ -39,22 +38,19 @@
     "validator": "^13.12.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.27.1",
-    "@babel/preset-env": "^7.27.2",
-    "@babel/preset-typescript": "^7.27.1",
+    "@swc/cli": "^0.7.7",
+    "@swc/core": "^1.11.24",
+    "@types/chai": "^5.0.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/express-session": "^1.18.0",
+    "@types/mocha": "^10.0.9",
     "@types/node": "^20.14.10",
     "@types/nodemailer": "^6.4.15",
-    "@types/jest": "^29.5.14",
     "@types/supertest": "^6.0.3",
-    "@swc/cli": "^0.7.7",
-    "@swc/core": "^1.11.24",
-    "babel-jest": "^29.7.0",
+    "chai": "4.5.0",
+    "mocha": "^10.7.3",
     "supertest": "^7.1.1",
-    "jest": "^29.7.0",
-    "ts-jest": "^29.3.4",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.3"
   }

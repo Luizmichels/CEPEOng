@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const ObterToken = require('../helpers/ObterToken');
-const Usuario = require('../models/usuario').default;
+import jwt from 'jsonwebtoken';
+import ObterToken from '../helpers/ObterToken';
+import Usuario from '../models/usuario';
 
-const ChecarToken = (req, res, next) => {
+export const ChecarToken = (req, res, next) => {
     const token = ObterToken(req);
     if (!token) {
         return res.status(401).json({ message: 'Token de autorização ausente' });
@@ -16,7 +16,7 @@ const ChecarToken = (req, res, next) => {
     }
 };
 
-const verificarNivelAcesso = (nivelRequerido) => {
+export const verificarNivelAcesso = (nivelRequerido) => {
     return async (req, res, next) => {
         const token = ObterToken(req);
         if (!token) {
@@ -35,9 +35,4 @@ const verificarNivelAcesso = (nivelRequerido) => {
             return res.status(400).json({ message: 'Token inválido!' });
         }
     }
-};
-
-module.exports = {
-    ChecarToken,
-    verificarNivelAcesso
 };

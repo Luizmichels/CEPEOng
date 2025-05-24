@@ -1,4 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
+import sequelize from "../db/conn.js";
+import Modalidade from "./modalidade.js";
+import TecnicoModalidade from "./TecnicoModalidade.js";
 
 class Usuario extends Model {
   public CD_USUARIO!: number;
@@ -7,9 +10,6 @@ class Usuario extends Model {
   public readonly NIVEL_ACESSO!: number;
 }
 
-import sequelize from "../db/conn";
-import Modalidade from "./modalidade";
-import TecnicoModalidade from "./TecnicoModalidade";
 
 
 Usuario.init({

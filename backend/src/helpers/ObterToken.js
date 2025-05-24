@@ -5,4 +5,4 @@ const ObterToken = (req) => {
     return token;
 };
 
-module.exports = ObterToken;
+export default ObterToken;

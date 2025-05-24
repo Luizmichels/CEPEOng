@@ -1,13 +1,15 @@
-const routes = require('express').Router()
+import {Router} from 'express'
+import DeficienciaController from '../controller/DeficienciaController'
+import { ChecarToken, verificarNivelAcesso } from '../helpers/VerificarToken'
 
-const DeficienciaController = require('../controller/DeficienciaController')
-const { ChecarToken, verificarNivelAcesso } = require('../helpers/VerificarToken')
+const routes = Router();
+const { CadastDeficiencia, TodasDeficiencias, BuscarPorID, DeletarDeficiencias, EditarDeficiencias } = DeficienciaController
 
-routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), DeficienciaController.CadastDeficiencia)
-routes.get('/listar', ChecarToken, verificarNivelAcesso(1), DeficienciaController.TodasDeficiencias)
-routes.get('/obter/:CD_DEFICIENCIA', ChecarToken, verificarNivelAcesso(3), DeficienciaController.BuscarPorID)
-routes.delete('/deletar/:CD_DEFICIENCIA', ChecarToken, verificarNivelAcesso(3), DeficienciaController.DeletarDeficiencias)
-routes.patch('/editar/:CD_DEFICIENCIA', ChecarToken, verificarNivelAcesso(3), DeficienciaController.EditarDeficiencias)
+routes.post('/cadastro', ChecarToken, verificarNivelAcesso(3), CadastDeficiencia)
+routes.get('/listar', ChecarToken, verificarNivelAcesso(1), TodasDeficiencias)
+routes.get('/obter/:CD_DEFICIENCIA', ChecarToken, verificarNivelAcesso(3), BuscarPorID)
+routes.delete('/deletar/:CD_DEFICIENCIA', ChecarToken, verificarNivelAcesso(3), DeletarDeficiencias)
+routes.patch('/editar/:CD_DEFICIENCIA', ChecarToken, verificarNivelAcesso(3), EditarDeficiencias)
 
 
-module.exports = routes
+export default routes

@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const Usuario = require('../models/usuario').default;
+import jwt from 'jsonwebtoken';
+import Usuario from '../models/usuario';
 
 const ObterUsuarioToken = async (token) => {
     if (!token) {
@@ -19,4 +19,4 @@ const ObterUsuarioToken = async (token) => {
     return usuario;
 };
 
-module.exports = ObterUsuarioToken;
+export default ObterUsuarioToken;

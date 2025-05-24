@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 
 const CriarUsuarioToken = async (usuario, req, res) => {
     const token = jwt.sign({
@@ -14,4 +14,4 @@ const CriarUsuarioToken = async (usuario, req, res) => {
     });
 };
 
-module.exports = CriarUsuarioToken;
+export default CriarUsuarioToken;
