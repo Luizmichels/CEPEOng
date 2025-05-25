@@ -21,7 +21,7 @@ export default class MeioLocomocaoController {
 
             // Criando meio de locomoção
             await MeioLocomocao.create({ NM_MEIO_LOCOMOCAO, DS_MEIO_LOCOMOCAO });
-            return res.status(201).json({ message: 'Meio de Locomoção cadastrado com sucesso' });
+            return res.status(200).json({ message: 'Meio de Locomoção cadastrado com sucesso' });
         } catch (error) {
             return res.status(500).json({ message: 'Erro ao cadastrar o Meio de Locomoção', error: error.message });
         }

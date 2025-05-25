@@ -12,7 +12,7 @@ export default class FuncaoController {
             }
 
             const novaFuncao = await Funcao.create({ NM_FUNCAO, DS_FUNCAO });
-            res.status(201).json({ message: 'Função cadastrada com sucesso!', novaFuncao });
+            res.status(200).json({ message: 'Função cadastrada com sucesso!', novaFuncao });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }

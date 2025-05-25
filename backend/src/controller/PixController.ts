@@ -83,7 +83,7 @@ export default class PixController {
 
       const qrCodeData = await gerarQrCodePix(cobrancaCriadaGerencianet.loc.id);
 
-      res.status(201).json({
+      res.status(200).json({
         message: "Cobrança de anuidade criada com sucesso.",
         cobranca: {
             txid: novoPagamento.TXID_GERENCIANET,

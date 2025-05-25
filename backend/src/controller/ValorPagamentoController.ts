@@ -8,7 +8,7 @@ export default class ValorPagamentoController {
       const valorExistente = await ValorPagamento.findOne();
       if (!valorExistente) {
         const novoValor = await ValorPagamento.create({ VALOR: 60.00 });
-        return res.status(201).json({ message: "Valor inicial da anuidade criado com sucesso!", novoValor });
+        return res.status(200).json({ message: "Valor inicial da anuidade criado com sucesso!", novoValor });
       } else {
         return res.status(200).json({ message: "Valor da anuidade já inicializado.", valorExistente });
       }

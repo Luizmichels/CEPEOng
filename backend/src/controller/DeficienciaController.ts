@@ -18,7 +18,7 @@ export default class DeficienciaController {
                 NOMENCLATURA: NOMENCLATURA
             });
 
-            res.status(201).json({ message: 'Deficiência cadastrada com sucesso!' });
+            res.status(200).json({ message: 'Deficiência cadastrada com sucesso!' });
         } catch (error) {
             res.status(500).json({ message: 'Erro ao cadastrar a deficiência', erro: error.message });
         }

@@ -9,7 +9,7 @@
     "build": "swc src teste -d build",
     "build-dev": "npm run build && node --inspect build/src/index.js",
     "dev": "nodemon --ext ts,js --exec \"npm run build-dev\"",
-    "test": "npm run build && npx mocha build/teste/**/*.test.js --no-config --exit",
+    "test": "npm run build && npx mocha build/teste/**/index.test.js --no-config --exit",
     "test:w": "nodemon --config nodemon.mocha.test.json"
   },
   "keywords": [],

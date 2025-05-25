@@ -20,7 +20,7 @@ export default class ModalidadeController {
             // criando a nova modalidade
             const novaModalidade = await Modalidade.create({ NM_MODALIDADE, NOMENCLATURA });
 
-            return res.status(201).json({ message: 'Modalidade cadastrada com sucesso!'});
+            return res.status(200).json({ message: 'Modalidade cadastrada com sucesso!'});
         } catch (error) {
             return res.status(500).json({ message: 'Erro ao cadastrar a modalidade', error: error.message });
         }

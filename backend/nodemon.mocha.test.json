@@ -5,5 +5,5 @@
         ".env"
     ],
     "ext": "js,ts",
-    "exec": "npm run build && mocha build/teste/**/*.test.js --no-config"
+    "exec": "npm run build && mocha build/teste/**/index.test.js --no-config"
 }

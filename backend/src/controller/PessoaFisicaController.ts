@@ -261,7 +261,7 @@ export default class PessoaFisicaController {
       }
 
       return res
-        .status(201)
+        .status(200)
         .json({ message: "Pessoa física cadastrada com sucesso" });
     } catch (error) {
       return res
@@ -939,13 +939,9 @@ export default class PessoaFisicaController {
   }
 
   static async BuscarPorID(req, res) {
-    console.log(req, 'reqqqqqqqqqqqqqqqqqqqq')
     try {
       const token = ObterToken(req);
       const user = await ObterUsuarioToken(token);
-
-      console.log(token, 'tokeeeeeeeeen')
-      console.log(user, 'userrrrrrrrrrrrrrrrr')
 
       const usuario = await PessoaFisica.findOne({
         where: { CD_USUARIO: user.CD_USUARIO },

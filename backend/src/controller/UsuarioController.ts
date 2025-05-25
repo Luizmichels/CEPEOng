@@ -55,17 +55,16 @@ export default class UsuarioController {
       const senhaHash = await bcrypt.hash(SENHA, salt);
 
       // Criando usuário
-      const usuario = new Usuario({
+      const usuario = await Usuario.create({
         NM_USUARIO,
         SENHA: senhaHash,
         EMAIL: EMAIL,
       });
 
-      const novoUsuario = await usuario.save();
       return res
-        .status(201)
+        .status(200)
         .json({ message: "Usuário cadastrado com sucesso" });
-    } catch (error) {
+    } catch (error: unknown) {
       return res
         .status(500)
         .json({ message: "Erro ao cadastrar o Usuário", error: error.message });
@@ -405,7 +404,7 @@ export default class UsuarioController {
         CD_MODALIDADE,
       });
       return res
-        .status(201)
+        .status(200)
         .json({ message: "Técnico cadastrado com sucesso" });
     } catch (error) {
       return res
