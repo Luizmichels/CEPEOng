@@ -137,6 +137,7 @@ await loaderRoutes().catch(console.error);
 
 await conn
   .sync()
+  // .sync({force: true}) // Apaga todas as tabelas e faz novamente
   .then(async () => {
     console.log('Database synchronized');
     await createDefaultAdminUser();

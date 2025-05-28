@@ -40,6 +40,3 @@ describe('Pessoa fisica Routes', () => {
     const res = await app.delete('/associado/cadastratos/grid/deletar/1').set('Authorization', `Bearer ${token.token}`).expect(200);
   });
 });
-
-// routes.post("/cadastro", ChecarToken, verificarNivelAcesso(1), CadastPessoaFisica);
-// routes.patch("/cadastro/editar/:CD_USUARIO", ChecarToken, verificarNivelAcesso(1), editarPessoaFisica);

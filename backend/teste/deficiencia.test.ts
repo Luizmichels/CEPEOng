@@ -18,14 +18,14 @@ describe('Deficiencia Routes', () => {
       .expect(200);
   });
 
-  it('GET /deficiencia/obter/3', async () => {
-    const res = await app.get('/deficiencia/obter/3')
+  it('GET /deficiencia/obter/1', async () => {
+    const res = await app.get('/deficiencia/obter/1')
       .set('Authorization', `Bearer ${token.token}`)
       .expect(200);
   });
 
-  it('PATCH /deficiencia/editar/4', async () => {
-    const res = await app.patch('/deficiencia/editar/4')
+  it('PATCH /deficiencia/editar/1', async () => {
+    const res = await app.patch('/deficiencia/editar/1')
       .set('Authorization', `Bearer ${token.token}`)
       .send({
         TP_DEFICIENCIA: 'teste 2', 
@@ -35,8 +35,8 @@ describe('Deficiencia Routes', () => {
       console.log(res.body)
   });
   
-  it('DELETE /deficiencia/deletar/3', async () => {
-    const res = await app.delete('/deficiencia/deletar/3')
+  it('DELETE /deficiencia/deletar/1', async () => {
+    const res = await app.delete('/deficiencia/deletar/1')
       .set('Authorization', `Bearer ${token.token}`)
       .expect(200);
   });

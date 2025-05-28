@@ -1,0 +1,6 @@
+projectKey=Cepe-final
+serverUrl=http://localhost:9000
+serverVersion=25.5.0.107428
+dashboardUrl=http://localhost:9000/dashboard?id=Cepe-final
+ceTaskId=2f64f768-0e94-4dfb-b83b-b7793f8053a3
+ceTaskUrl=http://localhost:9000/api/ce/task?id=2f64f768-0e94-4dfb-b83b-b7793f8053a3

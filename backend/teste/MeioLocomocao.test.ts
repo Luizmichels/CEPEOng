@@ -18,14 +18,14 @@ describe('Função Routes', () => {
       .expect(200);
   });
 
-  it('GET /meioLocomocao/obter/3', async () => {
-    const res = await app.get('/meioLocomocao/obter/3')
+  it('GET /meioLocomocao/obter/1', async () => {
+    const res = await app.get('/meioLocomocao/obter/1')
       .set('Authorization', `Bearer ${token.token}`)
       .expect(200);
   });
 
-  it('PATCH /meioLocomocao/editar/3', async () => {
-    const res = await app.patch('/meioLocomocao/editar/3')
+  it('PATCH /meioLocomocao/editar/1', async () => {
+    const res = await app.patch('/meioLocomocao/editar/1')
       .set('Authorization', `Bearer ${token.token}`)
       .send({
         NM_MEIO_LOCOMOCAO: 'teste 2', 
@@ -35,8 +35,8 @@ describe('Função Routes', () => {
       console.log(res.body)
   });
 
-  it('DELETE /meioLocomocao/deletar/3', async () => {
-    const res = await app.delete('/meioLocomocao/deletar/3')
+  it('DELETE /meioLocomocao/deletar/1', async () => {
+    const res = await app.delete('/meioLocomocao/deletar/1')
       .set('Authorization', `Bearer ${token.token}`)
       .expect(200);
   });

@@ -18,14 +18,14 @@ describe('Deficiencia Routes', () => {
       .expect(200);
   });
 
-  it('GET /modalidade/obter/2', async () => {
-    const res = await app.get('/modalidade/obter/2')
+  it('GET /modalidade/obter/3', async () => {
+    const res = await app.get('/modalidade/obter/3')
       .set('Authorization', `Bearer ${token.token}`)
       .expect(200);
   });
 
-  it('PATCH /modalidade/editar/2', async () => {
-    const res = await app.patch('/modalidade/editar/2')
+  it('PATCH /modalidade/editar/3', async () => {
+    const res = await app.patch('/modalidade/editar/3')
       .set('Authorization', `Bearer ${token.token}`)
       .send({
         NM_MODALIDADE: 'teste 2', 
@@ -35,8 +35,8 @@ describe('Deficiencia Routes', () => {
       console.log(res.body)
   });
   
-  it('DELETE /modalidade/deletar/2', async () => {
-    const res = await app.delete('/modalidade/deletar/2')
+  it('DELETE /modalidade/deletar/3', async () => {
+    const res = await app.delete('/modalidade/deletar/3')
       .set('Authorization', `Bearer ${token.token}`)
       .expect(200);
   });

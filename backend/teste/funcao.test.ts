@@ -24,14 +24,14 @@ describe('Função Routes', () => {
       .expect(200);
   });
 
-  it('GET /funcao/obter/7', async () => {
-    const res = await app.get('/funcao/obter/7')
+  it('GET /funcao/obter/1', async () => {
+    const res = await app.get('/funcao/obter/1')
       .set('Authorization', `Bearer ${token.token}`)
       .expect(200);
   });
 
-  it('PATCH /funcao/atualizar/7', async () => {
-    const res = await app.patch('/funcao/atualizar/7')
+  it('PATCH /funcao/atualizar/1', async () => {
+    const res = await app.patch('/funcao/atualizar/1')
       .set('Authorization', `Bearer ${token.token}`)
       .send({
         NM_FUNCAO: 'teste 2', 
@@ -41,8 +41,8 @@ describe('Função Routes', () => {
       console.log(res.body)
   });
 
-  it('DELETE /funcao/deletar/7', async () => {
-    const res = await app.delete('/funcao/deletar/7')
+  it('DELETE /funcao/deletar/1', async () => {
+    const res = await app.delete('/funcao/deletar/1')
       .set('Authorization', `Bearer ${token.token}`)
       .expect(200);
   });
