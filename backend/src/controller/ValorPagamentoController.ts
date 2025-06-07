@@ -3,20 +3,6 @@ import ValorPagamento from "../models/ValorPagamento.js";
 
 export default class ValorPagamentoController {
 
-  static async inicializarValor(req, res) {
-    try {
-      const valorExistente = await ValorPagamento.findOne();
-      if (!valorExistente) {
-        const novoValor = await ValorPagamento.create({ VALOR: 60.00 });
-        return res.status(200).json({ message: "Valor inicial da anuidade criado com sucesso!", novoValor });
-      } else {
-        return res.status(200).json({ message: "Valor da anuidade já inicializado.", valorExistente });
-      }
-    } catch (error) {
-      res.status(500).json({ error: error.message });
-    }
-  }
-
   static async listarValorUnico(req, res) {
     try {
       const valorUnico = await ValorPagamento.findOne();

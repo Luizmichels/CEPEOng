@@ -8,7 +8,7 @@ import { fileURLToPath, pathToFileURL } from 'url';
 import { readdirSync } from 'fs';
 
 import createDefaultAdminUser from './helpers/CriarUsarioAdim.js';
-import inicializarValorteste from './helpers/CriarValorMensalidade.js'
+import inicializarValor from './helpers/CriarValorMensalidade.js'
 import conn from "./db/conn.js";
 
 import RotaDeficiencia from './routes/DeficienciaRoutes.js';
@@ -142,7 +142,7 @@ await conn
   .then(async () => {
     console.log('Database synchronized');
     await createDefaultAdminUser();
-    await inicializarValorteste();
+    await inicializarValor();
     console.log('Default admin user created');
   })
   .catch((err: unknown) => console.log('Database sync error:', err));
