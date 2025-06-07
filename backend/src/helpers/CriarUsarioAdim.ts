@@ -3,9 +3,11 @@ import Usuario from '../models/usuario.js';
 
 async function createDefaultAdminUser() {
     const NM_USUARIO = 'admin';
+    const NOME = 'admin';
     const SENHA = '123';
     const NIVEL_ACESSO = 3;
     const EMAIL = 'cepeapp@gmail.com';
+    const CPF = process.env.cpf;
 
     try {
         // Verificação se o usuario já existe
@@ -18,9 +20,11 @@ async function createDefaultAdminUser() {
             // Criando usuário
             await Usuario.create({
                 NM_USUARIO,
+                NOME,
                 SENHA: senhaHash,
                 NIVEL_ACESSO,
                 EMAIL,
+                CPF,
             });
 
             console.log('Usuário admin criado com sucesso.');

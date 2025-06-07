@@ -14,11 +14,19 @@ const Usuario = sequelize.define('Usuario', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  NOME: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   SENHA: {
     type: DataTypes.TEXT,
     allowNull: false,
   },
   EMAIL: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  CPF: {
     type: DataTypes.TEXT,
     allowNull: false,
   },

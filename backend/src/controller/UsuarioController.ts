@@ -2,7 +2,7 @@ import Usuario from "../models/usuario.js";
 import TecnicoModalidade from "../models/TecnicoModalidade.js";
 import bcrypt from "bcrypt";
 import { sendMail, sendMailTo } from "../helpers/mail.js";
-import {EmailValido} from "../helpers/Validacoes.js"
+import {cpfValido, EmailValido} from "../helpers/Validacoes.js"
 import db from "../db/conn.js";
 
 // helpers
@@ -14,10 +14,13 @@ import AnuidadeService from "../services/AnuidadeService.js";
 export default class UsuarioController {
   // Função para cadastrar o usuário
   static async CadastroUsuario(req, res) {
-    const { NM_USUARIO, SENHA, EMAIL } = req.body;
+    const { NM_USUARIO, SENHA, EMAIL, CPF, NOME } = req.body;
 
     // Validações
     if (!NM_USUARIO) {
+      return res.status(422).json({ message: "O login é obrigatório" });
+    }
+    if (!NOME) {
       return res.status(422).json({ message: "O nome é obrigatório" });
     }
     if (!SENHA) {
@@ -26,6 +29,10 @@ export default class UsuarioController {
     if (!EMAIL) {
       return res.status(422).json({ message: "O e-mail é obrigatório" });
     }
+    if (!CPF) {
+      return res.status(422).json({ message: "O CPF é obrigatório" });
+    }
+    if (!cpfValido(CPF)) return res.status(422).json({ message: "Este CPF não é válido" });
 
     try {
       // Verificação se o usuario já existe
@@ -49,6 +56,9 @@ export default class UsuarioController {
         res.status(422).json({ message: "Este e-mail não é válido" });
         return;
       }
+      const cpfSemPontuacao = req.body.CPF.replace(/\D/g, '')
+      const CPFemUso = await Usuario.findOne({ where: { CPF: cpfSemPontuacao } })
+      if (CPFemUso) return res.status(422).json({ message: 'Este CPF já está sendo utilizado!' })
 
       // Criando a senha e criptografando a senha
       const salt = await bcrypt.genSalt(12);
@@ -59,6 +69,8 @@ export default class UsuarioController {
         NM_USUARIO,
         SENHA: senhaHash,
         EMAIL: EMAIL,
+        CPF: CPF,
+        NOME: NOME
       });
 
       return res
