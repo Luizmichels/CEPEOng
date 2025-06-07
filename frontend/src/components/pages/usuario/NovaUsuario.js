@@ -6,9 +6,11 @@ import { NotificacaoManager } from "../../notificacao";
 import "./NovaUsuario.scss";
 
 const ViewNovaUsuario = () => {
-  const [NM_USUARIO, setNome] = useState("");
+  const [NM_USUARIO, setLogin] = useState("");
+  const [NOME, setNome] = useState("");
   const [SENHA, setSenha] = useState("");
   const [EMAIL, setEmail] = useState("");
+  const [CPF, setCpf] = useState("");
   const navigate = useNavigate();
 
   const handleLogoClick = () => {
@@ -22,7 +24,7 @@ const ViewNovaUsuario = () => {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      await api.post("/usuario/cadastro", { NM_USUARIO, SENHA, EMAIL }, config)
+      await api.post("/usuario/cadastro", { NM_USUARIO, NOME, SENHA, EMAIL, CPF }, config)
 
       NotificacaoManager.success('Usuário criado com sucesso', '', 1000, 'filled');
 
@@ -49,12 +51,21 @@ const ViewNovaUsuario = () => {
       <form onSubmit={handleSubmit}>
         <div id="campos">
           <div className="form-group">
-            <label htmlFor="nome">Usuário</label>
+            <label htmlFor="Nome">Nome Completo</label>
             <input
               type="text"
-              id="nome"
-              value={NM_USUARIO}
+              id="Nome"
+              value={NOME}
               onChange={(e) => setNome(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="login">Login</label>
+            <input
+              type="text"
+              id="login"
+              value={NM_USUARIO}
+              onChange={(e) => setLogin(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -73,6 +84,15 @@ const ViewNovaUsuario = () => {
               id="email"
               value={EMAIL}
               onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="cpf">CPF</label>
+            <input
+              type="text"
+              id="cpf"
+              value={CPF}
+              onChange={(e) => setCpf(e.target.value)}
             />
           </div>
         </div>
