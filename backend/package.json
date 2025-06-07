@@ -10,7 +10,8 @@
     "build-dev": "npm run build && node --inspect build/src/index.js",
     "dev": "nodemon --ext ts,js --exec \"npm run build-dev\"",
     "test": "npm run build && npx mocha build/teste/**/index.test.js --no-config --exit",
-    "test:w": "nodemon --config nodemon.mocha.test.json"
+    "test:w": "nodemon --config nodemon.mocha.test.json",
+    "test:coverage": "nyc npm test"
   },
   "keywords": [],
   "author": "André Luiz Michels da Silva, Gustavo Antonio da Costa Pereira",
