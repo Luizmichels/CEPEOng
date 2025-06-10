@@ -51,6 +51,9 @@ function App() {
 
   return (
     <div className="tela cadastro-gerais">
+      <Button color="default" id="botaoVoltarCadastros" onClick={() => navigate('/menu')}>
+        &lt; <h1 style={{ fontSize: '20px', marginLeft: "6px", marginTop: "13px" }}>Voltar</h1>
+      </Button>
       <img
         src="../../../assets/img/cepe_joinville_laranja 2.png"
         alt="logo"
@@ -85,8 +88,7 @@ function App() {
             <Button
               color="default"
               className="quadradov2 btn-h2"
-              onClick={() => handleClick("/anuidade/editar")}
-            >
+              onClick={() => handleClick("/anuidade/editar")}>
               Valor Anuidade
             </Button>
           </Col>

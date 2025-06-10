@@ -69,7 +69,7 @@ const Listagem = () => {
   };
 
   return (
-    <div className="tela">
+    <div className="telatelalistagem">
       <header>
         <a href="/menu">
           <img src="/assets/img/cepe_joinville_laranja 2.png" alt="logo" className="logo" />
@@ -90,7 +90,7 @@ const Listagem = () => {
           <p>Função</p>
           <Input type="search" className="buscar" id="busca_funcao" onChange={(e) => setFuncao(e.target.value)} />
         </div>
-        <Button className='btns' color="default" onClick={handleExport} disabled={isExporting}>
+        <Button className='botao-lista' color="default" onClick={handleExport} disabled={isExporting}>
           {isExporting ? 'Exportando...' : 'Exportar PDF'}
         </Button>
       </header>
@@ -119,7 +119,7 @@ const Listagem = () => {
           </table>
         </div>
       </Row>
-      <Button color="default" className='btns' onClick={() => navigate('/menu')}>Voltar</Button>
+      <Button color="default" className='botao-lista' onClick={() => navigate('/menu')}>Voltar</Button>
 
       {exportData.length > 0 && <ExportPDF data={exportData} />}
 

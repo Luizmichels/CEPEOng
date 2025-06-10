@@ -38,6 +38,7 @@ const ViewAlterarSenha = lazy(() => import("../components/pages/AlterarSenha"))
 const ViewAnuidade = lazy(() => import("../components/pages/CadastroAnuidade/NovaAnuidade"))
 const ViewNovaAnuidade = lazy(() => import("../components/pages/CadastroAnuidade/NovaAnuidade"));
 const ViewPagamentoAnuidade = lazy(() => import("../components/pages/PagamentoAnuidade"));
+const ViewPag = lazy(() => import("../components/pages/Pagamento"));
 
 
 interface Permissao {
@@ -108,6 +109,7 @@ export default function Rotas() {
         <Route path="cadastro" element={<ValidaSessao tela={ViewCadTec} nivel={2} />} />
         <Route path="alterar-senha" element={<ValidaSessao tela={ViewAlterarSenha} nivel={1} />} />
         <Route path="pag-anuidade" element={<ValidaSessao tela={ViewPagamentoAnuidade} nivel={1} />} />
+        <Route path="pag" element={<ValidaSessao tela={ViewPag} nivel={3} />} />
         
         <Route path="funcoes" >
           <Route index element={<ValidaSessao tela={ViewFuncoes} nivel={3} />} />

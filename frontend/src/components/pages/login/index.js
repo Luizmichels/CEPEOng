@@ -105,7 +105,7 @@ function Login() {
             <h2>Login</h2>
             <div className="usuarioesenha">
               <Row className="mb-3">
-                <Col xs="12" className="form-group">
+                <Col xs="12" className="form-group-login">
                   <Label id="textUser" for="nome_usuario">Usuário</Label>
                   <Input
 
@@ -116,7 +116,7 @@ function Login() {
                 </Col>
               </Row>
               <Row className="mb-1">
-                <Col xs="12" className="form-group">
+                <Col xs="12" className="form-group-login">
                   <Label id="textSenha" for="senha_usuario">Senha</Label>
                   <Input
                     required

@@ -1,0 +1,64 @@
+.tela-nova-anuidade {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.tela-nova-anuidade header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 20px;
+  top: 0;
+  left: 0;
+  z-index: 10; 
+}
+
+.tela-nova-anuidade header h1 {
+  flex-grow: 1;
+  text-align: center;
+  margin-left: -190px;
+}
+
+.tela-nova-anuidade .logo {
+  width: 25vh !important;
+  height: 25vh !important;
+  padding: 25px;
+  cursor: pointer;
+}
+
+
+
+form {
+  display: flex; /* Transforma o formulário em um container flex */
+  flex-direction: column; /* Coloca os itens do formulário em coluna */
+  align-items: center; /* Centraliza os elementos do formulário horizontalmente */
+}
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+label {
+  text-align: center; /* Centraliza o texto do label */
+  width: 100%; /* Garante que o label ocupe a largura total para centralizar */
+}
+
+input {
+  height: 3.5vh;
+  width: 150px; /* Aumentei um pouco a largura do input para melhor visualização */
+  text-align: center; /* Centraliza o texto dentro do input */
+  border: 1px solid #ED5600;
+  border-radius: 5px;
+}
+
+.btn-criar-anuidade {
+  margin-top: 20px;
+  padding: 5px 10px;
+}
+
+#botaoVoltarAnui {
+  margin-top: 20px;
+  padding: 3px 30px;
+}

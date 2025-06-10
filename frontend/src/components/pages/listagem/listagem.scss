@@ -3,7 +3,7 @@ body {
   font-family: "Inter", sans-serif;
 }
 
-.tela {
+.telalistagem {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,6 +44,7 @@ input[type="search"] {
   border-style: solid;
   margin-left: 3vh;
   cursor: pointer;
+
 }
 
 .logo {
@@ -59,17 +60,22 @@ img {
   height: 100px;
 }
 
-.btns {
+.botao-lista {
   background-color: #ED5600;
   margin-top: 5vh;
   margin-right: 2vh;
   width: 25vh;
   height: 7vh;
-  text-align: center;
-  font-size: 3vh;
+  /* text-align: center; -- Pode ser removido se o display flex já estiver centralizando o texto */
+  font-size: 2.5vh;
   border-color: white;
   color: white;
   cursor: pointer;
+
+  display: flex;
+  flex-direction: column; /* Itens empilhados verticalmente */
+  align-items: center;   /* Centraliza horizontalmente (eixo cruzado) */
+  justify-content: center; /* Centraliza verticalmente (eixo principal) */
 }
 
 .grid {

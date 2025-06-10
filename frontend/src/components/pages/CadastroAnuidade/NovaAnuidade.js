@@ -65,6 +65,7 @@ const ViewNovaAnuidade = () => {
         <div id="campos">
           <div className="form-group">
             <label htmlFor="valor">Valor da Anuidade</label>
+            <br></br>
             <input
               type="number"
               id="valor"
@@ -75,6 +76,9 @@ const ViewNovaAnuidade = () => {
         </div>
         <Button color="default" className="btn-criar-anuidade">
           Salvar Valor
+        </Button>
+        <Button color="default" className="large-voltar" id="botaoVoltarAnui" onClick={() => navigate('/cadastros')}>
+          Voltar
         </Button>
       </form>
     </div>

@@ -15,10 +15,6 @@
     width: 80%;
   }
 
-  .usuarioesenha {
-    font-size: 3vh !important;
-  }
-
   .logo {
     width: 22vh !important;
     height: 22vh !important;
@@ -96,5 +92,16 @@
   .imagemzinha {
     height: 90vh;
     width: 100%;
+  }
+
+  #textUser{
+    font-family: "Inter", sans-serif !important;
+    font-size: 2.3vh !important;
+    font-weight: 300;
+  }
+  #textSenha{
+    font-family: "Inter", sans-serif !important;
+    font-size: 2.3vh !important;
+    font-weight: 300;
   }
 }

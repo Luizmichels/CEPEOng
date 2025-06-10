@@ -47,20 +47,23 @@ function CheckCadastro() {
 
   return (
     <div className="check-cadastro-container">
-             <img src="/assets/img/cepe_joinville_laranja 2.png" className="logo" alt="Logo" />
+             <img src="/assets/img/cepe_joinville_laranja 2.png" className="logo-usu" alt="Logo" />
       <div className='check-conjunto'>
       <div className="check-cadastro-message">
         {usuarioCadastrado != null ? 'Alterar cadastro.' : 'Realize seu cadastro.'}
       </div>
-      <Button color="default" className="check-button" onClick={handleClick}>
+      <Button color="default" className="check-button" id='botao-usuario' onClick={handleClick}>
         {usuarioCadastrado ? 'Clique Aqui!' : 'Clique Aqui!'}
+      </Button>
+      <Button style={{backgroundColor:'#0fa1e1', border: 'none'}} className="check-button" id='botao-usuario' onClick={() => navigate("/pag")}>
+       Anuidade!
       </Button>
     </div>
     <div className="logout-button">
-          <Button color="default" className="text-button sair" onClick={handleLogout}>
+          <Button color="default" className="text-button-nav" onClick={handleLogout}>
             Sair
           </Button>
-          <Button color="default" className="text-button alterar-senha" onClick={() => navigate("/alterar-senha")}>
+          <Button color="default" className="text-button-nav" onClick={() => navigate("/alterar-senha")}>
             Alterar senha
           </Button>
         </div>

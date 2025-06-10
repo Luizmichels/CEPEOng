@@ -76,4 +76,15 @@ img {
   .linha2 > .quadrado:not(:last-child) {
     margin-right: 8%;
   }
+  #botaoVoltarCadastros {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: rgba(0, 0, 0, 0);
+    color: #ed5600;
+    font-size: 30px;
+    position: absolute;
+    padding-left: 5vh;
+    flex-direction: row;
+    display: flex;
+    align-items: center;
+  }
 }
