@@ -1,12 +1,12 @@
 // controllers/PixController.js
-import { criarCobrancaPix, gerarQrCodePix, getValidToken } from "../services/pixService.js"; // Adicionei getValidToken se for usar obterTokenTeste
+import { criarCobrancaPix, gerarQrCodePix } from "../services/pixService.js";
 import Pagamento from "../models/Pagamentos.js"
 import { Op } from "sequelize";
 
 // Helpers (verifique os caminhos corretos)
 import ObterUsuarioToken from "../helpers/ObterUsuarioToken.js";
 import ObterToken from "../helpers/ObterToken.js";
-import ObterUltimoValor from "../helpers/UltValorMensalidade.js"; // Verifique se este é o helper correto para o VALOR da anuidae
+import ObterUltimoValor from "../helpers/UltValorMensalidade.js";
 
 export default class PixController {
 
@@ -155,55 +155,48 @@ export default class PixController {
     console.log("---- Webhook Processado (Placeholder) ----");
   }
 
-  static async verificarAnuidadePendente(req, res) {
-    try {
-      const token = ObterToken(req);
-      const user = await ObterUsuarioToken(token);
-  
-      if (!user?.CD_USUARIO) {
-        return res.status(401).json({ error: "Usuário não autenticado." });
-      }
-      const numericUserId = parseInt(user.CD_USUARIO, 10);
-      const hoje = new Date();
-      const anoAtual = hoje.getFullYear();
-  
-      const pagamentoPendente = await Pagamento.findOne({
-        where: {
-          CD_USUARIO: numericUserId,
-          STATUS: 'PENDENTE',
-          DT_CRIACAO: { [Op.gte]: new Date(anoAtual, 0, 1) } // Pendente deste ano
-        },
-        order: [['DT_CRIACAO', 'DESC']],
-        // *** BUSCAR O LOC_ID SALVO ***
-        attributes: ['CD_PAGAMENTO', 'VALOR', 'DT_CRIACAO', 'TXID_GERENCIANET', 'LOC_ID_GERENCIANET']
-      });
-  
-      if (pagamentoPendente && pagamentoPendente.LOC_ID_GERENCIANET) {
-        // Encontrou pendente E tem o locId necessário
-        res.status(200).json({
-          pendente: true,
-          pagamento: {
-              cdPagamento: pagamentoPendente.CD_PAGAMENTO,
-              valor: pagamentoPendente.VALOR,
-              dataCriacao: pagamentoPendente.DT_CRIACAO,
-              txid: pagamentoPendente.TXID_GERENCIANET,
-              locId: pagamentoPendente.LOC_ID_GERENCIANET // Retorna o locId para o frontend!
-          }
-        });
-      } else if (pagamentoPendente) {
-          // Encontrou pendente mas SEM locId (erro no salvamento anterior?)
-          console.warn(`Pagamento pendente ${pagamentoPendente.CD_PAGAMENTO} encontrado sem LOC_ID_GERENCIANET.`);
-          res.status(200).json({ pendente: true, pagamento: { cdPagamento: pagamentoPendente.CD_PAGAMENTO }, error: "Dados da cobrança PIX incompletos no servidor." });
-      } else {
-          // Nenhuma pendente encontrada
-        res.status(200).json({ pendente: false });
-      }
-  
-    } catch (error) {
-      console.error("Erro ao verificar anuidade pendente:", error);
-      res.status(500).json({ error: "Erro ao verificar status da anuidade", details: error.message });
+    static async verificarAnuidadePendente(req, res) {
+        let currentUser;
+        try {
+            // Use ObterToken em vez de getToken
+            const token = ObterToken(req); 
+            // Use ObterUsuarioToken em vez de getUserByToken
+            currentUser = await ObterUsuarioToken(token); 
+        } catch (error) {
+            console.error("Erro ao obter usuário pelo token:", error);
+            return res.status(401).json({ message: "Usuário não autenticado ou token inválido." });
+        }
+
+        if (!currentUser) {
+            return res.status(404).json({ message: "Usuário não encontrado." });
+        }
+
+        try {
+            const pagamentoPendente = await Pagamento.findOne({
+                where: {
+                    CD_USUARIO: currentUser.CD_USUARIO,
+                    STATUS: {
+                        [Op.in]: ['pending', 'PENDENTE', 'aguardando'] 
+                    }
+                },
+                order: [['DT_CRIACAO', 'DESC']]
+            });
+
+            if (pagamentoPendente) {
+                return res.status(200).json({ 
+                    pendente: true, 
+                    message: "Anuidade pendente encontrada.", 
+                    pagamento: pagamentoPendente 
+                });
+            } else {
+                return res.status(200).json({ pendente: false, message: "Nenhuma anuidade pendente." });
+            }
+
+        } catch (error) {
+            console.error("Erro ao verificar anuidade pendente:", error);
+            return res.status(500).json({ message: "Erro interno do servidor.", error: error.message });
+        }
     }
-  }
 
   static async obterDetalhesQrCodePagamento(req, res) {
     try {
