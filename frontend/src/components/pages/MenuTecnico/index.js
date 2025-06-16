@@ -136,6 +136,10 @@ const ChartComponent = () => {
           </Button>
         </div>
         <div className="logout-button">
+          <Button style={{backgroundColor:'#0fa1e1', border: 'none', width: '12vh'}} className="check-button" id='botao-admin' onClick={() => navigate("/pag")}>
+          Anuidade!
+          </Button> 
+          <br></br> 
           <Button color="default" className="text-button sair" onClick={handleLogout}>
             Sair
           </Button>

@@ -97,8 +97,9 @@ export default function Rotas() {
 
         <Route path="realizar-cadastro" element={<ViewRealizeCadastro />} />
         <Route path="login" element={<ViewLogin />} />
-        <Route path="esqueci-senha" element={<ViewEsqueciSenha />} /> {/* Rota para Esqueci Minha Senha */}
+        <Route path="esqueci-senha" element={<ViewEsqueciSenha />} />
         <Route path="check-cadastro" element={<ViewCheckCadastro />} />
+        <Route path="pag" element={<ViewPag />} />
         <Route path="menu" element={<ValidaSessao tela={ViewMenu} nivel={3} />} />
         <Route path="menu-tecnico" element={<ValidaSessao tela={ViewMenuTecico} nivel={2} />} />
         <Route path="listagem" element={<ValidaSessao tela={ViewListagem} nivel={3} />} />
@@ -109,7 +110,7 @@ export default function Rotas() {
         <Route path="cadastro" element={<ValidaSessao tela={ViewCadTec} nivel={2} />} />
         <Route path="alterar-senha" element={<ValidaSessao tela={ViewAlterarSenha} nivel={1} />} />
         <Route path="pag-anuidade" element={<ValidaSessao tela={ViewPagamentoAnuidade} nivel={1} />} />
-        <Route path="pag" element={<ValidaSessao tela={ViewPag} nivel={3} />} />
+  
         
         <Route path="funcoes" >
           <Route index element={<ValidaSessao tela={ViewFuncoes} nivel={3} />} />
